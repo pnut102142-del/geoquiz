@@ -815,13 +815,21 @@ scoreSaved=false;mySubmittedName='';
 function shareScore(){
   const total=questions.length,pct=Math.round(correctCount/total*100);
   const emo=['😵','😰','😅','🙂','😄','🤩'][Math.min(5,Math.floor(pct/20))];
-  const streakLine=maxStreak>=3?`🔥 Best streak: ${maxStreak}x\n`:'';
-  const text=`🌍 GeoQuiz App — ${MODES[mode].label} [${DIFF_LABEL[difficulty]}]
-${correctCount}/${total} correct · ${score}pts ${emo}
+  const streakLine=maxStreak>=3?`🔥 Best streak: ${maxStreak} in a row!\n`:'';
+  const shareUrl=`${GITHUB_URL}?room=${getRoomCode()}`;  // ← 추가
+
+  const text=`🌍 Hey! Come play GeoQuiz with me!
+
+I just scored ${score} points (${correctCount}/${total} correct) ${emo}
+Mode: ${MODES[mode].label} [${DIFF_LABEL[difficulty]}]
 ${streakLine}
-🎮 Same questions → Room Code: ${getRoomCode()}
-🔗 Play at: ${GITHUB_URL}`;
-  if(navigator.share){navigator.share({title:'GeoQuiz App',text,url:GITHUB_URL}).catch(()=>{});}
+Think you can beat me? 😏
+Click the link — same questions await:
+🎮 Room: ${getRoomCode()}
+
+👉 ${shareUrl}`;
+
+  if(navigator.share){navigator.share({title:'GeoQuiz App',text,url:shareUrl}).catch(()=>{});}
   else{navigator.clipboard.writeText(text).then(()=>showToast('📋 Copied! Share it with friends 🎮')).catch(()=>showToast('❌ Copy failed'));}
 }
 // ── NAV ────────────────────────────────────────────────────────────
