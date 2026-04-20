@@ -499,9 +499,12 @@ async function initViews(){
     }catch{}
   }
 }
-// ── LEADERBOARD ────────────────────────────────────────────────────
 async function submitScore(){
-  const name=document.getElementById('lb-name').value.trim()||'Anonymous';
+  if(scoreSaved) return;  // ← 중복 저장 방지 (추가)
+  const name=document.getElementById('lb-name').value.trim()
+    || localStorage.getItem('gq_name')
+    || 'Anonymous';  // ← 이 3줄이 기존 한 줄 대체
+  localStorage.setItem('gq_name', name);  // ← 이름 기억 (추가)
   const btn=document.getElementById('lb-save-btn');
   btn.disabled=true;btn.textContent='Saving...';
   mySubmittedName=name;
@@ -796,13 +799,17 @@ function showResult(){
       <div class="review-a">${h.correct}</div>`;
     rev.appendChild(d);
   });
-  scoreSaved=false;mySubmittedName='';
-  document.getElementById('lb-name').value='';
+scoreSaved=false;mySubmittedName='';
+  document.getElementById('lb-name').value = localStorage.getItem('gq_name') || '';  // ← 바뀐 줄
   document.getElementById('lb-save-btn').disabled=false;
   document.getElementById('lb-save-btn').textContent='Save Score';
   loadLeaderboard();
   document.getElementById('play-again-btn').onclick=()=>startQuiz();
   showScreen('result');
+  // ↓↓ 이 블록 추가 ↓↓
+  if(localStorage.getItem('gq_name')){
+    submitScore();
+  }
 }
 // ── SHARE ──────────────────────────────────────────────────────────
 function shareScore(){
