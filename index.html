@@ -13,16 +13,17 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .screen.active{display:block}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @keyframes spin{to{transform:rotate(360deg)}}
+@keyframes popIn{0%{transform:scale(.5);opacity:0}60%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}
+@keyframes streakPop{0%{transform:scale(1)}50%{transform:scale(1.4)}100%{transform:scale(1)}}
 
 /* HOME */
-.hero{text-align:center;padding:44px 0 48px}
+.hero{text-align:center;padding:40px 0 44px}
 .hero-globe{font-size:4.5rem;display:block;margin-bottom:16px;animation:spin 30s linear infinite}
 .hero-title{font-size:clamp(2rem,6vw,3.2rem);font-weight:900;letter-spacing:-.03em;background:linear-gradient(135deg,#60a5fa,#a78bfa 50%,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
 .hero-sub{color:var(--muted);font-size:1rem;margin-bottom:14px}
 .hero-stats{display:inline-flex;align-items:center;gap:16px;background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:7px 18px;font-size:.8rem;color:var(--muted)}
 .hero-stats span{color:var(--text);font-weight:700}
-
-.mode-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:13px}
+.mode-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:13px;margin-bottom:20px}
 .mode-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:26px 20px;cursor:pointer;transition:transform .2s,border-color .2s,box-shadow .2s;position:relative;overflow:hidden;user-select:none}
 .mode-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--c,#60a5fa);border-radius:var(--r) var(--r) 0 0}
 .mode-card:hover{transform:translateY(-5px);border-color:var(--c,#60a5fa);box-shadow:0 14px 40px rgba(0,0,0,.5),0 0 0 1px var(--c,#60a5fa)}
@@ -31,28 +32,48 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .mode-name{font-size:1rem;font-weight:700;margin-bottom:5px}
 .mode-desc{font-size:.81rem;color:var(--muted);line-height:1.6}
 
+/* JOIN ROOM */
+.join-section{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:20px 22px;margin-top:8px}
+.join-title{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-weight:600;margin-bottom:12px}
+.join-row{display:flex;gap:8px}
+.room-input{flex:1;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;color:var(--text);font-size:.95rem;font-family:monospace;font-weight:700;letter-spacing:.05em;outline:none;transition:border-color .15s}
+.room-input::placeholder{color:var(--muted);font-weight:400}
+.room-input:focus{border-color:var(--accent)}
+.join-btn{background:var(--accent);border:none;border-radius:10px;padding:11px 20px;color:#000;font-size:.92rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:opacity .15s}
+.join-btn:hover{opacity:.85}
+
 /* SETTINGS MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:100;backdrop-filter:blur(4px)}
 .modal-overlay.active{display:flex}
-.modal-box{background:var(--surface);border:1.5px solid var(--border);border-radius:22px;padding:30px;width:min(480px,92vw);animation:fadeUp .25s ease}
+.modal-box{background:var(--surface);border:1.5px solid var(--border);border-radius:22px;padding:30px;width:min(500px,92vw);animation:fadeUp .25s ease;max-height:90vh;overflow-y:auto}
 .modal-header{display:flex;align-items:center;gap:12px;margin-bottom:26px}
 .modal-icon{font-size:2rem}
 .modal-title{font-size:1.25rem;font-weight:800}
-.setting-group{margin-bottom:22px}
+.setting-group{margin-bottom:20px}
 .setting-label{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;font-weight:600;margin-bottom:10px}
 .pill-row{display:flex;gap:8px;flex-wrap:wrap}
 .pill{padding:8px 18px;border-radius:999px;border:1.5px solid var(--border);background:var(--surface2);color:var(--muted);font-size:.88rem;font-weight:600;cursor:pointer;transition:all .15s}
 .pill:hover:not(:disabled){border-color:var(--accent);color:var(--text)}
 .pill.active{background:var(--accent);border-color:var(--accent);color:#000}
 .pill:disabled{opacity:.3;cursor:not-allowed}
-.modal-btns{display:flex;gap:10px;justify-content:flex-end;margin-top:26px}
+/* Room code in modal */
+.modal-room{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:20px}
+.modal-room-label{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-weight:600;margin-bottom:8px}
+.modal-room-row{display:flex;align-items:center;gap:10px}
+.modal-room-code{font-family:monospace;font-size:1.1rem;font-weight:800;color:var(--accent);flex:1;letter-spacing:.05em}
+.copy-code-btn{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:6px 12px;color:var(--muted);font-size:.82rem;cursor:pointer;transition:all .15s;white-space:nowrap}
+.copy-code-btn:hover{border-color:var(--accent);color:var(--text)}
+.modal-room-hint{font-size:.75rem;color:var(--muted);margin-top:6px}
+.modal-btns{display:flex;gap:10px;justify-content:flex-end}
 
 /* QUIZ */
-.quiz-topbar{display:flex;align-items:center;gap:10px;margin-bottom:18px}
-.back-btn{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;color:var(--muted);padding:8px 14px;cursor:pointer;font-size:.85rem;transition:all .15s;flex-shrink:0}
+.quiz-topbar{display:flex;align-items:center;gap:8px;margin-bottom:18px}
+.back-btn{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;color:var(--muted);padding:8px 12px;cursor:pointer;font-size:.85rem;transition:all .15s;flex-shrink:0}
 .back-btn:hover{border-color:var(--accent);color:var(--text)}
-.quiz-mode-label{font-size:.85rem;color:var(--muted);flex:1;font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.q-counter{font-size:.95rem;font-weight:800;color:var(--text);white-space:nowrap;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:5px 10px}
+.quiz-mode-label{font-size:.83rem;color:var(--muted);flex:1;font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.q-counter{font-size:.92rem;font-weight:800;color:var(--text);white-space:nowrap;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:5px 10px}
+.streak-badge{font-size:.95rem;font-weight:800;min-width:34px;text-align:center;color:#f97316;transition:all .2s}
+.streak-badge.pop{animation:streakPop .3s ease}
 .quiz-score{font-weight:800;font-size:1rem;color:var(--accent);white-space:nowrap}
 .progress-track{height:5px;background:var(--surface2);border-radius:3px;margin-bottom:20px;overflow:hidden}
 .progress-fill{height:100%;background:var(--accent);border-radius:3px;transition:width .4s ease}
@@ -76,31 +97,26 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 /* ANSWERS */
 .answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .ans-btn{background:var(--surface);border:1.5px solid var(--border);border-radius:13px;padding:14px 17px;color:var(--text);font-size:.94rem;font-weight:500;cursor:pointer;text-align:left;transition:border-color .15s,background .15s;line-height:1.45;display:flex;align-items:flex-start;gap:10px;word-break:break-word;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
-.ans-key{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;min-width:24px;border-radius:7px;background:var(--surface2);font-size:.73rem;font-weight:700;color:var(--muted);transition:background .15s}
-/* Desktop hover */
-@media (hover: hover) {
-  .ans-btn:hover:not(:disabled){border-color:var(--accent);background:var(--surface2)}
-}
-/* Mobile: use :active instead of :hover */
-@media (hover: none) {
-  .ans-btn:active:not(:disabled){border-color:var(--accent);background:var(--surface2)}
-}
+.ans-key{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;min-width:24px;border-radius:7px;background:var(--surface2);font-size:.73rem;font-weight:700;color:var(--muted)}
+@media(hover:hover){.ans-btn:hover:not(:disabled){border-color:var(--accent);background:var(--surface2)}}
+@media(hover:none){.ans-btn:active:not(:disabled){border-color:var(--accent);background:var(--surface2)}}
 .ans-btn.correct{background:rgba(16,185,129,.13)!important;border-color:#10b981!important;color:#10b981!important}
 .ans-btn.correct .ans-key{background:#10b981;color:#000}
 .ans-btn.wrong{background:rgba(239,68,68,.13)!important;border-color:#ef4444!important;color:#ef4444!important}
 .ans-btn.wrong .ans-key{background:#ef4444;color:#fff}
+.ans-btn:disabled:not(.correct):not(.wrong){border-color:var(--border)!important;background:var(--surface)!important;opacity:.55}
 .ans-btn:disabled{cursor:default}
-/* Reset any lingering hover/active on disabled buttons */
-.ans-btn:disabled:not(.correct):not(.wrong){border-color:var(--border)!important;background:var(--surface)!important;opacity:.6}
 
 /* RESULT */
 .result-wrap{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:clamp(32px,6vw,56px) clamp(18px,4vw,44px);text-align:center;margin-top:16px}
 .result-emoji{font-size:4.5rem;display:block;margin-bottom:12px}
-.result-title{font-size:1.8rem;font-weight:900;margin-bottom:22px;letter-spacing:-.02em}
-.result-score{font-size:5rem;font-weight:900;color:var(--accent);line-height:1}
-.result-of{color:var(--muted);margin-top:4px;font-size:1rem}
-.result-pct{font-size:1.05rem;font-weight:700;color:var(--muted);margin-top:2px}
-.result-msg{color:var(--muted);margin:18px 0 32px;line-height:1.65;font-size:.98rem}
+.result-title{font-size:1.8rem;font-weight:900;margin-bottom:20px;letter-spacing:-.02em}
+.result-score{font-size:5rem;font-weight:900;color:var(--accent);line-height:1;animation:popIn .4s ease}
+.result-pts-label{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-top:2px}
+.result-correct{font-size:1rem;color:var(--muted);margin-top:6px}
+.result-correct strong{color:var(--text)}
+.result-streak{font-size:.88rem;color:#f97316;margin-top:4px;font-weight:600}
+.result-msg{color:var(--muted);margin:16px 0 28px;line-height:1.65;font-size:.98rem}
 .btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 .btn{padding:13px 24px;border-radius:12px;font-size:.93rem;font-weight:700;cursor:pointer;border:none;transition:all .2s;touch-action:manipulation}
 .btn-primary{background:var(--accent);color:#000}
@@ -109,7 +125,12 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .btn-secondary:hover{border-color:var(--accent)}
 .share-btn{padding:13px 22px;border-radius:12px;font-size:.93rem;font-weight:700;cursor:pointer;border:1.5px solid var(--border);background:var(--surface2);color:var(--text);transition:all .2s;display:flex;align-items:center;gap:7px;touch-action:manipulation}
 .share-btn:hover{border-color:#10b981;color:#10b981}
-.review-list{margin-top:28px;border-top:1px solid var(--border);padding-top:22px;text-align:left}
+/* Result room code */
+.result-room{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px 18px;margin:20px 0;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.result-room-label{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-weight:600}
+.result-room-code{font-family:monospace;font-size:1rem;font-weight:800;color:var(--accent);letter-spacing:.05em}
+.result-room-hint{font-size:.75rem;color:var(--muted);width:100%;margin-top:2px}
+.review-list{margin-top:24px;border-top:1px solid var(--border);padding-top:20px;text-align:left}
 .review-title{font-size:.76rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-weight:600;margin-bottom:10px}
 .review-item{display:flex;align-items:center;gap:10px;padding:9px 13px;border-radius:10px;margin-bottom:6px;font-size:.86rem;background:var(--surface2)}
 .review-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
@@ -128,7 +149,8 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
   .hero-globe{animation:none}
   #map-inner{height:220px}
   .modal-btns{flex-direction:column}
-  .q-counter{font-size:.85rem;padding:4px 8px}
+  .q-counter{font-size:.82rem;padding:4px 8px}
+  .streak-badge{min-width:28px;font-size:.85rem}
 }
 </style>
 </head>
@@ -171,6 +193,19 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
       <div class="mode-desc">Guess the country from its unique greeting phrase</div>
     </div>
   </div>
+
+  <!-- JOIN ROOM -->
+  <div class="join-section">
+    <div class="join-title">🎮 Enter room code to play with friends</div>
+    <div class="join-row">
+      <input type="text" id="room-input" class="room-input"
+        placeholder="e.g. FLAG-30-30-4829"
+        autocomplete="off" spellcheck="false"
+        oninput="this.value=this.value.toUpperCase()"
+        onkeydown="if(event.key==='Enter')joinRoom()">
+      <button class="join-btn" onclick="joinRoom()">Join →</button>
+    </div>
+  </div>
 </div>
 
 <!-- SETTINGS MODAL -->
@@ -193,6 +228,15 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
         <button class="pill active" data-val="30">30s</button>
       </div>
     </div>
+    <!-- Room code -->
+    <div class="modal-room">
+      <div class="modal-room-label">🎮 Room Code — share so friends play the same quiz</div>
+      <div class="modal-room-row">
+        <span class="modal-room-code" id="modal-room-code">FLAG-10-30-0000</span>
+        <button class="copy-code-btn" onclick="copyModalCode()">📋 Copy</button>
+      </div>
+      <div class="modal-room-hint">Friends enter this code on the home screen → same questions, same order!</div>
+    </div>
     <div class="modal-btns">
       <button class="btn btn-secondary" onclick="closeSettings()">Cancel</button>
       <button class="btn btn-primary" onclick="confirmSettings()">Start Quiz →</button>
@@ -206,7 +250,8 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
     <button class="back-btn" onclick="goHome()">← Home</button>
     <div class="quiz-mode-label" id="mode-label"></div>
     <div class="q-counter" id="q-counter">1/10</div>
-    <div class="quiz-score">⭐ <span id="score-val">0</span></div>
+    <div class="streak-badge" id="streak-badge"></div>
+    <div class="quiz-score">💯 <span id="score-val">0</span></div>
   </div>
   <div class="progress-track"><div class="progress-fill" id="prog" style="width:0%"></div></div>
   <div class="timer-row">
@@ -222,10 +267,20 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
   <div class="result-wrap">
     <span class="result-emoji" id="r-emoji">🎉</span>
     <div class="result-title" id="r-title">Amazing!</div>
-    <div class="result-score" id="r-score">8</div>
-    <div class="result-of">out of <span id="r-total">10</span></div>
-    <div class="result-pct" id="r-pct"></div>
+    <div class="result-score" id="r-score">0</div>
+    <div class="result-pts-label">points</div>
+    <div class="result-correct">Correct answers: <strong id="r-correct">0</strong>/<strong id="r-total">10</strong></div>
+    <div class="result-streak" id="r-streak"></div>
     <div class="result-msg" id="r-msg"></div>
+    <!-- Room code -->
+    <div class="result-room" id="result-room">
+      <div>
+        <div class="result-room-label">🎮 Room Code</div>
+        <div class="result-room-code" id="result-room-code">FLAG-10-30-4829</div>
+        <div class="result-room-hint">Friends can enter this code to play the exact same quiz!</div>
+      </div>
+      <button class="copy-code-btn" onclick="copyResultCode()">📋 Copy</button>
+    </div>
     <div class="btn-row">
       <button class="btn btn-primary" id="play-again-btn">Play Again</button>
       <button class="btn btn-secondary" onclick="goHome()">Choose Mode</button>
@@ -243,90 +298,97 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 // ══════════════════════════════════════════
-//  DATA  (69 countries)
+//  CONFIG
+// ══════════════════════════════════════════
+const GITHUB_URL = 'https://pnut102142-del.github.io/geoquiz';
+const MODE_ENCODE = {flag:'FLAG',map:'MAP',cap2ctry:'CAP',ctry2cap:'CTR',lang:'LANG'};
+const MODE_DECODE = {FLAG:'flag',MAP:'map',CAP:'cap2ctry',CTR:'ctry2cap',LANG:'lang'};
+
+// ══════════════════════════════════════════
+//  DATA
 // ══════════════════════════════════════════
 const countries = [
-  { name:"Japan",               code:"jp", capital:"Tokyo",              greeting:"Konnichiwa (こんにちは)",              language:"Japanese",                   lat:36.2,  lng:138.3,  zoom:5 },
-  { name:"South Korea",         code:"kr", capital:"Seoul",              greeting:"Annyeonghaseyo (안녕하세요)",           language:"Korean",                     lat:35.9,  lng:127.8,  zoom:6 },
-  { name:"China",               code:"cn", capital:"Beijing",            greeting:"Nǐ hǎo (你好)",                       language:"Mandarin Chinese",            lat:35.9,  lng:104.2,  zoom:4 },
-  { name:"India",               code:"in", capital:"New Delhi",          greeting:"Namaste (नमस्ते)",                    language:"Hindi",                      lat:20.6,  lng:78.9,   zoom:4 },
-  { name:"Russia",              code:"ru", capital:"Moscow",             greeting:"Zdravstvuyte (Здравствуйте)",         language:"Russian",                    lat:62.0,  lng:94.0,   zoom:3 },
-  { name:"Australia",           code:"au", capital:"Canberra",           greeting:"G'day",                               language:"English (Australia)",        lat:-25.3, lng:133.8,  zoom:4 },
-  { name:"Brazil",              code:"br", capital:"Brasília",           greeting:"Olá, tudo bem?",                      language:"Portuguese (Brazil)",         lat:-14.2, lng:-51.9,  zoom:4 },
-  { name:"Turkey",              code:"tr", capital:"Ankara",             greeting:"Merhaba",                             language:"Turkish",                    lat:39.0,  lng:35.2,   zoom:5 },
-  { name:"Thailand",            code:"th", capital:"Bangkok",            greeting:"Sawasdee (สวัสดี)",                   language:"Thai",                       lat:15.9,  lng:101.0,  zoom:5 },
-  { name:"Egypt",               code:"eg", capital:"Cairo",              greeting:"Ahlan (أهلاً)",                       language:"Arabic (Egypt)",             lat:26.8,  lng:30.8,   zoom:5 },
-  { name:"Indonesia",           code:"id", capital:"Jakarta",            greeting:"Halo (Indonesian)",                   language:"Indonesian",                 lat:-0.8,  lng:113.9,  zoom:4 },
-  { name:"Vietnam",             code:"vn", capital:"Hanoi",              greeting:"Xin chào",                            language:"Vietnamese",                 lat:14.1,  lng:108.3,  zoom:5 },
-  { name:"Saudi Arabia",        code:"sa", capital:"Riyadh",             greeting:"As-salamu alaykum (السلام عليكم)",    language:"Arabic (Gulf)",              lat:23.9,  lng:45.1,   zoom:5 },
-  { name:"South Africa",        code:"za", capital:"Pretoria",           greeting:"Sawubona",                            language:"Zulu / English",             lat:-30.6, lng:22.9,   zoom:5 },
-  { name:"Mexico",              code:"mx", capital:"Mexico City",        greeting:"¡Hola! ¿Qué tal?",                   language:"Spanish (Mexico)",            lat:23.6,  lng:-102.6, zoom:5 },
-  { name:"Bhutan",              code:"bt", capital:"Thimphu",            greeting:"Kuzu Zangpo (བཀྲ་ཤིས་བདེ་ལེགས)",     language:"Dzongkha",                   lat:27.5,  lng:90.4,   zoom:7 },
-  { name:"Mongolia",            code:"mn", capital:"Ulaanbaatar",        greeting:"Sain baina uu (Сайн байна уу)",       language:"Mongolian",                  lat:46.9,  lng:103.8,  zoom:5 },
-  { name:"Myanmar",             code:"mm", capital:"Naypyidaw",          greeting:"Mingalarbar (မင်္ဂလာပါ)",             language:"Burmese",                    lat:19.2,  lng:96.1,   zoom:5 },
-  { name:"Laos",                code:"la", capital:"Vientiane",          greeting:"Sabaidee (ສະບາຍດີ)",                  language:"Lao",                        lat:17.9,  lng:102.5,  zoom:6 },
-  { name:"Cambodia",            code:"kh", capital:"Phnom Penh",         greeting:"Choum reap suor (ជំរាបសួរ)",          language:"Khmer",                      lat:12.6,  lng:104.5,  zoom:6 },
-  { name:"Kyrgyzstan",          code:"kg", capital:"Bishkek",            greeting:"Salamatsyzby (Саламатсызбы)",         language:"Kyrgyz",                     lat:41.2,  lng:74.8,   zoom:6 },
-  { name:"Tajikistan",          code:"tj", capital:"Dushanbe",           greeting:"Salom (Тоҷикистон)",                  language:"Tajik",                      lat:38.9,  lng:71.3,   zoom:6 },
-  { name:"Uzbekistan",          code:"uz", capital:"Tashkent",           greeting:"Assalomu alaykum",                    language:"Uzbek",                      lat:41.4,  lng:63.9,   zoom:6 },
-  { name:"Georgia",             code:"ge", capital:"Tbilisi",            greeting:"Gamarjoba (გამარჯობა)",               language:"Georgian",                   lat:42.3,  lng:43.4,   zoom:7 },
-  { name:"Armenia",             code:"am", capital:"Yerevan",            greeting:"Barev (Բարև)",                        language:"Armenian",                   lat:40.1,  lng:45.0,   zoom:7 },
-  { name:"Azerbaijan",          code:"az", capital:"Baku",               greeting:"Salam (Azərbaycan)",                  language:"Azerbaijani",                lat:40.1,  lng:47.6,   zoom:7 },
-  { name:"Timor-Leste",         code:"tl", capital:"Dili",               greeting:"Bondia",                              language:"Tetum / Portuguese",         lat:-8.9,  lng:125.7,  zoom:8 },
-  { name:"Nepal",               code:"np", capital:"Kathmandu",          greeting:"Namaskaar (नमस्कार)",                 language:"Nepali",                     lat:28.4,  lng:84.1,   zoom:7 },
-  { name:"Belarus",             code:"by", capital:"Minsk",              greeting:"Vitaju (Вітаю)",                      language:"Belarusian / Russian",        lat:53.7,  lng:27.9,   zoom:6 },
-  { name:"Lithuania",           code:"lt", capital:"Vilnius",            greeting:"Labas",                               language:"Lithuanian",                  lat:55.2,  lng:23.9,   zoom:7 },
-  { name:"Latvia",              code:"lv", capital:"Riga",               greeting:"Labdien",                             language:"Latvian",                    lat:56.9,  lng:24.6,   zoom:7 },
-  { name:"Estonia",             code:"ee", capital:"Tallinn",            greeting:"Tere",                                language:"Estonian",                   lat:58.6,  lng:25.0,   zoom:7 },
-  { name:"Moldova",             code:"md", capital:"Chișinău",           greeting:"Bună ziua",                           language:"Moldovan / Romanian",         lat:47.4,  lng:28.4,   zoom:7 },
-  { name:"Slovenia",            code:"si", capital:"Ljubljana",          greeting:"Dober dan",                           language:"Slovenian",                  lat:46.1,  lng:14.8,   zoom:8 },
-  { name:"Croatia",             code:"hr", capital:"Zagreb",             greeting:"Dobar dan (Croatian)",                language:"Croatian",                   lat:45.1,  lng:16.4,   zoom:7 },
-  { name:"Bosnia & Herzegovina",code:"ba", capital:"Sarajevo",           greeting:"Zdravo / Merhaba",                    language:"Bosnian",                    lat:44.2,  lng:17.4,   zoom:7 },
-  { name:"Serbia",              code:"rs", capital:"Belgrade",           greeting:"Zdravo (Serbian)",                    language:"Serbian",                    lat:44.0,  lng:21.0,   zoom:7 },
-  { name:"Albania",             code:"al", capital:"Tirana",             greeting:"Mirëdita",                            language:"Albanian",                   lat:41.2,  lng:20.2,   zoom:7 },
-  { name:"North Macedonia",     code:"mk", capital:"Skopje",             greeting:"Zdravo (Macedonian)",                 language:"Macedonian",                 lat:41.6,  lng:21.7,   zoom:8 },
-  { name:"Montenegro",          code:"me", capital:"Podgorica",          greeting:"Dobar dan (Montenegrin)",             language:"Montenegrin",                lat:42.7,  lng:19.4,   zoom:8 },
-  { name:"Malta",               code:"mt", capital:"Valletta",           greeting:"Bonġu",                               language:"Maltese",                    lat:35.9,  lng:14.4,   zoom:10},
-  { name:"Luxembourg",          code:"lu", capital:"Luxembourg City",    greeting:"Moien",                               language:"Luxembourgish",              lat:49.8,  lng:6.1,    zoom:9 },
-  { name:"Iceland",             code:"is", capital:"Reykjavík",          greeting:"Góðan daginn",                        language:"Icelandic",                  lat:64.8,  lng:-18.7,  zoom:6 },
-  { name:"Kosovo",              code:"xk", capital:"Pristina",           greeting:"Mirë se vjen",                        language:"Albanian / Serbian",         lat:42.6,  lng:20.9,   zoom:8 },
-  { name:"Rwanda",              code:"rw", capital:"Kigali",             greeting:"Muraho",                              language:"Kinyarwanda / French",        lat:-2.0,  lng:29.9,   zoom:8 },
-  { name:"Burundi",             code:"bi", capital:"Gitega",             greeting:"Amahoro",                             language:"Kirundi / French",            lat:-3.4,  lng:29.9,   zoom:8 },
-  { name:"Eritrea",             code:"er", capital:"Asmara",             greeting:"Selam (ሰላም) — Tigrinya",             language:"Tigrinya / Arabic",           lat:15.2,  lng:39.8,   zoom:7 },
-  { name:"Djibouti",            code:"dj", capital:"Djibouti City",      greeting:"Nabad",                      language:"Somali / Afar / French",      lat:11.8,  lng:42.6,   zoom:8 },
-  { name:"Madagascar",          code:"mg", capital:"Antananarivo",       greeting:"Manao ahoana",                        language:"Malagasy / French",           lat:-19.0, lng:46.9,   zoom:6 },
-  { name:"Malawi",              code:"mw", capital:"Lilongwe",           greeting:"Moni",                                language:"Chichewa / English",          lat:-13.2, lng:34.3,   zoom:7 },
-  { name:"Lesotho",             code:"ls", capital:"Maseru",             greeting:"Lumela",                              language:"Sesotho / English",           lat:-29.6, lng:28.2,   zoom:8 },
-  { name:"Eswatini",            code:"sz", capital:"Mbabane",            greeting:"Sawubona ",                    language:"Swati / English",             lat:-26.5, lng:31.5,   zoom:9 },
-  { name:"Mali",                code:"ml", capital:"Bamako",             greeting:"I ni ce ",                   language:"French / Bambara",            lat:17.6,  lng:-3.0,   zoom:6 },
-  { name:"Burkina Faso",        code:"bf", capital:"Ouagadougou",        greeting:"Nba ye ",                      language:"French / Mooré",              lat:12.4,  lng:-1.6,   zoom:7 },
-  { name:"Togo",                code:"tg", capital:"Lomé",               greeting:"Bonjour ",                  language:"French / Ewe",               lat:8.6,   lng:0.8,    zoom:7 },
-  { name:"Benin",               code:"bj", capital:"Porto-Novo",         greeting:"Mi do ",                         language:"French / Fon",               lat:9.3,   lng:2.3,    zoom:7 },
-  { name:"Sierra Leone",        code:"sl", capital:"Freetown",           greeting:"Kusheh ",                       language:"English / Krio",             lat:8.5,   lng:-11.8,  zoom:7 },
-  { name:"Gabon",               code:"ga", capital:"Libreville",         greeting:"Bonjour",                  language:"French (Gabon)",             lat:-0.8,  lng:11.6,   zoom:7 },
-  { name:"Comoros",             code:"km", capital:"Moroni",             greeting:"Hujambo",                             language:"Comorian / Arabic / French",  lat:-11.6, lng:43.3,   zoom:9 },
-  { name:"Cape Verde",          code:"cv", capital:"Praia",              greeting:"Bon dia",                    language:"Cape Verdean Creole",         lat:16.0,  lng:-24.0,  zoom:9 },
-  { name:"Suriname",            code:"sr", capital:"Paramaribo",         greeting:"Hallo ",                  language:"Dutch (Suriname)",            lat:3.9,   lng:-56.0,  zoom:7 },
-  { name:"Paraguay",            code:"py", capital:"Asunción",           greeting:"Mba'éichapa ",               language:"Spanish / Guaraní",           lat:-23.4, lng:-58.4,  zoom:6 },
-  { name:"Bolivia",             code:"bo", capital:"Sucre",              greeting:"Kamisaraki ",                 language:"Spanish / Quechua / Aymara",  lat:-16.3, lng:-63.6,  zoom:5 },
-  { name:"Cuba",                code:"cu", capital:"Havana",             greeting:"¿Qué volá? ",            language:"Spanish (Cuba)",              lat:21.5,  lng:-79.0,  zoom:7 },
-  { name:"Haiti",               code:"ht", capital:"Port-au-Prince",     greeting:"Bonjou ",             language:"Haitian Creole / French",     lat:19.0,  lng:-72.9,  zoom:8 },
-  { name:"Belize",              code:"bz", capital:"Belmopan",           greeting:"Hello",                       language:"English / Kriol",             lat:17.2,  lng:-88.5,  zoom:8 },
-  { name:"Guyana",              code:"gy", capital:"Georgetown",         greeting:"Wha de scene? ",            language:"English / Creolese",          lat:4.9,   lng:-58.9,  zoom:7 },
-  { name:"Trinidad & Tobago",   code:"tt", capital:"Port of Spain",      greeting:"Wha happening? ",        language:"English / Trinidadian Creole",lat:10.7,  lng:-61.2,  zoom:9 },
-  { name:"Fiji",                code:"fj", capital:"Suva",               greeting:"Bula!",                               language:"Fijian / English",            lat:-17.7, lng:178.1,  zoom:8 },
-  { name:"Tonga",               code:"to", capital:"Nuku'alofa",          greeting:"Mālō e lelei",                        language:"Tongan / English",            lat:-19.9, lng:-175.2, zoom:9 },
-  { name:"Samoa",               code:"ws", capital:"Apia",               greeting:"Talofa",                              language:"Samoan / English",            lat:-13.8, lng:-172.1, zoom:9 },
-  { name:"Vanuatu",             code:"vu", capital:"Port Vila",           greeting:"Halo",                      language:"Bislama / English / French",  lat:-15.4, lng:167.0,  zoom:8 },
-  { name:"Papua New Guinea",    code:"pg", capital:"Port Moresby",       greeting:"Gude",                    language:"Tok Pisin / English",         lat:-6.3,  lng:143.9,  zoom:6 },
-  { name:"Solomon Islands",     code:"sb", capital:"Honiara",            greeting:"Halo",                        language:"Solomon Islands Pijin",       lat:-9.4,  lng:160.2,  zoom:8 },
+  { name:"Japan",               code:"jp", capital:"Tokyo",              greeting:"Konnichiwa (こんにちは)",              lat:36.2,  lng:138.3,  zoom:5 },
+  { name:"South Korea",         code:"kr", capital:"Seoul",              greeting:"Annyeonghaseyo (안녕하세요)",           lat:35.9,  lng:127.8,  zoom:6 },
+  { name:"China",               code:"cn", capital:"Beijing",            greeting:"Nǐ hǎo (你好)",                       lat:35.9,  lng:104.2,  zoom:4 },
+  { name:"India",               code:"in", capital:"New Delhi",          greeting:"Namaste (नमस्ते)",                    lat:20.6,  lng:78.9,   zoom:4 },
+  { name:"Russia",              code:"ru", capital:"Moscow",             greeting:"Zdravstvuyte (Здравствуйте)",         lat:62.0,  lng:94.0,   zoom:3 },
+  { name:"Australia",           code:"au", capital:"Canberra",           greeting:"G'day",                               lat:-25.3, lng:133.8,  zoom:4 },
+  { name:"Brazil",              code:"br", capital:"Brasília",           greeting:"Olá, tudo bem?",                      lat:-14.2, lng:-51.9,  zoom:4 },
+  { name:"Turkey",              code:"tr", capital:"Ankara",             greeting:"Merhaba",                             lat:39.0,  lng:35.2,   zoom:5 },
+  { name:"Thailand",            code:"th", capital:"Bangkok",            greeting:"Sawasdee (สวัสดี)",                   lat:15.9,  lng:101.0,  zoom:5 },
+  { name:"Egypt",               code:"eg", capital:"Cairo",              greeting:"Ahlan (أهلاً)",                       lat:26.8,  lng:30.8,   zoom:5 },
+  { name:"Indonesia",           code:"id", capital:"Jakarta",            greeting:"Halo (Indonesian)",                   lat:-0.8,  lng:113.9,  zoom:4 },
+  { name:"Vietnam",             code:"vn", capital:"Hanoi",              greeting:"Xin chào",                            lat:14.1,  lng:108.3,  zoom:5 },
+  { name:"Saudi Arabia",        code:"sa", capital:"Riyadh",             greeting:"As-salamu alaykum (السلام عليكم)",    lat:23.9,  lng:45.1,   zoom:5 },
+  { name:"South Africa",        code:"za", capital:"Pretoria",           greeting:"Sawubona",                            lat:-30.6, lng:22.9,   zoom:5 },
+  { name:"Mexico",              code:"mx", capital:"Mexico City",        greeting:"¡Hola! ¿Qué tal?",                   lat:23.6,  lng:-102.6, zoom:5 },
+  { name:"Bhutan",              code:"bt", capital:"Thimphu",            greeting:"Kuzu Zangpo (བཀྲ་ཤིས་བདེ་ལེགས)",     lat:27.5,  lng:90.4,   zoom:7 },
+  { name:"Mongolia",            code:"mn", capital:"Ulaanbaatar",        greeting:"Sain baina uu (Сайн байна уу)",       lat:46.9,  lng:103.8,  zoom:5 },
+  { name:"Myanmar",             code:"mm", capital:"Naypyidaw",          greeting:"Mingalarbar (မင်္ဂလာပါ)",             lat:19.2,  lng:96.1,   zoom:5 },
+  { name:"Laos",                code:"la", capital:"Vientiane",          greeting:"Sabaidee (ສະບາຍດີ)",                  lat:17.9,  lng:102.5,  zoom:6 },
+  { name:"Cambodia",            code:"kh", capital:"Phnom Penh",         greeting:"Choum reap suor (ជំរាបសួរ)",          lat:12.6,  lng:104.5,  zoom:6 },
+  { name:"Kyrgyzstan",          code:"kg", capital:"Bishkek",            greeting:"Salamatsyzby (Саламатсызбы)",         lat:41.2,  lng:74.8,   zoom:6 },
+  { name:"Tajikistan",          code:"tj", capital:"Dushanbe",           greeting:"Salom (Тоҷикистон)",                  lat:38.9,  lng:71.3,   zoom:6 },
+  { name:"Uzbekistan",          code:"uz", capital:"Tashkent",           greeting:"Assalomu alaykum",                    lat:41.4,  lng:63.9,   zoom:6 },
+  { name:"Georgia",             code:"ge", capital:"Tbilisi",            greeting:"Gamarjoba (გამარჯობა)",               lat:42.3,  lng:43.4,   zoom:7 },
+  { name:"Armenia",             code:"am", capital:"Yerevan",            greeting:"Barev (Բարև)",                        lat:40.1,  lng:45.0,   zoom:7 },
+  { name:"Azerbaijan",          code:"az", capital:"Baku",               greeting:"Salam (Azərbaycan)",                  lat:40.1,  lng:47.6,   zoom:7 },
+  { name:"Timor-Leste",         code:"tl", capital:"Dili",               greeting:"Bondia",                              lat:-8.9,  lng:125.7,  zoom:8 },
+  { name:"Nepal",               code:"np", capital:"Kathmandu",          greeting:"Namaskaar (नमस्कार)",                 lat:28.4,  lng:84.1,   zoom:7 },
+  { name:"Belarus",             code:"by", capital:"Minsk",              greeting:"Vitaju (Вітаю)",                      lat:53.7,  lng:27.9,   zoom:6 },
+  { name:"Lithuania",           code:"lt", capital:"Vilnius",            greeting:"Labas",                               lat:55.2,  lng:23.9,   zoom:7 },
+  { name:"Latvia",              code:"lv", capital:"Riga",               greeting:"Labdien",                             lat:56.9,  lng:24.6,   zoom:7 },
+  { name:"Estonia",             code:"ee", capital:"Tallinn",            greeting:"Tere",                                lat:58.6,  lng:25.0,   zoom:7 },
+  { name:"Moldova",             code:"md", capital:"Chișinău",           greeting:"Bună ziua",                           lat:47.4,  lng:28.4,   zoom:7 },
+  { name:"Slovenia",            code:"si", capital:"Ljubljana",          greeting:"Dober dan",                           lat:46.1,  lng:14.8,   zoom:8 },
+  { name:"Croatia",             code:"hr", capital:"Zagreb",             greeting:"Dobar dan (Croatian)",                lat:45.1,  lng:16.4,   zoom:7 },
+  { name:"Bosnia & Herzegovina",code:"ba", capital:"Sarajevo",           greeting:"Zdravo / Merhaba",                    lat:44.2,  lng:17.4,   zoom:7 },
+  { name:"Serbia",              code:"rs", capital:"Belgrade",           greeting:"Zdravo (Serbian)",                    lat:44.0,  lng:21.0,   zoom:7 },
+  { name:"Albania",             code:"al", capital:"Tirana",             greeting:"Mirëdita",                            lat:41.2,  lng:20.2,   zoom:7 },
+  { name:"North Macedonia",     code:"mk", capital:"Skopje",             greeting:"Zdravo (Macedonian)",                 lat:41.6,  lng:21.7,   zoom:8 },
+  { name:"Montenegro",          code:"me", capital:"Podgorica",          greeting:"Dobar dan (Montenegrin)",             lat:42.7,  lng:19.4,   zoom:8 },
+  { name:"Malta",               code:"mt", capital:"Valletta",           greeting:"Bonġu",                               lat:35.9,  lng:14.4,   zoom:10},
+  { name:"Luxembourg",          code:"lu", capital:"Luxembourg City",    greeting:"Moien",                               lat:49.8,  lng:6.1,    zoom:9 },
+  { name:"Iceland",             code:"is", capital:"Reykjavík",          greeting:"Góðan daginn",                        lat:64.8,  lng:-18.7,  zoom:6 },
+  { name:"Kosovo",              code:"xk", capital:"Pristina",           greeting:"Mirë se vjen",                        lat:42.6,  lng:20.9,   zoom:8 },
+  { name:"Rwanda",              code:"rw", capital:"Kigali",             greeting:"Muraho",                              lat:-2.0,  lng:29.9,   zoom:8 },
+  { name:"Burundi",             code:"bi", capital:"Gitega",             greeting:"Amahoro",                             lat:-3.4,  lng:29.9,   zoom:8 },
+  { name:"Eritrea",             code:"er", capital:"Asmara",             greeting:"Selam (ሰላም)",                        lat:15.2,  lng:39.8,   zoom:7 },
+  { name:"Djibouti",            code:"dj", capital:"Djibouti City",      greeting:"Nabad (Somali)",                      lat:11.8,  lng:42.6,   zoom:8 },
+  { name:"Madagascar",          code:"mg", capital:"Antananarivo",       greeting:"Manao ahoana",                        lat:-19.0, lng:46.9,   zoom:6 },
+  { name:"Malawi",              code:"mw", capital:"Lilongwe",           greeting:"Moni",                                lat:-13.2, lng:34.3,   zoom:7 },
+  { name:"Lesotho",             code:"ls", capital:"Maseru",             greeting:"Lumela",                              lat:-29.6, lng:28.2,   zoom:8 },
+  { name:"Eswatini",            code:"sz", capital:"Mbabane",            greeting:"Sawubona (Swati)",                    lat:-26.5, lng:31.5,   zoom:9 },
+  { name:"Mali",                code:"ml", capital:"Bamako",             greeting:"I ni ce (Bambara)",                   lat:17.6,  lng:-3.0,   zoom:6 },
+  { name:"Burkina Faso",        code:"bf", capital:"Ouagadougou",        greeting:"Nba ye (Mooré)",                      lat:12.4,  lng:-1.6,   zoom:7 },
+  { name:"Togo",                code:"tg", capital:"Lomé",               greeting:"Bonjour (Togolese)",                  lat:8.6,   lng:0.8,    zoom:7 },
+  { name:"Benin",               code:"bj", capital:"Porto-Novo",         greeting:"Mi do (Fon)",                         lat:9.3,   lng:2.3,    zoom:7 },
+  { name:"Sierra Leone",        code:"sl", capital:"Freetown",           greeting:"Kusheh (Krio)",                       lat:8.5,   lng:-11.8,  zoom:7 },
+  { name:"Gabon",               code:"ga", capital:"Libreville",         greeting:"Bonjour (Gabonese)",                  lat:-0.8,  lng:11.6,   zoom:7 },
+  { name:"Comoros",             code:"km", capital:"Moroni",             greeting:"Hujambo",                             lat:-11.6, lng:43.3,   zoom:9 },
+  { name:"Cape Verde",          code:"cv", capital:"Praia",              greeting:"Bon dia (Kriolu)",                    lat:16.0,  lng:-24.0,  zoom:9 },
+  { name:"Suriname",            code:"sr", capital:"Paramaribo",         greeting:"Hallo (Surinamese)",                  lat:3.9,   lng:-56.0,  zoom:7 },
+  { name:"Paraguay",            code:"py", capital:"Asunción",           greeting:"Mba'éichapa (Guaraní)",               lat:-23.4, lng:-58.4,  zoom:6 },
+  { name:"Bolivia",             code:"bo", capital:"Sucre",              greeting:"Kamisaraki (Aymara)",                 lat:-16.3, lng:-63.6,  zoom:5 },
+  { name:"Cuba",                code:"cu", capital:"Havana",             greeting:"¿Qué volá? (Cuban)",                  lat:21.5,  lng:-79.0,  zoom:7 },
+  { name:"Haiti",               code:"ht", capital:"Port-au-Prince",     greeting:"Bonjou (Haitian Creole)",             lat:19.0,  lng:-72.9,  zoom:8 },
+  { name:"Belize",              code:"bz", capital:"Belmopan",           greeting:"Hello (Kriol)",                       lat:17.2,  lng:-88.5,  zoom:8 },
+  { name:"Guyana",              code:"gy", capital:"Georgetown",         greeting:"Wha de scene? (Creolese)",            lat:4.9,   lng:-58.9,  zoom:7 },
+  { name:"Trinidad & Tobago",   code:"tt", capital:"Port of Spain",      greeting:"Wha happening? (Trinidadian)",        lat:10.7,  lng:-61.2,  zoom:9 },
+  { name:"Fiji",                code:"fj", capital:"Suva",               greeting:"Bula!",                               lat:-17.7, lng:178.1,  zoom:8 },
+  { name:"Tonga",               code:"to", capital:"Nuku'alofa",          greeting:"Mālō e lelei",                        lat:-19.9, lng:-175.2, zoom:9 },
+  { name:"Samoa",               code:"ws", capital:"Apia",               greeting:"Talofa",                              lat:-13.8, lng:-172.1, zoom:9 },
+  { name:"Vanuatu",             code:"vu", capital:"Port Vila",           greeting:"Halo (Bislama)",                      lat:-15.4, lng:167.0,  zoom:8 },
+  { name:"Papua New Guinea",    code:"pg", capital:"Port Moresby",       greeting:"Gude (Tok Pisin)",                    lat:-6.3,  lng:143.9,  zoom:6 },
+  { name:"Solomon Islands",     code:"sb", capital:"Honiara",            greeting:"Halo (Pijin)",                        lat:-9.4,  lng:160.2,  zoom:8 },
 ];
 
 // ══════════════════════════════════════════
 //  STATE
 // ══════════════════════════════════════════
-let mode=null, questionCount=10, timePerQ=30;
-let questions=[], qIdx=0, score=0;
+let mode=null, questionCount=10, timePerQ=30, currentSeed=null;
+let questions=[], qIdx=0, score=0, correctCount=0, streak=0, maxStreak=0;
 let answered=false, timerInterval=null, timeLeft=30;
 let correctAnswer='', leafMap=null, history=[];
 
@@ -339,21 +401,78 @@ const MODES = {
 };
 
 // ══════════════════════════════════════════
-//  VIEW COUNTER (localStorage)
+//  SEEDED RANDOM (mulberry32)
+//  같은 seed = 무조건 같은 순서!
+// ══════════════════════════════════════════
+function mulberry32(seed) {
+  return function() {
+    seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+    let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+function seededShuffle(arr, seed) {
+  const rng = mulberry32(seed);
+  const a = [...arr];
+  for (let i = a.length-1; i > 0; i--) {
+    const j = Math.floor(rng() * (i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function newSeed() { return Math.floor(1000 + Math.random() * 8999); }
+
+// ══════════════════════════════════════════
+//  ROOM CODE
+// ══════════════════════════════════════════
+function getRoomCode() {
+  return `${MODE_ENCODE[mode]}-${questionCount}-${timePerQ}-${currentSeed}`;
+}
+function parseRoomCode(raw) {
+  const p = raw.trim().toUpperCase().split('-');
+  if (p.length !== 4) return null;
+  const m = MODE_DECODE[p[0]];
+  if (!m) return null;
+  const qc=parseInt(p[1]), tp=parseInt(p[2]), s=parseInt(p[3]);
+  if (isNaN(qc)||isNaN(tp)||isNaN(s)) return null;
+  if (![10,30,50].includes(qc)||![5,10,20,30].includes(tp)) return null;
+  if (qc > countries.length) return null;
+  return {mode:m, questionCount:qc, timePerQ:tp, seed:s};
+}
+function updateRoomCodeDisplay() {
+  document.getElementById('modal-room-code').textContent = getRoomCode();
+}
+function copyModalCode() {
+  navigator.clipboard.writeText(getRoomCode()).then(()=>showToast('📋 Room code copied!'));
+}
+function copyResultCode() {
+  navigator.clipboard.writeText(getRoomCode()).then(()=>showToast('📋 Room code copied!'));
+}
+function joinRoom() {
+  const input = document.getElementById('room-input').value;
+  const parsed = parseRoomCode(input);
+  if (!parsed) { showToast('❌ Invalid room code'); return; }
+  mode = parsed.mode; questionCount = parsed.questionCount;
+  timePerQ = parsed.timePerQ; currentSeed = parsed.seed;
+  questions = seededShuffle(countries, currentSeed).slice(0, questionCount);
+  document.getElementById('room-input').value = '';
+  startQuiz();
+}
+
+// ══════════════════════════════════════════
+//  VIEW COUNTER
 // ══════════════════════════════════════════
 function initViews() {
   try {
     const today = new Date().toDateString();
-    let v = JSON.parse(localStorage.getItem('gq_v') || '{"t":0,"d":"","td":0}');
-    if (v.d !== today) { v.d = today; v.td = 0; }
+    let v = JSON.parse(localStorage.getItem('gq_v')||'{"t":0,"d":"","td":0}');
+    if (v.d!==today){v.d=today;v.td=0;}
     v.t++; v.td++;
-    localStorage.setItem('gq_v', JSON.stringify(v));
-    document.getElementById('views-today').textContent = v.td.toLocaleString();
-    document.getElementById('views-total').textContent = v.t.toLocaleString();
-  } catch(e) {
-    document.getElementById('views-today').textContent = '—';
-    document.getElementById('views-total').textContent = '—';
-  }
+    localStorage.setItem('gq_v',JSON.stringify(v));
+    document.getElementById('views-today').textContent=v.td.toLocaleString();
+    document.getElementById('views-total').textContent=v.t.toLocaleString();
+  } catch(e) {}
 }
 
 // ══════════════════════════════════════════
@@ -361,50 +480,51 @@ function initViews() {
 // ══════════════════════════════════════════
 function openSettings(m) {
   mode = m;
+  currentSeed = newSeed();
   const info = MODES[m];
   document.getElementById('modal-icon').textContent = info.icon;
-  document.getElementById('modal-title').textContent = info.label + ' Settings';
+  document.getElementById('modal-title').textContent = info.label+' Settings';
 
   const qEl = document.getElementById('qcount-pills');
   qEl.innerHTML = '';
-  [10, 30, 50].forEach(n => {
+  [10,30,50].forEach(n => {
     const btn = document.createElement('button');
-    const tooMany = n > countries.length;
-    btn.className = 'pill' + (n === questionCount && !tooMany ? ' active' : '');
-    btn.textContent = n;
-    btn.dataset.val = n;
-    if (tooMany) btn.disabled = true;
+    const dis = n > countries.length;
+    btn.className = 'pill'+(n===questionCount&&!dis?' active':'');
+    btn.textContent = n; btn.dataset.val = n;
+    if (dis) btn.disabled = true;
     btn.addEventListener('click', () => {
       if (btn.disabled) return;
-      qEl.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+      qEl.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
       btn.classList.add('active');
       questionCount = n;
+      updateRoomCodeDisplay();
     });
     qEl.appendChild(btn);
   });
   if (!qEl.querySelector('.pill.active')) {
-    const first = qEl.querySelector('.pill:not(:disabled)');
-    if (first) { first.classList.add('active'); questionCount = parseInt(first.dataset.val); }
+    const f = qEl.querySelector('.pill:not(:disabled)');
+    if (f){f.classList.add('active'); questionCount=parseInt(f.dataset.val);}
   }
 
   document.getElementById('time-pills').querySelectorAll('.pill').forEach(p => {
-    p.classList.toggle('active', parseInt(p.dataset.val) === timePerQ);
+    p.classList.toggle('active', parseInt(p.dataset.val)===timePerQ);
     p.onclick = () => {
-      document.getElementById('time-pills').querySelectorAll('.pill').forEach(x => x.classList.remove('active'));
+      document.getElementById('time-pills').querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
       p.classList.add('active');
       timePerQ = parseInt(p.dataset.val);
+      updateRoomCodeDisplay();
     };
   });
+  updateRoomCodeDisplay();
   document.getElementById('settings-modal').classList.add('active');
 }
-
 function closeSettings() {
   document.getElementById('settings-modal').classList.remove('active');
 }
-
 function confirmSettings() {
   closeSettings();
-  questions = shuffle(countries).slice(0, Math.min(questionCount, countries.length));
+  questions = seededShuffle(countries, currentSeed).slice(0, Math.min(questionCount, countries.length));
   startQuiz();
 }
 
@@ -416,44 +536,59 @@ function shuffle(arr) {
   for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
   return a;
 }
-function setAccent(c) {
-  ['quiz','result'].forEach(id=>document.getElementById(id).style.setProperty('--accent',c));
-}
-function showScreen(id) {
+function setAccent(c){['quiz','result'].forEach(id=>document.getElementById(id).style.setProperty('--accent',c));}
+function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   const el=document.getElementById(id);
-  el.classList.add('active');
-  el.style.animation='none'; el.offsetHeight; el.style.animation='';
+  el.classList.add('active'); el.style.animation='none'; el.offsetHeight; el.style.animation='';
 }
 function getWrongs(correct, field, n=3) {
   const cv=correct[field];
   return shuffle(countries.filter(c=>c.name!==correct.name&&c[field]!==cv)).slice(0,n).map(c=>c[field]);
 }
-function showToast(msg) {
+function showToast(msg){
   const el=document.getElementById('toast');
   el.textContent=msg; el.classList.add('show');
-  setTimeout(()=>el.classList.remove('show'),2500);
+  clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove('show'),2500);
+}
+
+// ══════════════════════════════════════════
+//  STREAK DISPLAY
+// ══════════════════════════════════════════
+function updateStreak() {
+  const el = document.getElementById('streak-badge');
+  if (streak >= 2) {
+    const prev = el.textContent;
+    el.textContent = `🔥${streak}`;
+    if (prev !== el.textContent) {
+      el.classList.remove('pop');
+      el.offsetHeight;
+      el.classList.add('pop');
+    }
+  } else {
+    el.textContent = '';
+  }
 }
 
 // ══════════════════════════════════════════
 //  QUIZ FLOW
 // ══════════════════════════════════════════
 function startQuiz() {
-  qIdx=0; score=0; history=[]; answered=false;
+  qIdx=0; score=0; correctCount=0; streak=0; maxStreak=0; history=[]; answered=false;
   const info=MODES[mode];
   setAccent(info.accent);
   document.getElementById('mode-label').textContent=info.label;
   document.getElementById('score-val').textContent='0';
+  document.getElementById('streak-badge').textContent='';
   showScreen('quiz');
   renderQuestion();
 }
 
 function renderQuestion() {
-  if (qIdx>=questions.length) { showResult(); return; }
+  if (qIdx>=questions.length){showResult();return;}
   answered=false;
   const ctry=questions[qIdx], total=questions.length;
 
-  // Progress
   document.getElementById('prog').style.width=`${(qIdx/total)*100}%`;
   document.getElementById('q-counter').textContent=`${qIdx+1}/${total}`;
 
@@ -464,7 +599,6 @@ function renderQuestion() {
   if (mode==='flag') {
     card.innerHTML=`<div class="q-label">Which country does this flag belong to?</div>
       <img class="q-flag" src="https://flagcdn.com/w320/${ctry.code}.png" alt="flag">`;
-
   } else if (mode==='map') {
     card.innerHTML=`<div class="q-label">Which country is shown on the map?</div>
       <div class="map-wrap-outer">
@@ -475,18 +609,14 @@ function renderQuestion() {
         </div>
       </div>`;
     setTimeout(()=>initLeaflet(ctry),60);
-
   } else if (mode==='cap2ctry') {
     card.innerHTML=`<div class="q-label">This is the capital of which country?</div>
       <div class="q-text">${ctry.capital}</div>`;
-
   } else if (mode==='ctry2cap') {
     field='capital';
     card.innerHTML=`<div class="q-label">What is the capital city of…</div>
       <div class="q-text">${ctry.name}</div>`;
-
   } else if (mode==='lang') {
-    // No language name shown — only the greeting phrase
     card.innerHTML=`<div class="q-label">Which country uses this greeting?</div>
       <div class="q-text">${ctry.greeting}</div>`;
   }
@@ -504,7 +634,6 @@ function renderQuestion() {
     btn.addEventListener('click',()=>pick(opt,btn));
     grid.appendChild(btn);
   });
-
   document.onkeydown=e=>{
     const i=['1','2','3','4'].indexOf(e.key);
     if(i!==-1){const b=grid.querySelectorAll('.ans-btn')[i];if(b&&!b.disabled)b.click();}
@@ -513,7 +642,7 @@ function renderQuestion() {
 }
 
 function initLeaflet(ctry) {
-  if (leafMap) { leafMap.remove(); leafMap=null; }
+  if(leafMap){leafMap.remove();leafMap=null;}
   leafMap=L.map('map-inner',{
     zoomControl:false,attributionControl:false,
     dragging:true,touchZoom:false,scrollWheelZoom:false,
@@ -526,46 +655,61 @@ function initLeaflet(ctry) {
 
 function startTimer() {
   clearInterval(timerInterval);
-  timeLeft=timePerQ;
-  updateTimer();
+  timeLeft=timePerQ; updateTimer();
   timerInterval=setInterval(()=>{
     timeLeft--; updateTimer();
     if(timeLeft<=0){clearInterval(timerInterval);timeOut();}
   },1000);
 }
 function updateTimer() {
-  const bar=document.getElementById('timer-bar'), num=document.getElementById('timer-num');
+  const bar=document.getElementById('timer-bar'),num=document.getElementById('timer-num');
   bar.style.width=`${(timeLeft/timePerQ)*100}%`;
   num.textContent=timeLeft;
   const urg=timeLeft<=Math.min(8,Math.ceil(timePerQ*.25));
   bar.classList.toggle('urgent',urg); num.classList.toggle('urgent',urg);
 }
-function timeOut() {
-  if(answered)return;
-  answered=true;
-  lockButtons(null);
-  history.push({q:getQSummary(),correct:correctAnswer,user:null});
-  setTimeout(nextQ,1500);
-}
-function pick(val,btn) {
-  if(answered)return;
-  answered=true;
-  clearInterval(timerInterval);
-  lockButtons(btn);
-  if(val===correctAnswer){score++;document.getElementById('score-val').textContent=score;}
-  history.push({q:getQSummary(),correct:correctAnswer,user:val});
-  setTimeout(nextQ,1400);
-}
+
 function lockButtons(clicked) {
-  // Immediately blur clicked button to clear mobile touch state
-  if(clicked) clicked.blur();
   document.querySelectorAll('.ans-btn').forEach(b=>{
-    b.disabled=true;
-    b.blur(); // Clear any hover/focus on ALL buttons
+    b.disabled=true; b.blur();
     if(b.dataset.val===correctAnswer) b.classList.add('correct');
     else if(b===clicked) b.classList.add('wrong');
   });
 }
+
+function timeOut() {
+  if(answered)return;
+  answered=true;
+  // streak breaks on timeout
+  streak=0; updateStreak();
+  lockButtons(null);
+  history.push({q:getQSummary(),correct:correctAnswer,user:null,bonus:0});
+  setTimeout(nextQ, 900); // ← 0.9초 후 다음 문제
+}
+
+function pick(val, btn) {
+  if(answered)return;
+  answered=true;
+  clearInterval(timerInterval);
+  lockButtons(btn);
+
+  if (val===correctAnswer) {
+    streak++;                   // 연속 정답 카운트 올리기
+    score += streak;            // score에 streak만큼 보너스 추가! (1연속=+1, 2연속=+2 ...)
+    correctCount++;
+    if (streak > maxStreak) maxStreak = streak;
+    document.getElementById('score-val').textContent = score;
+    updateStreak();
+    if (streak >= 3) showToast(`🔥 ${streak} Streak! +${streak} pts`);
+    history.push({q:getQSummary(),correct:correctAnswer,user:val,bonus:streak});
+  } else {
+    streak=0; updateStreak();   // 틀리면 streak 초기화
+    history.push({q:getQSummary(),correct:correctAnswer,user:val,bonus:0});
+  }
+
+  setTimeout(nextQ, 900); // ← setTimeout: 900ms(0.9초) 기다렸다가 nextQ 실행
+}
+
 function nextQ(){qIdx++;renderQuestion();}
 function getQSummary(){
   const c=questions[qIdx];
@@ -581,26 +725,28 @@ function getQSummary(){
 // ══════════════════════════════════════════
 function showResult() {
   if(leafMap){leafMap.remove();leafMap=null;}
-  clearInterval(timerInterval);
-  document.onkeydown=null;
+  clearInterval(timerInterval); document.onkeydown=null;
 
-  const total=questions.length, pct=score/total;
-  const pctStr=Math.round(pct*100)+'%';
+  const total=questions.length, pct=correctCount/total;
   const grades=[
-    {min:1.0,emoji:'🏆',title:'Perfect Score!',  msg:'Flawless! You\'re a true geography master!'},
+    {min:1.0,emoji:'🏆',title:'Perfect Score!',  msg:'Flawless! A true geography master!'},
     {min:0.8,emoji:'🎉',title:'Amazing!',         msg:'You really know your world geography!'},
     {min:0.6,emoji:'😊',title:'Good Job!',        msg:'Solid effort — keep exploring the world!'},
     {min:0.4,emoji:'🤔',title:'Not Bad!',         msg:'Room to improve — try again?'},
-    {min:0.0,emoji:'🌏',title:'Keep Exploring!', msg:'Geography takes practice. Give it another go!'},
+    {min:0.0,emoji:'🌏',title:'Keep Exploring!', msg:'Geography takes practice. One more go?'},
   ];
   const g=grades.find(x=>pct>=x.min);
 
   document.getElementById('r-emoji').textContent=g.emoji;
   document.getElementById('r-title').textContent=g.title;
   document.getElementById('r-score').textContent=score;
+  document.getElementById('r-correct').textContent=correctCount;
   document.getElementById('r-total').textContent=total;
-  document.getElementById('r-pct').textContent=pctStr;
+  document.getElementById('r-streak').textContent=maxStreak>=3?`🔥 Best streak: ${maxStreak}x`:'';
   document.getElementById('r-msg').textContent=g.msg;
+
+  const rc=getRoomCode();
+  document.getElementById('result-room-code').textContent=rc;
   setAccent(MODES[mode].accent);
 
   const rev=document.getElementById('review-items');
@@ -610,7 +756,7 @@ function showResult() {
     const d=document.createElement('div');
     d.className='review-item';
     d.innerHTML=`<div class="review-dot ${ok?'ok':'no'}"></div>
-      <div class="review-q">${h.q}</div>
+      <div class="review-q">${h.q}${h.bonus>=2?' 🔥+'+h.bonus:''}</div>
       <div class="review-a">${h.correct}</div>`;
     rev.appendChild(d);
   });
@@ -623,31 +769,31 @@ function showResult() {
 //  SHARE
 // ══════════════════════════════════════════
 function shareScore() {
-  const total=questions.length, pct=Math.round(score/total*100);
-  const stars=['😵','😰','😅','🙂','😄','🤩'][Math.min(5,Math.floor(pct/20))];
+  const total=questions.length, pct=Math.round(correctCount/total*100);
+  const emo=['😵','😰','😅','🙂','😄','🤩'][Math.min(5,Math.floor(pct/20))];
+  const streakLine = maxStreak>=3 ? `🔥 Best streak: ${maxStreak}x\n` : '';
   const text=
 `🌍 GeoQuiz App — ${MODES[mode].label}
-Score: ${score}/${total} (${pct}%) ${stars}
-${pct===100?'Perfect score!! 🏆':pct>=80?'So close to perfect!':pct>=60?'Not bad!':'I need more practice 😅'}
+${correctCount}/${total} correct · ${score} pts ${emo}
+${streakLine}
+🎮 같은 문제 풀기 → 룸코드: ${getRoomCode()}
+🔗 접속하기: ${GITHUB_URL}`;
 
-📲 Play GeoQuiz App — ask me for the file!`;
-
-  if (navigator.share) {
-    navigator.share({title:'GeoQuiz App',text}).catch(()=>{});
+  if(navigator.share){
+    navigator.share({title:'GeoQuiz App',text,url:GITHUB_URL}).catch(()=>{});
   } else {
     navigator.clipboard.writeText(text)
-      .then(()=>showToast('📋 Score copied to clipboard!'))
-      .catch(()=>showToast('❌ Could not copy — try again'));
+      .then(()=>showToast('📋 Score copied! 친구한테 공유해봐 🎮'))
+      .catch(()=>showToast('❌ Copy failed, try again'));
   }
 }
 
 // ══════════════════════════════════════════
-//  NAVIGATION
+//  NAV
 // ══════════════════════════════════════════
-function goHome() {
+function goHome(){
   if(leafMap){leafMap.remove();leafMap=null;}
-  clearInterval(timerInterval);
-  document.onkeydown=null;
+  clearInterval(timerInterval); document.onkeydown=null;
   showScreen('home');
 }
 
