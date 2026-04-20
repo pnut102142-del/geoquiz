@@ -39,6 +39,13 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .hero-sub{color:var(--muted);font-size:1rem;margin-bottom:14px}
 .hero-stats{display:inline-flex;align-items:center;gap:16px;background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:7px 18px;font-size:.8rem;color:var(--muted)}
 .hero-stats span{color:var(--text);font-weight:700}
+
+/* ↓↓ 여기에 추가 ↓↓ */
+.hero-name{display:inline-flex;align-items:center;gap:8px;margin-top:12px;padding:7px 16px;background:var(--surface);border:1px solid var(--border);border-radius:999px;font-size:.85rem;color:var(--muted);cursor:pointer;transition:border-color .15s,color .15s}
+.hero-name:hover{border-color:var(--accent);color:var(--text)}
+.hero-name strong{color:var(--accent);font-weight:700}
+.hero-name-hint{font-size:.75rem;color:var(--muted);opacity:.7}
+  
 .mode-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:13px;margin-bottom:20px}
 .mode-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:26px 20px;cursor:pointer;transition:transform .2s,border-color .2s,box-shadow .2s;position:relative;overflow:hidden;user-select:none}
 .mode-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--c,#60a5fa);border-radius:var(--r) var(--r) 0 0}
@@ -185,15 +192,19 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 </head>
 <body>
 <!-- HOME -->
-<div id="home" class="screen active">
-  <div class="hero">
-    <span class="hero-globe">🌍</span>
-    <h1 class="hero-title">GeoQuiz App</h1>
-    <p class="hero-sub">World Geography Quiz — 5 modes · 4 difficulties · 112 countries</p>
-    <div class="hero-stats">
-      👁 Today <span id="views-today">—</span> &nbsp;·&nbsp; Total <span id="views-total">—</span>
-    </div>
+<div class="hero">
+  <span class="hero-globe">🌍</span>
+  <h1 class="hero-title">GeoQuiz App</h1>
+  <p class="hero-sub">World Geography Quiz — 5 modes · 4 difficulties · 112 countries</p>
+  <div class="hero-stats">
+    👁 Today <span id="views-today">—</span> &nbsp;·&nbsp; Total <span id="views-total">—</span>
   </div>
+  <!-- ↓↓ 여기에 추가 ↓↓ -->
+  <div class="hero-name" id="hero-name" onclick="changeName()">
+    👋 Playing as: <strong id="hero-name-val">—</strong>
+    <span class="hero-name-hint">(click to change)</span>
+  </div>
+</div>
   <div class="mode-grid">
     <div class="mode-card" style="--c:#f59e0b" onclick="openSettings('flag')">
       <span class="mode-icon">🚩</span>
@@ -475,6 +486,29 @@ const MODES={
   ctry2cap:{label:'🌆 Country → Capital', accent:'#8b5cf6',icon:'🌆'},
   lang:    {label:'👋 Greeting Quiz',     accent:'#ec4899',icon:'👋'},
 };
+  function ensureName(){
+  let name = localStorage.getItem('gq_name');
+  while(!name || !name.trim()){
+    name = prompt("👋 Welcome to GeoQuiz!\nWhat name should appear on the leaderboard?", "");
+    if(name === null){ name = 'Anonymous'; break; }
+  }
+  name = name.trim().slice(0,16) || 'Anonymous';
+  localStorage.setItem('gq_name', name);
+  const el = document.getElementById('hero-name-val');
+  if(el) el.textContent = name;
+}
+
+function changeName(){
+  const cur = localStorage.getItem('gq_name') || '';
+  const nw = prompt('Change your name:', cur);
+  if(nw && nw.trim()){
+    const clean = nw.trim().slice(0,16);
+    localStorage.setItem('gq_name', clean);
+    document.getElementById('hero-name-val').textContent = clean;
+    showToast('✅ Name updated!');
+  }
+}
+  
 // ── FIREBASE ───────────────────────────────────────────────────────
 async function fbGet(p){try{const r=await fetch(`${FB_URL}${p}.json`);return r.json();}catch{return null;}}
 async function fbSet(p,v){try{await fetch(`${FB_URL}${p}.json`,{method:'PUT',body:JSON.stringify(v),headers:{'Content-Type':'application/json'}});}catch{}}
@@ -839,6 +873,7 @@ function goHome(){
 // ── INIT ───────────────────────────────────────────────────────────
 // ── INIT ───────────────────────────────────────────────────────────
 initViews();
+ensureName();  // ← 추가
 
 // URL에 ?room=XXX 있으면 자동 입장
 (function(){
