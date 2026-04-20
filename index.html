@@ -814,6 +814,7 @@ function showResult(){
     {min:0.4,emoji:'🤔',title:'Not Bad!',    msg:'Practice makes perfect — you can do better!'},
     {min:0.0,emoji:'🌏',title:'Keep Trying!',msg:'Geography takes practice. Give it another go!'},
   ];
+  submitScore();  // 이름은 localStorage에서 자동으로 가져감
   const g=grades.find(x=>pct>=x.min);
   document.getElementById('r-emoji').textContent=g.emoji;
   document.getElementById('r-title').textContent=g.title;
