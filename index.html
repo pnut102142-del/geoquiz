@@ -2130,21 +2130,23 @@ function cwStartGuessTimer() {
     cwTimeLeft--;
     cwUpdateTimerUI();
 
-   if (cwTimeLeft <= 0) {
-      clearInterval(cwTimerInterval);
-      cwGuesses.unshift({ isTimeout: true });
-      updateCWAttemptsDisplay();
-      renderCWGuesses();
-      showToast('⏰ 시간 초과\! 기회 -1');
-      if (cwMaxAttempts \!== Infinity && cwGuesses.length >= cwMaxAttempts) {
-        cwEndGame(false);
-      } else {
-        cwStartGuessTimer();
-      }
-    }
+if (cwTimeLeft <= 0) {
+    clearInterval(cwTimerInterval);
+    cwGuesses.unshift({ isTimeout: true });
+    updateCWAttemptsDisplay();
+    renderCWGuesses();
+    showToast('⏰ 시간 초과! 기회 -1'); // \ 제거
     
-  }, 1000);
+    if (cwMaxAttempts !== Infinity && cwGuesses.length >= cwMaxAttempts) { // \ 제거
+      cwEndGame(false);
+    } else {
+      cwStartGuessTimer();
+    }
+  }
+    
+}, 1000);
 }
+  
 function cwUpdateTimerUI() {
   const bar = document.getElementById('cw-timer-bar');
   const num  = document.getElementById('cw-timer-num');
