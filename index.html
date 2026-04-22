@@ -2208,26 +2208,34 @@ function cwOnKeydown(e) {
   if (e.key === 'Enter') cwSubmit();
 }
 
-/* ── 추측 제출 ── */
-function cwSubmit() {
+/* ── 추측 제출 ── */function cwSubmit() {
   if (cwDone) return;
   const raw = document.getElementById('cw-input').value.trim();
   if (!raw) return;
 
+  // [수정] 제출 시작하자마자 돌아가던 타이머를 즉시 멈춥니다!
+  clearInterval(cwTimerInterval);
+
   // 국가 매칭 (대소문자 무시)
   const matched = countries.find(c => c.name.toLowerCase() === raw.toLowerCase());
-  if (!matched) { showToast('❌ Unknown country — check spelling'); return; }
+  if (!matched) { 
+    showToast('❌ Unknown country — check spelling'); 
+    // 매칭 안 됐을 때 타이머를 다시 살려줘야 흐름이 안 끊깁니다.
+    if (cwSettings.time > 0) cwStartGuessTimer();
+    return; 
+  }
 
   // 이미 추측한 국가 체크
   if (cwGuesses.find(g => g.name === matched.name)) {
-    showToast('⚠️ Already guessed!'); return;
+    showToast('⚠️ Already guessed!'); 
+    if (cwSettings.time > 0) cwStartGuessTimer();
+    return;
   }
 
   document.getElementById('cw-input').value = '';
   document.getElementById('cw-autocomplete').className = 'cw-autocomplete';
 
   const dist = Math.round(haversineKm(matched.lat, matched.lng, cwTarget.lat, cwTarget.lng));
-  console.log(`[CW] target: ${cwTarget.name} (${cwTarget.lat},${cwTarget.lng}) | guess: ${matched.name} (${matched.lat},${matched.lng}) | dist: ${dist}km`);
   const bear = bearing(matched.lat, matched.lng, cwTarget.lat, cwTarget.lng);
   const arrow = bearingArrow(bear);
   const cf = cwDistColor(dist);
@@ -2237,15 +2245,9 @@ function cwSubmit() {
   renderCWGuesses();
   updateCWAttemptsDisplay();
 
-  // 지도에 GeoJSON 하이라이트 — dist 명시적으로 전달
+  // 지도 하이라이트
   cwHighlightCountry(matched, dist, cf, isWin);
 
-    if (g.isTimeout) {
-      return `<div class="cw-guess-row" style="border-color:#ef4444;opacity:.6;animation-delay:0s">
-        <div style="flex:1;color:#ef4444;font-size:.85rem">⏰ Time's up — skipped</div>
-      </div>`;
-    }
-  
   // 힌트 텍스트 업데이트
   if (!isWin) {
     const distTxt = `${dist.toLocaleString()} km`;
@@ -2254,13 +2256,11 @@ function cwSubmit() {
   }
 
   if (isWin) {
-    clearInterval(cwTimerInterval);
-    cwEndGame(true);
+    cwEndGame(true); // 위에서 이미 clearInterval을 했으므로 여기선 끝내기만 함
   } else if (cwMaxAttempts !== Infinity && cwGuesses.length >= cwMaxAttempts) {
-    clearInterval(cwTimerInterval);
     cwEndGame(false);
   } else {
-    // 다음 추측 타이머 재시작
+    // [수정] 맞히지 못했다면 다음 턴을 위해 타이머 재시작
     if (cwSettings.time > 0) cwStartGuessTimer();
   }
 }
