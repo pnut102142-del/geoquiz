@@ -2408,7 +2408,7 @@ function cwEndGame(win) {
 
 /* ── 공유 ── */
 function shareCWScore() {
-  const win = \!\!cwGuesses.find(g => g.isWin);
+  const win = !!cwGuesses.find(g => g.isWin);
   const total = cwGuesses.length;
   const maxStr = cwMaxAttempts === Infinity ? '∞' : cwMaxAttempts;
   const diffLabel = { easy:'∞ attempts', medium:'12 attempts', hard:'6 attempts' }[cwSettings.diff] || '';
