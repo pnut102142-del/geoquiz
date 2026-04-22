@@ -660,10 +660,19 @@ body{
     <div class="setting-group">
       <div class="setting-label">Time per Round</div>
       <div class="pill-row" id="gg-time-pills">
-        <button class="pill" data-val="30">30s</button>
-        <button class="pill active" data-val="60">60s</button>
+        <button class="pill" data-val="5">5s</button>
+        <button class="pill" data-val="10">10s</button>
+        <button class="pill active" data-val="30">30s</button>
         <button class="pill" data-val="0">No Limit</button>
       </div>
+    </div>
+    <div class="modal-room">
+      <div class="modal-room-label">🎮 Room Code — Share with friends to play the same questions</div>
+      <div class="modal-room-row">
+        <span class="modal-room-code" id="gg-modal-room-code">GG-FLAG-E-5-30-000000</span>
+        <button class="copy-code-btn" onclick="copyGGCode()">📋 Copy</button>
+      </div>
+      <div class="modal-room-hint">Friends enter this code → same countries, same order!</div>
     </div>
     <div class="modal-btns">
       <button class="btn btn-secondary" onclick="closeGGSettings()">Cancel</button>
@@ -859,8 +868,25 @@ body{
         <button class="pill" data-val="mix">🌏 All (112)</button>
       </div>
     </div>
+    <div class="setting-group">
+      <div class="setting-label">Time per Guess</div>
+      <div class="pill-row" id="cw-time-pills">
+        <button class="pill" data-val="5">5s</button>
+        <button class="pill" data-val="10">10s</button>
+        <button class="pill" data-val="30">30s</button>
+        <button class="pill active" data-val="0">No Limit</button>
+      </div>
+    </div>
+    <div class="modal-room">
+      <div class="modal-room-label">🎮 Room Code — Share with friends to play the same country</div>
+      <div class="modal-room-row">
+        <span class="modal-room-code" id="cw-modal-room-code">CW-E-E-0-000000</span>
+        <button class="copy-code-btn" onclick="copyCWCode()">📋 Copy</button>
+      </div>
+      <div class="modal-room-hint">Friends enter this code → same mystery country, same settings!</div>
+    </div>
     <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;font-size:.83rem;color:var(--muted);line-height:1.6">
-      🧭 A mystery country is chosen. Type any country name to guess — you'll see the distance &amp; direction from your guess to the answer. Hot colors = closer!
+      🧭 A mystery country is chosen. Type any country name to guess — you'll see the distance from your guess to the answer. Hot colors = closer!
     </div>
     <div class="modal-btns" style="margin-top:20px">
       <button class="btn btn-secondary" onclick="closeCWSettings()">Cancel</button>
@@ -876,8 +902,12 @@ body{
   <div class="cw-topbar">
     <button class="back-btn" onclick="goHome()">← Home</button>
     <div class="cw-title">🧭 Country Wordle</div>
+    <div class="timer-bar-wrap" id="cw-timer-wrap" style="width:80px;display:none">
+      <div class="timer-bar" id="cw-timer-bar"></div>
+    </div>
+    <div class="timer-num" id="cw-timer-num" style="display:none">30</div>
     <div class="cw-attempts" id="cw-attempts-badge">∞ attempts</div>
-    <button class="btn btn-secondary" style="padding:6px 14px;font-size:.8rem" onclick="startCountryWordle()">New Game</button>
+    <button class="btn btn-secondary" style="padding:6px 14px;font-size:.8rem" onclick="openWordleSettings()">New Game</button>
   </div>
 
   <!-- 힌트 박스 -->
@@ -1399,12 +1429,13 @@ function confirmSettings(){
    GEO GUESSING — SETTINGS
 ════════════════════════════════════════════════════════════ */
 function openGeoGuessSettings(){
+  ggSettings.seed = ggSettings.seed || newSeed();
   // 클루 필
   document.getElementById('gg-clue-pills').querySelectorAll('.pill').forEach(p=>{
     p.classList.toggle('active',p.dataset.val===ggSettings.clue);
     p.onclick=()=>{
       document.getElementById('gg-clue-pills').querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
-      p.classList.add('active');ggSettings.clue=p.dataset.val;
+      p.classList.add('active');ggSettings.clue=p.dataset.val;updateGGRoomCode();
     };
   });
   // 난이도
@@ -1412,7 +1443,7 @@ function openGeoGuessSettings(){
     p.classList.toggle('active',p.dataset.val===ggSettings.diff);
     p.onclick=()=>{
       document.getElementById('gg-diff-pills').querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
-      p.classList.add('active');ggSettings.diff=p.dataset.val;
+      p.classList.add('active');ggSettings.diff=p.dataset.val;updateGGRoomCode();
     };
   });
   // 라운드 수
@@ -1420,7 +1451,7 @@ function openGeoGuessSettings(){
     p.classList.toggle('active',parseInt(p.dataset.val)===ggSettings.rounds);
     p.onclick=()=>{
       document.getElementById('gg-round-pills').querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
-      p.classList.add('active');ggSettings.rounds=parseInt(p.dataset.val);
+      p.classList.add('active');ggSettings.rounds=parseInt(p.dataset.val);updateGGRoomCode();
     };
   });
   // 시간
@@ -1428,9 +1459,10 @@ function openGeoGuessSettings(){
     p.classList.toggle('active',parseInt(p.dataset.val)===ggSettings.time);
     p.onclick=()=>{
       document.getElementById('gg-time-pills').querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
-      p.classList.add('active');ggSettings.time=parseInt(p.dataset.val);
+      p.classList.add('active');ggSettings.time=parseInt(p.dataset.val);updateGGRoomCode();
     };
   });
+  updateGGRoomCode();
   document.getElementById('gg-settings-modal').classList.add('active');
 }
 function closeGGSettings(){document.getElementById('gg-settings-modal').classList.remove('active');}
@@ -1440,8 +1472,10 @@ function closeGGSettings(){document.getElementById('gg-settings-modal').classLis
 ════════════════════════════════════════════════════════════ */
 function startGeoGuess(){
   closeGGSettings();
-  // 라운드 준비
-  const pool=shuffle(getPool(ggSettings.diff));
+  // seed 기반 셔플로 동일한 순서 보장
+  const seed = ggSettings.seed || newSeed();
+  ggSettings.seed = seed;
+  const pool = seededShuffle(getPool(ggSettings.diff), seed);
   ggRounds=pool.slice(0,Math.min(ggSettings.rounds,pool.length));
   ggCurrentRound=0;ggTotalScore=0;ggResults=[];
   showScreen('geoguess');
@@ -1905,16 +1939,23 @@ function shareScore(){
 /* ════════════════════════════════════════════════════════════
    COUNTRY WORDLE — STATE & SETTINGS
 ════════════════════════════════════════════════════════════ */
-let cwSettings = { diff: 'medium', pool: 'easy' };
+let cwSettings = { diff: 'medium', pool: 'easy', time: 0 };
 let cwTarget = null;
 let cwGuesses = [];
 let cwMaxAttempts = 12;
 let cwDone = false;
 let cwAcHighlight = -1;
-let cwMap = null;           // Leaflet 지도
-let cwGeoLayers = [];       // GeoJSON 레이어들 (누적)
+let cwMap = null;
+let cwGeoLayers = [];
+let cwSeed = null;
+let cwTimerInterval = null;
+let cwTimeLeft = 0;
 
 const CW_MAX = { easy: Infinity, medium: 12, hard: 6 };
+const CW_DIFF_ENC = { easy:'E', medium:'M', hard:'H' };
+const CW_DIFF_DEC = { E:'easy', M:'medium', H:'hard' };
+const CW_POOL_ENC = { easy:'E', medium:'M', mix:'X' };
+const CW_POOL_DEC = { E:'easy', M:'medium', X:'mix' };
 
 /* 방향 계산 (bearing → 화살표) */
 function bearing(lat1, lng1, lat2, lng2) {
@@ -1942,20 +1983,70 @@ function cwDistColor(km) {
   return           { cls:'cw-frozen',  tc:'tc-frozen',  label:'🥶',     hex:'#a78bfa' }; // 반대편
 }
 
+/* ── CW 룸코드 ── */
+function getCWRoomCode() {
+  const d = CW_DIFF_ENC[cwSettings.diff] || 'M';
+  const p = CW_POOL_ENC[cwSettings.pool] || 'E';
+  const t = cwSettings.time;
+  const s = cwSeed || 0;
+  return `CW-${d}-${p}-${t}-${s}`;
+}
+function updateCWRoomCode() {
+  const el = document.getElementById('cw-modal-room-code');
+  if (el) el.textContent = getCWRoomCode();
+}
+function copyCWCode() {
+  navigator.clipboard.writeText(getCWRoomCode()).then(() => showToast('📋 Room code copied!'));
+}
+function parseCWRoomCode(raw) {
+  const p = raw.trim().toUpperCase().split('-');
+  if (p.length !== 5 || p[0] !== 'CW') return null;
+  const diff = CW_DIFF_DEC[p[1]]; if (!diff) return null;
+  const pool = CW_POOL_DEC[p[2]]; if (!pool) return null;
+  const time = parseInt(p[3]); if (isNaN(time)) return null;
+  const seed = parseInt(p[4]); if (isNaN(seed)) return null;
+  return { diff, pool, time, seed };
+}
+
+/* ── GG 룸코드 업데이트 ── */
+function getGGRoomCode() {
+  const c = ggSettings.clue.toUpperCase().slice(0,4);
+  const d = DIFF_ENCODE[ggSettings.diff] || 'M';
+  const r = ggSettings.rounds;
+  const t = ggSettings.time;
+  const s = ggSettings.seed || 0;
+  return `GG-${c}-${d}-${r}-${t}-${s}`;
+}
+function updateGGRoomCode() {
+  const el = document.getElementById('gg-modal-room-code');
+  if (el) el.textContent = getGGRoomCode();
+}
+function copyGGCode() {
+  navigator.clipboard.writeText(getGGRoomCode()).then(() => showToast('📋 Room code copied!'));
+}
+
 /* ── 설정 모달 ── */
 function openWordleSettings() {
-  ['cw-diff-pills','cw-pool-pills'].forEach(id => {
+  cwSeed = cwSeed || newSeed();
+  const groups = {
+    'cw-diff-pills': 'diff',
+    'cw-pool-pills': 'pool',
+    'cw-time-pills': 'time',
+  };
+  Object.entries(groups).forEach(([id, key]) => {
     const grp = document.getElementById(id);
-    const key = id === 'cw-diff-pills' ? 'diff' : 'pool';
     grp.querySelectorAll('.pill').forEach(p => {
-      p.classList.toggle('active', p.dataset.val === cwSettings[key]);
+      const val = key === 'time' ? parseInt(p.dataset.val) : p.dataset.val;
+      p.classList.toggle('active', val === cwSettings[key] || String(val) === String(cwSettings[key]));
       p.onclick = () => {
         grp.querySelectorAll('.pill').forEach(x => x.classList.remove('active'));
         p.classList.add('active');
-        cwSettings[key] = p.dataset.val;
+        cwSettings[key] = key === 'time' ? parseInt(p.dataset.val) : p.dataset.val;
+        updateCWRoomCode();
       };
     });
   });
+  updateCWRoomCode();
   document.getElementById('cw-settings-modal').classList.add('active');
 }
 function closeCWSettings() {
@@ -1963,17 +2054,20 @@ function closeCWSettings() {
 }
 
 /* ── 게임 시작 ── */
-function startCountryWordle() {
+function startCountryWordle(fromCode) {
   closeCWSettings();
   cwGuesses = [];
   cwDone = false;
   cwAcHighlight = -1;
   cwMaxAttempts = CW_MAX[cwSettings.diff];
   cwGeoLayers = [];
+  clearInterval(cwTimerInterval);
 
-  // 풀 선택
+  // seed 기반으로 정답 선택
+  if (!fromCode) cwSeed = newSeed();
   const pool = getPool(cwSettings.pool);
-  cwTarget = pool[Math.floor(Math.random() * pool.length)];
+  const rng = mulberry32(cwSeed);
+  cwTarget = pool[Math.floor(rng() * pool.length)];
 
   // UI 초기화
   document.getElementById('cw-guesses').innerHTML = '';
@@ -1985,8 +2079,20 @@ function startCountryWordle() {
   updateCWAttemptsDisplay();
   document.getElementById('cw-hint-text').textContent = 'Enter the name of any country to make your first guess.';
   document.getElementById('cw-map-placeholder').style.display = 'flex';
+  updateCWRoomCode();
 
   showScreen('countrywordle');
+
+  // 타이머 UI
+  const timerWrap = document.getElementById('cw-timer-wrap');
+  const timerNum  = document.getElementById('cw-timer-num');
+  if (cwSettings.time > 0) {
+    timerWrap.style.display = 'block';
+    timerNum.style.display  = 'block';
+  } else {
+    timerWrap.style.display = 'none';
+    timerNum.style.display  = 'none';
+  }
 
   // 지도 초기화
   if (cwMap) { cwMap.remove(); cwMap = null; }
@@ -1997,13 +2103,13 @@ function startCountryWordle() {
       minZoom: 1, maxZoom: 8,
       scrollWheelZoom: false
     }).setView([20, 10], 2);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
-      maxZoom: 19
-    }).addTo(cwMap);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', { maxZoom: 19 }).addTo(cwMap);
     cwMap.invalidateSize();
   }, 80);
 
   document.getElementById('cw-input').focus();
+  if (cwSettings.time > 0) cwStartGuessTimer();
+}
 }
 
 function updateCWAttemptsDisplay() {
@@ -2011,6 +2117,35 @@ function updateCWAttemptsDisplay() {
   const total = cwMaxAttempts === Infinity ? '∞' : cwMaxAttempts;
   document.getElementById('cw-attempts-badge').textContent =
     cwMaxAttempts === Infinity ? '∞ attempts' : `${left} / ${total} left`;
+}
+
+/* ── CW 추측당 타이머 ── */
+function cwStartGuessTimer() {
+  clearInterval(cwTimerInterval);
+  if (cwSettings.time <= 0 || cwDone) return;
+  cwTimeLeft = cwSettings.time;
+  cwUpdateTimerUI();
+  cwTimerInterval = setInterval(() => {
+    cwTimeLeft--;
+    cwUpdateTimerUI();
+    if (cwTimeLeft <= 0) {
+      clearInterval(cwTimerInterval);
+      // 시간 초과 → 강제 제출 (입력값 있으면 제출, 없으면 패스)
+      const val = document.getElementById('cw-input').value.trim();
+      if (val) cwSubmit();
+      else showToast('⏰ Time\'s up! Try a country!');
+      // 다음 추측 타이머는 cwSubmit 내부에서 재시작
+    }
+  }, 1000);
+}
+function cwUpdateTimerUI() {
+  const bar = document.getElementById('cw-timer-bar');
+  const num  = document.getElementById('cw-timer-num');
+  const pct  = (cwTimeLeft / cwSettings.time) * 100;
+  bar.style.width = `${pct}%`;
+  bar.style.background = cwTimeLeft <= 3 ? '#ef4444' : '#a78bfa';
+  num.textContent = cwTimeLeft;
+  num.style.color = cwTimeLeft <= 3 ? '#ef4444' : 'var(--muted)';
 }
 
 /* ── 자동완성 ── */
@@ -2104,9 +2239,14 @@ function cwSubmit() {
   }
 
   if (isWin) {
+    clearInterval(cwTimerInterval);
     cwEndGame(true);
   } else if (cwMaxAttempts !== Infinity && cwGuesses.length >= cwMaxAttempts) {
+    clearInterval(cwTimerInterval);
     cwEndGame(false);
+  } else {
+    // 다음 추측 타이머 재시작
+    if (cwSettings.time > 0) cwStartGuessTimer();
   }
 }
 
@@ -2242,7 +2382,7 @@ function goHome(){
   if(ggResultMap){ggResultMap.remove();ggResultMap=null;}
   if(cwMap){cwMap.remove();cwMap=null;}
   cwGeoLayers=[];
-  clearInterval(timerInterval);clearInterval(ggTimerInterval);
+  clearInterval(timerInterval);clearInterval(ggTimerInterval);clearInterval(cwTimerInterval);
   document.onkeydown=null;showScreen('home');
 }
 
