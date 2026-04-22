@@ -2436,13 +2436,12 @@ function shareCWScore() {
     `Difficulty: ${diffLabel}\n` +
     `\n👉 Play: ${GITHUB_URL}`;
  
-  if (navigator.share) {
+ if (navigator.share) {
     navigator.share({ title: 'Country Wordle', text }).catch(() => {});
   } else {
-    navigator.clipboard.writeText(text).then(() => showToast('📋 Copied\! Share with friends 🌍'));
+    navigator.clipboard.writeText(text).then(() => showToast('📋 Copied! Share with friends 🌍'));
   }
 }
- 
 
 /* ════════════════════════════════════════════════════════════
    NAV
