@@ -971,122 +971,122 @@ const DIFF_LABEL={easy:'🟢 Easy',medium:'🟡 Medium',hard:'🔴 Hard',mix:'�
 
 /* ── 국가 데이터 ── */
 const countries=[
-  // EASY (30)
-  {name:"United States",     code:"us",capital:"Washington D.C.", greeting:"Hey there!",                           lat:38.9, lng:-95.7,  zoom:4, diff:'easy'},
-  {name:"France",            code:"fr",capital:"Paris",           greeting:"Bonjour!",                             lat:46.2, lng:2.2,    zoom:5, diff:'easy'},
-  {name:"Germany",           code:"de",capital:"Berlin",          greeting:"Guten Tag!",                           lat:51.2, lng:10.5,   zoom:5, diff:'easy'},
-  {name:"United Kingdom",    code:"gb",capital:"London",          greeting:"Hello, mate!",                         lat:54.4, lng:-3.4,   zoom:5, diff:'easy'},
-  {name:"Italy",             code:"it",capital:"Rome",            greeting:"Ciao!",                                lat:41.9, lng:12.6,   zoom:5, diff:'easy'},
-  {name:"Spain",             code:"es",capital:"Madrid",          greeting:"¡Hola!",                               lat:40.5, lng:-3.7,   zoom:5, diff:'easy'},
-  {name:"Canada",            code:"ca",capital:"Ottawa",          greeting:"Hello / Bonjour!",                     lat:56.1, lng:-106.3, zoom:4, diff:'easy'},
-  {name:"Japan",             code:"jp",capital:"Tokyo",           greeting:"Konnichiwa (こんにちは)",                lat:36.2, lng:138.3,  zoom:5, diff:'easy'},
-  {name:"China",             code:"cn",capital:"Beijing",         greeting:"Nǐ hǎo (你好)",                        lat:35.9, lng:104.2,  zoom:4, diff:'easy'},
-  {name:"India",             code:"in",capital:"New Delhi",       greeting:"Namaste (नमस्ते)",                     lat:20.6, lng:78.9,   zoom:4, diff:'easy'},
-  {name:"Russia",            code:"ru",capital:"Moscow",          greeting:"Zdravstvuyte (Здравствуйте)",          lat:62.0, lng:94.0,   zoom:3, diff:'easy'},
-  {name:"Australia",         code:"au",capital:"Canberra",        greeting:"G'day!",                               lat:-25.3,lng:133.8,  zoom:4, diff:'easy'},
-  {name:"Brazil",            code:"br",capital:"Brasília",        greeting:"Olá, tudo bem?",                       lat:-14.2,lng:-51.9,  zoom:4, diff:'easy'},
-  {name:"South Korea",       code:"kr",capital:"Seoul",           greeting:"Annyeonghaseyo (안녕하세요)",            lat:35.9, lng:127.8,  zoom:6, diff:'easy'},
-  {name:"Mexico",            code:"mx",capital:"Mexico City",     greeting:"¡Hola! ¿Qué tal?",                    lat:23.6, lng:-102.6, zoom:5, diff:'easy'},
-  {name:"Argentina",         code:"ar",capital:"Buenos Aires",    greeting:"¡Hola, che!",                         lat:-38.4,lng:-63.6,  zoom:4, diff:'easy'},
-  {name:"Netherlands",       code:"nl",capital:"Amsterdam",       greeting:"Goedendag!",                           lat:52.1, lng:5.3,    zoom:7, diff:'easy'},
-  {name:"Sweden",            code:"se",capital:"Stockholm",       greeting:"Hej!",                                 lat:63.1, lng:16.0,   zoom:5, diff:'easy'},
-  {name:"Norway",            code:"no",capital:"Oslo",            greeting:"Hei!",                                 lat:64.6, lng:17.9,   zoom:5, diff:'easy'},
-  {name:"Poland",            code:"pl",capital:"Warsaw",          greeting:"Dzień dobry!",                         lat:51.9, lng:19.1,   zoom:6, diff:'easy'},
-  {name:"Greece",            code:"gr",capital:"Athens",          greeting:"Γεια σας (Yia sas)",                   lat:39.1, lng:22.1,   zoom:6, diff:'easy'},
-  {name:"Portugal",          code:"pt",capital:"Lisbon",          greeting:"Olá!",                                 lat:39.6, lng:-8.0,   zoom:6, diff:'easy'},
-  {name:"Switzerland",       code:"ch",capital:"Bern",            greeting:"Grüezi!",                              lat:46.8, lng:8.2,    zoom:7, diff:'easy'},
-  {name:"Austria",           code:"at",capital:"Vienna",          greeting:"Grüß Gott!",                           lat:47.5, lng:14.1,   zoom:7, diff:'easy'},
-  {name:"Belgium",           code:"be",capital:"Brussels",        greeting:"Goedendag / Bonjour",                  lat:50.5, lng:4.5,    zoom:8, diff:'easy'},
-  {name:"Denmark",           code:"dk",capital:"Copenhagen",      greeting:"Hej!",                                 lat:56.3, lng:9.5,    zoom:6, diff:'easy'},
-  {name:"Finland",           code:"fi",capital:"Helsinki",        greeting:"Hei!",                                 lat:64.0, lng:26.0,   zoom:5, diff:'easy'},
-  {name:"Ireland",           code:"ie",capital:"Dublin",          greeting:"Dia duit!",                            lat:53.2, lng:-8.2,   zoom:7, diff:'easy'},
-  {name:"New Zealand",       code:"nz",capital:"Wellington",      greeting:"Kia ora (Māori)",                      lat:-40.9,lng:172.7,  zoom:5, diff:'easy'},
-  {name:"Singapore",         code:"sg",capital:"Singapore",       greeting:"Hello lah! (Singlish)",                lat:1.4,  lng:103.8,  zoom:11,diff:'easy'},
+  // EASY (30) — 수도 좌표 기준
+  {name:"United States",     code:"us",capital:"Washington D.C.", greeting:"Hey there!",                           lat:38.9, lng:-77.0,  zoom:4, diff:'easy'},
+  {name:"France",            code:"fr",capital:"Paris",           greeting:"Bonjour!",                             lat:48.9, lng:2.3,    zoom:5, diff:'easy'},
+  {name:"Germany",           code:"de",capital:"Berlin",          greeting:"Guten Tag!",                           lat:52.5, lng:13.4,   zoom:5, diff:'easy'},
+  {name:"United Kingdom",    code:"gb",capital:"London",          greeting:"Hello, mate!",                         lat:51.5, lng:-0.1,   zoom:5, diff:'easy'},
+  {name:"Italy",             code:"it",capital:"Rome",            greeting:"Ciao!",                                lat:41.9, lng:12.5,   zoom:5, diff:'easy'},
+  {name:"Spain",             code:"es",capital:"Madrid",          greeting:"¡Hola!",                               lat:40.4, lng:-3.7,   zoom:5, diff:'easy'},
+  {name:"Canada",            code:"ca",capital:"Ottawa",          greeting:"Hello / Bonjour!",                     lat:45.4, lng:-75.7,  zoom:4, diff:'easy'},
+  {name:"Japan",             code:"jp",capital:"Tokyo",           greeting:"Konnichiwa (こんにちは)",                lat:35.7, lng:139.7,  zoom:5, diff:'easy'},
+  {name:"China",             code:"cn",capital:"Beijing",         greeting:"Nǐ hǎo (你好)",                        lat:39.9, lng:116.4,  zoom:4, diff:'easy'},
+  {name:"India",             code:"in",capital:"New Delhi",       greeting:"Namaste (नमस्ते)",                     lat:28.6, lng:77.2,   zoom:4, diff:'easy'},
+  {name:"Russia",            code:"ru",capital:"Moscow",          greeting:"Zdravstvuyte (Здравствуйте)",          lat:55.7, lng:37.6,   zoom:3, diff:'easy'},
+  {name:"Australia",         code:"au",capital:"Canberra",        greeting:"G'day!",                               lat:-35.3,lng:149.1,  zoom:4, diff:'easy'},
+  {name:"Brazil",            code:"br",capital:"Brasília",        greeting:"Olá, tudo bem?",                       lat:-15.8,lng:-47.9,  zoom:4, diff:'easy'},
+  {name:"South Korea",       code:"kr",capital:"Seoul",           greeting:"Annyeonghaseyo (안녕하세요)",            lat:37.6, lng:127.0,  zoom:6, diff:'easy'},
+  {name:"Mexico",            code:"mx",capital:"Mexico City",     greeting:"¡Hola! ¿Qué tal?",                    lat:19.4, lng:-99.1,  zoom:5, diff:'easy'},
+  {name:"Argentina",         code:"ar",capital:"Buenos Aires",    greeting:"¡Hola, che!",                         lat:-34.6,lng:-58.4,  zoom:4, diff:'easy'},
+  {name:"Netherlands",       code:"nl",capital:"Amsterdam",       greeting:"Goedendag!",                           lat:52.4, lng:4.9,    zoom:7, diff:'easy'},
+  {name:"Sweden",            code:"se",capital:"Stockholm",       greeting:"Hej!",                                 lat:59.3, lng:18.1,   zoom:5, diff:'easy'},
+  {name:"Norway",            code:"no",capital:"Oslo",            greeting:"Hei!",                                 lat:59.9, lng:10.7,   zoom:5, diff:'easy'},
+  {name:"Poland",            code:"pl",capital:"Warsaw",          greeting:"Dzień dobry!",                         lat:52.2, lng:21.0,   zoom:6, diff:'easy'},
+  {name:"Greece",            code:"gr",capital:"Athens",          greeting:"Γεια σας (Yia sas)",                   lat:37.9, lng:23.7,   zoom:6, diff:'easy'},
+  {name:"Portugal",          code:"pt",capital:"Lisbon",          greeting:"Olá!",                                 lat:38.7, lng:-9.1,   zoom:6, diff:'easy'},
+  {name:"Switzerland",       code:"ch",capital:"Bern",            greeting:"Grüezi!",                              lat:46.9, lng:7.4,    zoom:7, diff:'easy'},
+  {name:"Austria",           code:"at",capital:"Vienna",          greeting:"Grüß Gott!",                           lat:48.2, lng:16.4,   zoom:7, diff:'easy'},
+  {name:"Belgium",           code:"be",capital:"Brussels",        greeting:"Goedendag / Bonjour",                  lat:50.8, lng:4.4,    zoom:8, diff:'easy'},
+  {name:"Denmark",           code:"dk",capital:"Copenhagen",      greeting:"Hej!",                                 lat:55.7, lng:12.6,   zoom:6, diff:'easy'},
+  {name:"Finland",           code:"fi",capital:"Helsinki",        greeting:"Hei!",                                 lat:60.2, lng:25.0,   zoom:5, diff:'easy'},
+  {name:"Ireland",           code:"ie",capital:"Dublin",          greeting:"Dia duit!",                            lat:53.3, lng:-6.3,   zoom:7, diff:'easy'},
+  {name:"New Zealand",       code:"nz",capital:"Wellington",      greeting:"Kia ora (Māori)",                      lat:-41.3,lng:174.8,  zoom:5, diff:'easy'},
+  {name:"Singapore",         code:"sg",capital:"Singapore",       greeting:"Hello lah! (Singlish)",                lat:1.3,  lng:103.8,  zoom:11,diff:'easy'},
   // MEDIUM (32)
-  {name:"Turkey",            code:"tr",capital:"Ankara",          greeting:"Merhaba",                              lat:39.0, lng:35.2,   zoom:5, diff:'medium'},
-  {name:"Thailand",          code:"th",capital:"Bangkok",         greeting:"Sawasdee (สวัสดี)",                   lat:15.9, lng:101.0,  zoom:5, diff:'medium'},
-  {name:"Egypt",             code:"eg",capital:"Cairo",           greeting:"Ahlan (أهلاً)",                       lat:26.8, lng:30.8,   zoom:5, diff:'medium'},
-  {name:"Indonesia",         code:"id",capital:"Jakarta",         greeting:"Halo (Indonesian)",                    lat:-0.8, lng:113.9,  zoom:4, diff:'medium'},
-  {name:"Vietnam",           code:"vn",capital:"Hanoi",           greeting:"Xin chào",                             lat:14.1, lng:108.3,  zoom:5, diff:'medium'},
-  {name:"Saudi Arabia",      code:"sa",capital:"Riyadh",          greeting:"As-salamu alaykum (السلام عليكم)",    lat:23.9, lng:45.1,   zoom:5, diff:'medium'},
-  {name:"South Africa",      code:"za",capital:"Pretoria",        greeting:"Sawubona",                             lat:-30.6,lng:22.9,   zoom:5, diff:'medium'},
-  {name:"Mongolia",          code:"mn",capital:"Ulaanbaatar",     greeting:"Sain baina uu (Сайн байна уу)",        lat:46.9, lng:103.8,  zoom:5, diff:'medium'},
-  {name:"Nepal",             code:"np",capital:"Kathmandu",       greeting:"Namaskaar (नमस्कार)",                 lat:28.4, lng:84.1,   zoom:7, diff:'medium'},
-  {name:"Iceland",           code:"is",capital:"Reykjavík",       greeting:"Góðan daginn",                         lat:64.8, lng:-18.7,  zoom:6, diff:'medium'},
-  {name:"Cuba",              code:"cu",capital:"Havana",          greeting:"¿Qué volá? (Cuban)",                  lat:21.5, lng:-79.0,  zoom:7, diff:'medium'},
-  {name:"Bolivia",           code:"bo",capital:"Sucre",           greeting:"Kamisaraki (Aymara)",                  lat:-16.3,lng:-63.6,  zoom:5, diff:'medium'},
-  {name:"Paraguay",          code:"py",capital:"Asunción",        greeting:"Mba'éichapa (Guaraní)",                lat:-23.4,lng:-58.4,  zoom:6, diff:'medium'},
-  {name:"Fiji",              code:"fj",capital:"Suva",            greeting:"Bula!",                                lat:-17.7,lng:178.1,  zoom:8, diff:'medium'},
-  {name:"Madagascar",        code:"mg",capital:"Antananarivo",    greeting:"Manao ahoana",                         lat:-19.0,lng:46.9,   zoom:6, diff:'medium'},
-  {name:"Georgia",           code:"ge",capital:"Tbilisi",         greeting:"Gamarjoba (გამარჯობა)",               lat:42.3, lng:43.4,   zoom:7, diff:'medium'},
-  {name:"Armenia",           code:"am",capital:"Yerevan",         greeting:"Barev (Բարև)",                        lat:40.1, lng:45.0,   zoom:7, diff:'medium'},
-  {name:"Azerbaijan",        code:"az",capital:"Baku",            greeting:"Salam (Azərbaycan)",                   lat:40.1, lng:47.6,   zoom:7, diff:'medium'},
-  {name:"Belarus",           code:"by",capital:"Minsk",           greeting:"Vitaju (Вітаю)",                       lat:53.7, lng:27.9,   zoom:6, diff:'medium'},
-  {name:"Haiti",             code:"ht",capital:"Port-au-Prince",  greeting:"Bonjou (Haitian Creole)",              lat:19.0, lng:-72.9,  zoom:8, diff:'medium'},
-  {name:"Ukraine",           code:"ua",capital:"Kyiv",            greeting:"Dobroho ranku (Доброго ранку)",        lat:48.4, lng:31.2,   zoom:6, diff:'medium'},
-  {name:"Nigeria",           code:"ng",capital:"Abuja",           greeting:"Bawo ni (Yoruba)",                     lat:9.1,  lng:8.7,    zoom:6, diff:'medium'},
-  {name:"Kenya",             code:"ke",capital:"Nairobi",         greeting:"Habari (Swahili)",                     lat:0.0,  lng:37.9,   zoom:6, diff:'medium'},
-  {name:"Morocco",           code:"ma",capital:"Rabat",           greeting:"Salam (سلام)",                        lat:31.8, lng:-7.1,   zoom:6, diff:'medium'},
-  {name:"Philippines",       code:"ph",capital:"Manila",          greeting:"Kumusta!",                             lat:12.9, lng:121.8,  zoom:6, diff:'medium'},
-  {name:"Pakistan",          code:"pk",capital:"Islamabad",       greeting:"Assalamu Alaikum",                     lat:30.4, lng:69.3,   zoom:5, diff:'medium'},
-  {name:"Colombia",          code:"co",capital:"Bogotá",          greeting:"¡Hola, parce!",                       lat:4.6,  lng:-74.3,  zoom:5, diff:'medium'},
-  {name:"Peru",              code:"pe",capital:"Lima",            greeting:"¡Buenos días!",                       lat:-9.2, lng:-75.0,  zoom:5, diff:'medium'},
-  {name:"Algeria",           code:"dz",capital:"Algiers",         greeting:"Saha (صحّة)",                         lat:28.0, lng:2.6,    zoom:5, diff:'medium'},
-  {name:"Iran",              code:"ir",capital:"Tehran",          greeting:"Salâm (سلام)",                        lat:32.4, lng:53.7,   zoom:5, diff:'medium'},
-  {name:"Chile",             code:"cl",capital:"Santiago",        greeting:"¡Hola, huevón!",                      lat:-35.7,lng:-71.5,  zoom:5, diff:'medium'},
-  {name:"Cambodia",          code:"kh",capital:"Phnom Penh",      greeting:"Choum reap suor (ជំរាបសួរ)",           lat:12.6, lng:104.5,  zoom:6, diff:'medium'},
+  {name:"Turkey",            code:"tr",capital:"Ankara",          greeting:"Merhaba",                              lat:39.9, lng:32.9,   zoom:5, diff:'medium'},
+  {name:"Thailand",          code:"th",capital:"Bangkok",         greeting:"Sawasdee (สวัสดี)",                   lat:13.8, lng:100.5,  zoom:5, diff:'medium'},
+  {name:"Egypt",             code:"eg",capital:"Cairo",           greeting:"Ahlan (أهلاً)",                       lat:30.1, lng:31.2,   zoom:5, diff:'medium'},
+  {name:"Indonesia",         code:"id",capital:"Jakarta",         greeting:"Halo (Indonesian)",                    lat:-6.2, lng:106.8,  zoom:4, diff:'medium'},
+  {name:"Vietnam",           code:"vn",capital:"Hanoi",           greeting:"Xin chào",                             lat:21.0, lng:105.8,  zoom:5, diff:'medium'},
+  {name:"Saudi Arabia",      code:"sa",capital:"Riyadh",          greeting:"As-salamu alaykum (السلام عليكم)",    lat:24.7, lng:46.7,   zoom:5, diff:'medium'},
+  {name:"South Africa",      code:"za",capital:"Pretoria",        greeting:"Sawubona",                             lat:-25.7,lng:28.2,   zoom:5, diff:'medium'},
+  {name:"Mongolia",          code:"mn",capital:"Ulaanbaatar",     greeting:"Sain baina uu (Сайн байна уу)",        lat:47.9, lng:106.9,  zoom:5, diff:'medium'},
+  {name:"Nepal",             code:"np",capital:"Kathmandu",       greeting:"Namaskaar (नमस्कार)",                 lat:27.7, lng:85.3,   zoom:7, diff:'medium'},
+  {name:"Iceland",           code:"is",capital:"Reykjavík",       greeting:"Góðan daginn",                         lat:64.1, lng:-21.9,  zoom:6, diff:'medium'},
+  {name:"Cuba",              code:"cu",capital:"Havana",          greeting:"¿Qué volá? (Cuban)",                  lat:23.1, lng:-82.4,  zoom:7, diff:'medium'},
+  {name:"Bolivia",           code:"bo",capital:"Sucre",           greeting:"Kamisaraki (Aymara)",                  lat:-19.0,lng:-65.3,  zoom:5, diff:'medium'},
+  {name:"Paraguay",          code:"py",capital:"Asunción",        greeting:"Mba'éichapa (Guaraní)",                lat:-25.3,lng:-57.6,  zoom:6, diff:'medium'},
+  {name:"Fiji",              code:"fj",capital:"Suva",            greeting:"Bula!",                                lat:-18.1,lng:178.4,  zoom:8, diff:'medium'},
+  {name:"Madagascar",        code:"mg",capital:"Antananarivo",    greeting:"Manao ahoana",                         lat:-18.9,lng:47.5,   zoom:6, diff:'medium'},
+  {name:"Georgia",           code:"ge",capital:"Tbilisi",         greeting:"Gamarjoba (გამარჯობა)",               lat:41.7, lng:44.8,   zoom:7, diff:'medium'},
+  {name:"Armenia",           code:"am",capital:"Yerevan",         greeting:"Barev (Բարև)",                        lat:40.2, lng:44.5,   zoom:7, diff:'medium'},
+  {name:"Azerbaijan",        code:"az",capital:"Baku",            greeting:"Salam (Azərbaycan)",                   lat:40.4, lng:49.9,   zoom:7, diff:'medium'},
+  {name:"Belarus",           code:"by",capital:"Minsk",           greeting:"Vitaju (Вітаю)",                       lat:53.9, lng:27.6,   zoom:6, diff:'medium'},
+  {name:"Haiti",             code:"ht",capital:"Port-au-Prince",  greeting:"Bonjou (Haitian Creole)",              lat:18.5, lng:-72.3,  zoom:8, diff:'medium'},
+  {name:"Ukraine",           code:"ua",capital:"Kyiv",            greeting:"Dobroho ranku (Доброго ранку)",        lat:50.5, lng:30.5,   zoom:6, diff:'medium'},
+  {name:"Nigeria",           code:"ng",capital:"Abuja",           greeting:"Bawo ni (Yoruba)",                     lat:9.1,  lng:7.5,    zoom:6, diff:'medium'},
+  {name:"Kenya",             code:"ke",capital:"Nairobi",         greeting:"Habari (Swahili)",                     lat:-1.3, lng:36.8,   zoom:6, diff:'medium'},
+  {name:"Morocco",           code:"ma",capital:"Rabat",           greeting:"Salam (سلام)",                        lat:34.0, lng:-6.8,   zoom:6, diff:'medium'},
+  {name:"Philippines",       code:"ph",capital:"Manila",          greeting:"Kumusta!",                             lat:14.6, lng:121.0,  zoom:6, diff:'medium'},
+  {name:"Pakistan",          code:"pk",capital:"Islamabad",       greeting:"Assalamu Alaikum",                     lat:33.7, lng:73.1,   zoom:5, diff:'medium'},
+  {name:"Colombia",          code:"co",capital:"Bogotá",          greeting:"¡Hola, parce!",                       lat:4.7,  lng:-74.1,  zoom:5, diff:'medium'},
+  {name:"Peru",              code:"pe",capital:"Lima",            greeting:"¡Buenos días!",                       lat:-12.0,lng:-77.0,  zoom:5, diff:'medium'},
+  {name:"Algeria",           code:"dz",capital:"Algiers",         greeting:"Saha (صحّة)",                         lat:36.7, lng:3.0,    zoom:5, diff:'medium'},
+  {name:"Iran",              code:"ir",capital:"Tehran",          greeting:"Salâm (سلام)",                        lat:35.7, lng:51.4,   zoom:5, diff:'medium'},
+  {name:"Chile",             code:"cl",capital:"Santiago",        greeting:"¡Hola, huevón!",                      lat:-33.5,lng:-70.7,  zoom:5, diff:'medium'},
+  {name:"Cambodia",          code:"kh",capital:"Phnom Penh",      greeting:"Choum reap suor (ជំរាបសួរ)",           lat:11.6, lng:104.9,  zoom:6, diff:'medium'},
   // HARD (50)
-  {name:"Bhutan",            code:"bt",capital:"Thimphu",         greeting:"Kuzu Zangpo",                          lat:27.5, lng:90.4,   zoom:7, diff:'hard'},
+  {name:"Bhutan",            code:"bt",capital:"Thimphu",         greeting:"Kuzu Zangpo",                          lat:27.5, lng:89.6,   zoom:7, diff:'hard'},
   {name:"Myanmar",           code:"mm",capital:"Naypyidaw",       greeting:"Mingalarbar",                          lat:19.2, lng:96.1,   zoom:5, diff:'hard'},
-  {name:"Laos",              code:"la",capital:"Vientiane",       greeting:"Sabaidee",                             lat:17.9, lng:102.5,  zoom:6, diff:'hard'},
-  {name:"Kyrgyzstan",        code:"kg",capital:"Bishkek",         greeting:"Salamatsyzby",                         lat:41.2, lng:74.8,   zoom:6, diff:'hard'},
-  {name:"Tajikistan",        code:"tj",capital:"Dushanbe",        greeting:"Salom",                                lat:38.9, lng:71.3,   zoom:6, diff:'hard'},
-  {name:"Uzbekistan",        code:"uz",capital:"Tashkent",        greeting:"Assalomu alaykum",                     lat:41.4, lng:63.9,   zoom:6, diff:'hard'},
-  {name:"Turkmenistan",      code:"tm",capital:"Ashgabat",        greeting:"Salam",                                lat:38.9, lng:59.6,   zoom:6, diff:'hard'},
-  {name:"Timor-Leste",       code:"tl",capital:"Dili",            greeting:"Bondia",                               lat:-8.9, lng:125.7,  zoom:8, diff:'hard'},
-  {name:"Lithuania",         code:"lt",capital:"Vilnius",         greeting:"Labas",                                lat:55.2, lng:23.9,   zoom:7, diff:'hard'},
-  {name:"Latvia",            code:"lv",capital:"Riga",            greeting:"Labdien",                              lat:56.9, lng:24.6,   zoom:7, diff:'hard'},
-  {name:"Estonia",           code:"ee",capital:"Tallinn",         greeting:"Tere",                                 lat:58.6, lng:25.0,   zoom:7, diff:'hard'},
-  {name:"Moldova",           code:"md",capital:"Chișinău",        greeting:"Bună ziua",                            lat:47.4, lng:28.4,   zoom:7, diff:'hard'},
-  {name:"Slovenia",          code:"si",capital:"Ljubljana",       greeting:"Dober dan",                            lat:46.1, lng:14.8,   zoom:8, diff:'hard'},
-  {name:"Croatia",           code:"hr",capital:"Zagreb",          greeting:"Dobar dan",                            lat:45.1, lng:16.4,   zoom:7, diff:'hard'},
-  {name:"Bosnia & Herzegovina",code:"ba",capital:"Sarajevo",      greeting:"Zdravo",                               lat:44.2, lng:17.4,   zoom:7, diff:'hard'},
-  {name:"Serbia",            code:"rs",capital:"Belgrade",        greeting:"Zdravo",                               lat:44.0, lng:21.0,   zoom:7, diff:'hard'},
-  {name:"Albania",           code:"al",capital:"Tirana",          greeting:"Mirëdita",                             lat:41.2, lng:20.2,   zoom:7, diff:'hard'},
-  {name:"North Macedonia",   code:"mk",capital:"Skopje",          greeting:"Zdravo",                               lat:41.6, lng:21.7,   zoom:8, diff:'hard'},
-  {name:"Montenegro",        code:"me",capital:"Podgorica",       greeting:"Dobar dan",                            lat:42.7, lng:19.4,   zoom:8, diff:'hard'},
+  {name:"Laos",              code:"la",capital:"Vientiane",       greeting:"Sabaidee",                             lat:17.9, lng:102.6,  zoom:6, diff:'hard'},
+  {name:"Kyrgyzstan",        code:"kg",capital:"Bishkek",         greeting:"Salamatsyzby",                         lat:42.9, lng:74.6,   zoom:6, diff:'hard'},
+  {name:"Tajikistan",        code:"tj",capital:"Dushanbe",        greeting:"Salom",                                lat:38.6, lng:68.8,   zoom:6, diff:'hard'},
+  {name:"Uzbekistan",        code:"uz",capital:"Tashkent",        greeting:"Assalomu alaykum",                     lat:41.3, lng:69.3,   zoom:6, diff:'hard'},
+  {name:"Turkmenistan",      code:"tm",capital:"Ashgabat",        greeting:"Salam",                                lat:37.9, lng:58.4,   zoom:6, diff:'hard'},
+  {name:"Timor-Leste",       code:"tl",capital:"Dili",            greeting:"Bondia",                               lat:-8.6, lng:125.6,  zoom:8, diff:'hard'},
+  {name:"Lithuania",         code:"lt",capital:"Vilnius",         greeting:"Labas",                                lat:54.7, lng:25.3,   zoom:7, diff:'hard'},
+  {name:"Latvia",            code:"lv",capital:"Riga",            greeting:"Labdien",                              lat:56.9, lng:24.1,   zoom:7, diff:'hard'},
+  {name:"Estonia",           code:"ee",capital:"Tallinn",         greeting:"Tere",                                 lat:59.4, lng:24.7,   zoom:7, diff:'hard'},
+  {name:"Moldova",           code:"md",capital:"Chișinău",        greeting:"Bună ziua",                            lat:47.0, lng:28.9,   zoom:7, diff:'hard'},
+  {name:"Slovenia",          code:"si",capital:"Ljubljana",       greeting:"Dober dan",                            lat:46.1, lng:14.5,   zoom:8, diff:'hard'},
+  {name:"Croatia",           code:"hr",capital:"Zagreb",          greeting:"Dobar dan",                            lat:45.8, lng:16.0,   zoom:7, diff:'hard'},
+  {name:"Bosnia & Herzegovina",code:"ba",capital:"Sarajevo",      greeting:"Zdravo",                               lat:43.9, lng:17.7,   zoom:7, diff:'hard'},
+  {name:"Serbia",            code:"rs",capital:"Belgrade",        greeting:"Zdravo",                               lat:44.8, lng:20.5,   zoom:7, diff:'hard'},
+  {name:"Albania",           code:"al",capital:"Tirana",          greeting:"Mirëdita",                             lat:41.3, lng:19.8,   zoom:7, diff:'hard'},
+  {name:"North Macedonia",   code:"mk",capital:"Skopje",          greeting:"Zdravo",                               lat:42.0, lng:21.4,   zoom:8, diff:'hard'},
+  {name:"Montenegro",        code:"me",capital:"Podgorica",       greeting:"Dobar dan",                            lat:42.4, lng:19.3,   zoom:8, diff:'hard'},
   {name:"Malta",             code:"mt",capital:"Valletta",        greeting:"Bonġu",                                lat:35.9, lng:14.4,   zoom:10,diff:'hard'},
   {name:"Luxembourg",        code:"lu",capital:"Luxembourg City", greeting:"Moien",                                lat:49.8, lng:6.1,    zoom:9, diff:'hard'},
-  {name:"Kosovo",            code:"xk",capital:"Pristina",        greeting:"Mirë se vjen",                         lat:42.6, lng:20.9,   zoom:8, diff:'hard'},
-  {name:"Rwanda",            code:"rw",capital:"Kigali",          greeting:"Muraho",                               lat:-2.0, lng:29.9,   zoom:8, diff:'hard'},
+  {name:"Kosovo",            code:"xk",capital:"Pristina",        greeting:"Mirë se vjen",                         lat:42.7, lng:21.2,   zoom:8, diff:'hard'},
+  {name:"Rwanda",            code:"rw",capital:"Kigali",          greeting:"Muraho",                               lat:-1.9, lng:30.1,   zoom:8, diff:'hard'},
   {name:"Burundi",           code:"bi",capital:"Gitega",          greeting:"Amahoro",                              lat:-3.4, lng:29.9,   zoom:8, diff:'hard'},
-  {name:"Eritrea",           code:"er",capital:"Asmara",          greeting:"Selam",                                lat:15.2, lng:39.8,   zoom:7, diff:'hard'},
-  {name:"Djibouti",          code:"dj",capital:"Djibouti City",   greeting:"Nabad",                                lat:11.8, lng:42.6,   zoom:8, diff:'hard'},
-  {name:"Malawi",            code:"mw",capital:"Lilongwe",        greeting:"Moni",                                 lat:-13.2,lng:34.3,   zoom:7, diff:'hard'},
-  {name:"Lesotho",           code:"ls",capital:"Maseru",          greeting:"Lumela",                               lat:-29.6,lng:28.2,   zoom:8, diff:'hard'},
-  {name:"Eswatini",          code:"sz",capital:"Mbabane",         greeting:"Sawubona",                             lat:-26.5,lng:31.5,   zoom:9, diff:'hard'},
-  {name:"Mali",              code:"ml",capital:"Bamako",          greeting:"I ni ce",                              lat:17.6, lng:-3.0,   zoom:6, diff:'hard'},
-  {name:"Burkina Faso",      code:"bf",capital:"Ouagadougou",     greeting:"Nba ye",                               lat:12.4, lng:-1.6,   zoom:7, diff:'hard'},
-  {name:"Togo",              code:"tg",capital:"Lomé",            greeting:"Bonjour",                              lat:8.6,  lng:0.8,    zoom:7, diff:'hard'},
-  {name:"Benin",             code:"bj",capital:"Porto-Novo",      greeting:"Mi do",                                lat:9.3,  lng:2.3,    zoom:7, diff:'hard'},
-  {name:"Sierra Leone",      code:"sl",capital:"Freetown",        greeting:"Kusheh",                               lat:8.5,  lng:-11.8,  zoom:7, diff:'hard'},
-  {name:"Gabon",             code:"ga",capital:"Libreville",      greeting:"Bonjour",                              lat:-0.8, lng:11.6,   zoom:7, diff:'hard'},
-  {name:"Comoros",           code:"km",capital:"Moroni",          greeting:"Hujambo",                              lat:-11.6,lng:43.3,   zoom:9, diff:'hard'},
-  {name:"Cape Verde",        code:"cv",capital:"Praia",           greeting:"Bon dia",                              lat:16.0, lng:-24.0,  zoom:9, diff:'hard'},
-  {name:"Suriname",          code:"sr",capital:"Paramaribo",      greeting:"Hallo",                                lat:3.9,  lng:-56.0,  zoom:7, diff:'hard'},
-  {name:"Belize",            code:"bz",capital:"Belmopan",        greeting:"Hello",                                lat:17.2, lng:-88.5,  zoom:8, diff:'hard'},
-  {name:"Guyana",            code:"gy",capital:"Georgetown",      greeting:"Wha de scene?",                        lat:4.9,  lng:-58.9,  zoom:7, diff:'hard'},
-  {name:"Trinidad & Tobago", code:"tt",capital:"Port of Spain",   greeting:"Wha happening?",                       lat:10.7, lng:-61.2,  zoom:9, diff:'hard'},
-  {name:"Tonga",             code:"to",capital:"Nuku'alofa",      greeting:"Mālō e lelei",                         lat:-19.9,lng:-175.2, zoom:9, diff:'hard'},
-  {name:"Samoa",             code:"ws",capital:"Apia",            greeting:"Talofa",                               lat:-13.8,lng:-172.1, zoom:9, diff:'hard'},
-  {name:"Vanuatu",           code:"vu",capital:"Port Vila",       greeting:"Halo",                                 lat:-15.4,lng:167.0,  zoom:8, diff:'hard'},
-  {name:"Papua New Guinea",  code:"pg",capital:"Port Moresby",    greeting:"Gude",                                 lat:-6.3, lng:143.9,  zoom:6, diff:'hard'},
-  {name:"Solomon Islands",   code:"sb",capital:"Honiara",         greeting:"Halo",                                 lat:-9.4, lng:160.2,  zoom:8, diff:'hard'},
-  {name:"Mozambique",        code:"mz",capital:"Maputo",          greeting:"Bom dia",                              lat:-18.7,lng:35.5,   zoom:6, diff:'hard'},
-  {name:"Zambia",            code:"zm",capital:"Lusaka",          greeting:"Muli bwanji",                          lat:-13.1,lng:27.8,   zoom:6, diff:'hard'},
-  {name:"Niger",             code:"ne",capital:"Niamey",          greeting:"Salam",                                lat:17.6, lng:8.1,    zoom:6, diff:'hard'},
-  {name:"Chad",              code:"td",capital:"N'Djamena",       greeting:"Salam",                                lat:15.5, lng:18.7,   zoom:6, diff:'hard'},
-  {name:"Cameroon",          code:"cm",capital:"Yaoundé",         greeting:"Bonjour",                              lat:5.4,  lng:12.4,   zoom:6, diff:'hard'},
+  {name:"Eritrea",           code:"er",capital:"Asmara",          greeting:"Selam",                                lat:15.3, lng:38.9,   zoom:7, diff:'hard'},
+  {name:"Djibouti",          code:"dj",capital:"Djibouti City",   greeting:"Nabad",                                lat:11.6, lng:43.1,   zoom:8, diff:'hard'},
+  {name:"Malawi",            code:"mw",capital:"Lilongwe",        greeting:"Moni",                                 lat:-13.9,lng:33.8,   zoom:7, diff:'hard'},
+  {name:"Lesotho",           code:"ls",capital:"Maseru",          greeting:"Lumela",                               lat:-29.3,lng:27.5,   zoom:8, diff:'hard'},
+  {name:"Eswatini",          code:"sz",capital:"Mbabane",         greeting:"Sawubona",                             lat:-26.3,lng:31.1,   zoom:9, diff:'hard'},
+  {name:"Mali",              code:"ml",capital:"Bamako",          greeting:"I ni ce",                              lat:12.7, lng:-8.0,   zoom:6, diff:'hard'},
+  {name:"Burkina Faso",      code:"bf",capital:"Ouagadougou",     greeting:"Nba ye",                               lat:12.4, lng:-1.5,   zoom:7, diff:'hard'},
+  {name:"Togo",              code:"tg",capital:"Lomé",            greeting:"Bonjour",                              lat:6.1,  lng:1.2,    zoom:7, diff:'hard'},
+  {name:"Benin",             code:"bj",capital:"Porto-Novo",      greeting:"Mi do",                                lat:6.4,  lng:2.6,    zoom:7, diff:'hard'},
+  {name:"Sierra Leone",      code:"sl",capital:"Freetown",        greeting:"Kusheh",                               lat:8.5,  lng:-13.2,  zoom:7, diff:'hard'},
+  {name:"Gabon",             code:"ga",capital:"Libreville",      greeting:"Bonjour",                              lat:0.4,  lng:9.5,    zoom:7, diff:'hard'},
+  {name:"Comoros",           code:"km",capital:"Moroni",          greeting:"Hujambo",                              lat:-11.7,lng:43.3,   zoom:9, diff:'hard'},
+  {name:"Cape Verde",        code:"cv",capital:"Praia",           greeting:"Bon dia",                              lat:14.9, lng:-23.5,  zoom:9, diff:'hard'},
+  {name:"Suriname",          code:"sr",capital:"Paramaribo",      greeting:"Hallo",                                lat:5.8,  lng:-55.2,  zoom:7, diff:'hard'},
+  {name:"Belize",            code:"bz",capital:"Belmopan",        greeting:"Hello",                                lat:17.3, lng:-88.8,  zoom:8, diff:'hard'},
+  {name:"Guyana",            code:"gy",capital:"Georgetown",      greeting:"Wha de scene?",                        lat:6.8,  lng:-58.2,  zoom:7, diff:'hard'},
+  {name:"Trinidad & Tobago", code:"tt",capital:"Port of Spain",   greeting:"Wha happening?",                       lat:10.7, lng:-61.5,  zoom:9, diff:'hard'},
+  {name:"Tonga",             code:"to",capital:"Nuku'alofa",      greeting:"Mālō e lelei",                         lat:-21.1,lng:-175.2, zoom:9, diff:'hard'},
+  {name:"Samoa",             code:"ws",capital:"Apia",            greeting:"Talofa",                               lat:-13.8,lng:-171.8, zoom:9, diff:'hard'},
+  {name:"Vanuatu",           code:"vu",capital:"Port Vila",       greeting:"Halo",                                 lat:-17.7,lng:168.3,  zoom:8, diff:'hard'},
+  {name:"Papua New Guinea",  code:"pg",capital:"Port Moresby",    greeting:"Gude",                                 lat:-9.4, lng:147.2,  zoom:6, diff:'hard'},
+  {name:"Solomon Islands",   code:"sb",capital:"Honiara",         greeting:"Halo",                                 lat:-9.4, lng:160.0,  zoom:8, diff:'hard'},
+  {name:"Mozambique",        code:"mz",capital:"Maputo",          greeting:"Bom dia",                              lat:-25.9,lng:32.6,   zoom:6, diff:'hard'},
+  {name:"Zambia",            code:"zm",capital:"Lusaka",          greeting:"Muli bwanji",                          lat:-15.4,lng:28.3,   zoom:6, diff:'hard'},
+  {name:"Niger",             code:"ne",capital:"Niamey",          greeting:"Salam",                                lat:13.5, lng:2.1,    zoom:6, diff:'hard'},
+  {name:"Chad",              code:"td",capital:"N'Djamena",       greeting:"Salam",                                lat:12.1, lng:15.0,   zoom:6, diff:'hard'},
+  {name:"Cameroon",          code:"cm",capital:"Yaoundé",         greeting:"Bonjour",                              lat:3.9,  lng:11.5,   zoom:6, diff:'hard'},
 ];
 
 /* ════════════════════════════════════════════════════════════
@@ -1931,15 +1931,15 @@ function bearingArrow(deg) {
   return dirs[Math.round(deg / 45) % 8];
 }
 
-/* 거리 → 색상 클래스 */
+/* 거리 → 색상 클래스 (지구 최대거리 ~20,000km 기준) */
 function cwDistColor(km) {
-  if (km < 300)  return { cls:'cw-blazing', tc:'tc-blazing', label:'🔥🔥🔥', hex:'#f97316' };
-  if (km < 700)  return { cls:'cw-hot',     tc:'tc-hot',     label:'🔥🔥',   hex:'#f59e0b' };
-  if (km < 1500) return { cls:'cw-warm',    tc:'tc-warm',    label:'🔥',     hex:'#eab308' };
-  if (km < 3000) return { cls:'cw-mild',    tc:'tc-mild',    label:'🌡️',    hex:'#34d399' };
-  if (km < 5000) return { cls:'cw-cool',    tc:'tc-cool',    label:'🌊',    hex:'#60a5fa' };
-  if (km < 8000) return { cls:'cw-cold',    tc:'tc-cold',    label:'❄️',    hex:'#8b5cf6' };
-  return           { cls:'cw-frozen',  tc:'tc-frozen',  label:'🥶',     hex:'#a78bfa' };
+  if (km <  500) return { cls:'cw-blazing', tc:'tc-blazing', label:'🔥🔥🔥', hex:'#f97316' }; // 같은 나라 근처
+  if (km < 1500) return { cls:'cw-hot',     tc:'tc-hot',     label:'🔥🔥',   hex:'#f59e0b' }; // 같은 권역
+  if (km < 3000) return { cls:'cw-warm',    tc:'tc-warm',    label:'🔥',     hex:'#eab308' }; // 이웃 대륙
+  if (km < 5000) return { cls:'cw-mild',    tc:'tc-mild',    label:'🌡️',    hex:'#34d399' }; // 조금 먼
+  if (km < 8000) return { cls:'cw-cool',    tc:'tc-cool',    label:'🌊',    hex:'#60a5fa' }; // 꽤 먼
+  if (km <12000) return { cls:'cw-cold',    tc:'tc-cold',    label:'❄️',    hex:'#8b5cf6' }; // 많이 먼
+  return           { cls:'cw-frozen',  tc:'tc-frozen',  label:'🥶',     hex:'#a78bfa' }; // 반대편
 }
 
 /* ── 설정 모달 ── */
@@ -1997,9 +1997,8 @@ function startCountryWordle() {
       minZoom: 1, maxZoom: 8,
       scrollWheelZoom: false
     }).setView([20, 10], 2);
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-      maxZoom: 19,
-      attribution: 'Esri'
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+      maxZoom: 19
     }).addTo(cwMap);
     cwMap.invalidateSize();
   }, 80);
@@ -2084,6 +2083,7 @@ function cwSubmit() {
   document.getElementById('cw-autocomplete').className = 'cw-autocomplete';
 
   const dist = Math.round(haversineKm(matched.lat, matched.lng, cwTarget.lat, cwTarget.lng));
+  console.log(`[CW] target: ${cwTarget.name} (${cwTarget.lat},${cwTarget.lng}) | guess: ${matched.name} (${matched.lat},${matched.lng}) | dist: ${dist}km`);
   const bear = bearing(matched.lat, matched.lng, cwTarget.lat, cwTarget.lng);
   const arrow = bearingArrow(bear);
   const cf = cwDistColor(dist);
@@ -2093,14 +2093,14 @@ function cwSubmit() {
   renderCWGuesses();
   updateCWAttemptsDisplay();
 
-  // 지도에 GeoJSON 하이라이트
-  cwHighlightCountry(matched, cf, isWin);
+  // 지도에 GeoJSON 하이라이트 — dist 명시적으로 전달
+  cwHighlightCountry(matched, dist, cf, isWin);
 
   // 힌트 텍스트 업데이트
   if (!isWin) {
-    const distTxt = dist < 1000 ? `${dist} km` : `${(dist/1000).toFixed(1)}k km`;
+    const distTxt = `${dist.toLocaleString()} km`;
     document.getElementById('cw-hint-text').textContent =
-      `${matched.name} is ${distTxt} away ${arrow} — keep guessing!`;
+      `${matched.name} is ${distTxt} away — keep guessing!`;
   }
 
   if (isWin) {
@@ -2111,7 +2111,7 @@ function cwSubmit() {
 }
 
 /* ── 지도 국가 하이라이트 (GeoJSON via Nominatim) ── */
-async function cwHighlightCountry(matched, cf, isWin) {
+async function cwHighlightCountry(matched, dist, cf, isWin) {
   if (!cwMap) return;
 
   // 플레이스홀더 숨기기
@@ -2122,8 +2122,7 @@ async function cwHighlightCountry(matched, cf, isWin) {
     const res = await fetch(url, { headers: { 'Accept-Language': 'en' } });
     const data = await res.json();
     if (!data.features || !data.features.length) {
-      // GeoJSON 없으면 원 마커로 폴백
-      cwAddFallbackMarker(matched, cf, isWin);
+      cwAddFallbackMarker(matched, dist, cf, isWin);
       return;
     }
 
@@ -2132,53 +2131,55 @@ async function cwHighlightCountry(matched, cf, isWin) {
       style: {
         color: fillColor,
         fillColor: fillColor,
-        fillOpacity: isWin ? 0.55 : 0.35,
+        fillOpacity: isWin ? 0.6 : 0.35,
         weight: isWin ? 2.5 : 1.5,
         opacity: 0.9
       }
     }).addTo(cwMap);
 
-    // 툴팁
-    const distTxt = matched.name === cwTarget.name
+    // 툴팁 — dist 직접 사용
+    const distTxt = isWin
       ? '✓ Correct!'
-      : matched.dist < 1000 ? `${matched.dist} km away` : `${(matched.dist/1000).toFixed(1)}k km away`;
-    layer.bindTooltip(`<b>${matched.name}</b><br>${distTxt}`, { permanent: false, direction: 'center' });
+      : `${dist.toLocaleString()} km away`;
+    layer.bindTooltip(`<b>${matched.name}</b><br><span style="color:${fillColor}">${distTxt}</span>`, {
+      permanent: false, direction: 'center'
+    });
 
     cwGeoLayers.push(layer);
 
-    // 정답이면 지도 해당 국가로 이동
-    if (isWin) {
-      cwMap.fitBounds(layer.getBounds(), { padding: [30, 30], maxZoom: 6 });
-    }
+    // 항상 해당 국가로 줌인 (모든 추측)
+    cwMap.fitBounds(layer.getBounds(), { padding: [40, 40], maxZoom: isWin ? 6 : 5, animate: true, duration: 0.6 });
+
   } catch (e) {
-    cwAddFallbackMarker(matched, cf, isWin);
+    cwAddFallbackMarker(matched, dist, cf, isWin);
   }
 }
 
-function cwAddFallbackMarker(matched, cf, isWin) {
+function cwAddFallbackMarker(matched, dist, cf, isWin) {
   if (!cwMap) return;
   const color = isWin ? '#10b981' : cf.hex;
+  const distTxt = isWin ? '✓ Correct!' : `${dist.toLocaleString()} km away`;
   L.circleMarker([matched.lat, matched.lng], {
-    radius: 10, color: color, fillColor: color,
-    fillOpacity: 0.6, weight: 2
-  }).addTo(cwMap).bindTooltip(`<b>${matched.name}</b>`, { permanent: false });
+    radius: 12, color: color, fillColor: color,
+    fillOpacity: 0.5, weight: 2
+  }).addTo(cwMap).bindTooltip(`<b>${matched.name}</b><br>${distTxt}`, { permanent: false });
+  cwMap.setView([matched.lat, matched.lng], 4, { animate: true, duration: 0.6 });
 }
 
 /* ── 추측 행 렌더 ── */
 function renderCWGuesses() {
   const container = document.getElementById('cw-guesses');
   container.innerHTML = cwGuesses.map((g, i) => {
-    const distTxt = g.dist === 0 ? '0 km' : g.dist < 1000 ? `${g.dist} km` : `${(g.dist/1000).toFixed(1)}k km`;
-    // 온도계 바 너비 (최대거리 20000km 기준)
-    const barW = g.isWin ? 100 : Math.max(4, Math.round((1 - g.dist/20000) * 100));
+    const distTxt = g.dist === 0 ? '0 km' : `${g.dist.toLocaleString()} km`;
+    // 온도계 바 너비 — 지구 최대거리 20,037km 기준 반전
+    const barW = g.isWin ? 100 : Math.max(3, Math.round((1 - g.dist / 20037) * 100));
     return `
       <div class="cw-guess-row ${g.isWin ? 'cw-blazing' : g.cf.cls}" style="animation-delay:${i===0?.1:0}s">
         <img class="cw-guess-flag" src="https://flagcdn.com/w40/${g.code}.png" alt="">
         <div class="cw-guess-name">${g.name}</div>
         ${g.isWin
           ? `<div class="cw-temp-label" style="color:#10b981;border-color:#10b981;background:rgba(16,185,129,.15)">✓ CORRECT!</div>`
-          : `<div class="cw-guess-dir">${g.arrow}</div>
-             <div class="cw-guess-dist ${g.cf.tc}">${distTxt}</div>
+          : `<div class="cw-guess-dist ${g.cf.tc}">${distTxt}</div>
              <div style="width:80px;height:6px;background:var(--surface2);border-radius:3px;overflow:hidden;flex-shrink:0">
                <div style="height:100%;width:${barW}%;background:${g.cf.hex};border-radius:3px;transition:width .6s ease"></div>
              </div>
@@ -2210,7 +2211,7 @@ function cwEndGame(win) {
     document.getElementById('cw-result-sub').innerHTML =
       `The mystery country was <strong style="color:var(--text)">${cwTarget.name}</strong>.<br>Capital: ${cwTarget.capital} · ${cwTarget.diff} difficulty`;
     // 패배 시 정답 국가를 지도에 초록으로 표시
-    cwHighlightCountry({ ...cwTarget, dist: 0 }, { hex: '#10b981', label: '✓' }, true);
+    cwHighlightCountry(cwTarget, 0, { hex: '#10b981', label: '✓' }, true);
   }
   banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
