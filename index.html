@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GeoQuiz App | World Geography Quiz — Flags, Maps, Capitals & Greetings</title>
-<!-- SEO -->
 <meta name="description" content="GeoQuiz App — A free world geography quiz! Guess countries from flags, maps, capitals, and greetings. 4 difficulty levels, and challenge friends with the same questions using room codes.">
-<meta name="keywords" content="geography quiz,flag quiz,capital quiz,world geography,country quiz,map quiz,world geography game,GeoQuiz,flags of the world,capitals of the world,geography game,free quiz,learn geography,country guessing game">
+<meta name="keywords" content="geography quiz,flag quiz,capital quiz,world geography,country quiz,map quiz,world geography game,GeoQuiz,flags of the world,capitals of the world,geography game,free quiz,learn geography,country guessing game,geo guessing,distance game">
 <meta name="author" content="GeoQuiz App">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://pnut102142-del.github.io/geoquiz">
@@ -14,61 +13,117 @@
 <meta property="og:url" content="https://pnut102142-del.github.io/geoquiz">
 <meta property="og:title" content="GeoQuiz App | World Geography Quiz">
 <meta property="og:description" content="Guess countries from flags, maps, capitals & greetings! 4 difficulty levels, challenge friends with room codes!">
-<meta property="og:site_name" content="GeoQuiz App">
-<meta property="og:locale" content="en_US">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="GeoQuiz App | World Geography Quiz">
-<meta name="twitter:description" content="Guess countries from flags, maps, capitals & greetings! Play the same questions with friends via room codes!">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebApplication","name":"GeoQuiz App","alternateName":["Country Guessing Quiz","World Geography Quiz"],"description":"An online geography quiz game to guess countries from flags, maps, capitals, and greetings. Features 4 difficulty levels and room code multiplayer.","url":"https://pnut102142-del.github.io/geoquiz","applicationCategory":"GameApplication","genre":"Educational","inLanguage":["en","ko"],"operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["Flag Quiz","Map Quiz","Capital Quiz","Greeting Quiz","4 Difficulty Levels","Live Leaderboard","Room Code Multiplayer"]}
-</script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#070d1a;--surface:#0e1829;--surface2:#15233a;--border:rgba(255,255,255,0.07);--text:#dde6f4;--muted:#4d6280;--r:18px;--accent:#60a5fa}
-body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:24px 16px 48px;background-image:radial-gradient(ellipse at 10% 90%,rgba(99,102,241,.07) 0%,transparent 55%),radial-gradient(ellipse at 90% 10%,rgba(236,72,153,.05) 0%,transparent 55%)}
+:root{
+  --bg:#070d1a;--surface:#0e1829;--surface2:#15233a;--border:rgba(255,255,255,0.07);
+  --text:#dde6f4;--muted:#4d6280;--r:18px;--accent:#60a5fa;
+}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  min-height:100vh;display:flex;align-items:flex-start;justify-content:center;
+  padding:24px 16px 48px;
+  background-image:
+    radial-gradient(ellipse at 10% 90%,rgba(99,102,241,.07) 0%,transparent 55%),
+    radial-gradient(ellipse at 90% 10%,rgba(236,72,153,.05) 0%,transparent 55%);
+}
 .screen{display:none;width:100%;max-width:780px;animation:fadeUp .3s ease}
 .screen.active{display:block}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes popIn{0%{transform:scale(.5);opacity:0}60%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}
 @keyframes streakPop{0%{transform:scale(1)}50%{transform:scale(1.4)}100%{transform:scale(1)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+@keyframes slideIn{from{transform:translateX(-20px);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes glow{0%,100%{box-shadow:0 0 8px var(--glow-color,#60a5fa)}50%{box-shadow:0 0 20px var(--glow-color,#60a5fa),0 0 40px var(--glow-color,#60a5fa)}}
+
+/* ── HOME ── */
 .hero{text-align:center;padding:40px 0 44px}
 .hero-globe{font-size:4.5rem;display:block;margin-bottom:16px;animation:spin 30s linear infinite}
-.hero-title{font-size:clamp(2rem,6vw,3.2rem);font-weight:900;letter-spacing:-.03em;background:linear-gradient(135deg,#60a5fa,#a78bfa 50%,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+.hero-title{
+  font-size:clamp(2rem,6vw,3.2rem);font-weight:900;letter-spacing:-.03em;
+  background:linear-gradient(135deg,#60a5fa,#a78bfa 50%,#f472b6);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px
+}
 .hero-sub{color:var(--muted);font-size:1rem;margin-bottom:14px}
-.hero-stats{display:inline-flex;align-items:center;gap:16px;background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:7px 18px;font-size:.8rem;color:var(--muted)}
+.hero-stats{
+  display:inline-flex;align-items:center;gap:16px;background:var(--surface);
+  border:1px solid var(--border);border-radius:999px;padding:7px 18px;font-size:.8rem;color:var(--muted)
+}
 .hero-stats span{color:var(--text);font-weight:700}
-.hero-name{display:inline-flex;align-items:center;gap:8px;margin-top:12px;padding:7px 16px;background:var(--surface);border:1px solid var(--border);border-radius:999px;font-size:.85rem;color:var(--muted);cursor:pointer;transition:border-color .15s,color .15s}
+.hero-name{
+  display:inline-flex;align-items:center;gap:8px;margin-top:12px;padding:7px 16px;
+  background:var(--surface);border:1px solid var(--border);border-radius:999px;
+  font-size:.85rem;color:var(--muted);cursor:pointer;transition:border-color .15s,color .15s
+}
 .hero-name:hover{border-color:var(--accent);color:var(--text)}
 .hero-name strong{color:var(--accent);font-weight:700}
 .hero-name-hint{font-size:.75rem;color:var(--muted);opacity:.7}
+
+/* MODE GRID */
+.section-label{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;font-weight:700;margin-bottom:10px;padding-left:2px}
 .mode-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:13px;margin-bottom:20px}
-.mode-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:26px 20px;cursor:pointer;transition:transform .2s,border-color .2s,box-shadow .2s;position:relative;overflow:hidden;user-select:none}
-.mode-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--c,#60a5fa);border-radius:var(--r) var(--r) 0 0}
+.mode-card{
+  background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);
+  padding:26px 20px;cursor:pointer;transition:transform .2s,border-color .2s,box-shadow .2s;
+  position:relative;overflow:hidden;user-select:none
+}
+.mode-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:var(--c,#60a5fa);border-radius:var(--r) var(--r) 0 0
+}
 .mode-card:hover{transform:translateY(-5px);border-color:var(--c,#60a5fa);box-shadow:0 14px 40px rgba(0,0,0,.5),0 0 0 1px var(--c,#60a5fa)}
 .mode-card:active{transform:translateY(-2px)}
+.mode-card.featured{border-color:rgba(99,230,144,.25);background:linear-gradient(135deg,#0e1829,#0d1f17)}
+.mode-card.featured::after{
+  content:'NEW';position:absolute;top:14px;right:14px;
+  font-size:.6rem;font-weight:800;letter-spacing:.1em;color:#10b981;
+  background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);
+  border-radius:999px;padding:2px 7px
+}
 .mode-icon{font-size:2.2rem;display:block;margin-bottom:12px}
 .mode-name{font-size:1rem;font-weight:700;margin-bottom:5px}
 .mode-desc{font-size:.81rem;color:var(--muted);line-height:1.6}
-.join-section{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:20px 22px;margin-top:8px}
+
+.join-section{
+  background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);
+  padding:20px 22px;margin-top:8px
+}
 .join-title{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-weight:600;margin-bottom:12px}
 .join-row{display:flex;gap:8px}
-.room-input{flex:1;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;color:var(--text);font-size:.95rem;font-family:monospace;font-weight:700;letter-spacing:.05em;outline:none;transition:border-color .15s}
+.room-input{
+  flex:1;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;
+  padding:11px 14px;color:var(--text);font-size:.95rem;font-family:monospace;
+  font-weight:700;letter-spacing:.05em;outline:none;transition:border-color .15s
+}
 .room-input::placeholder{color:var(--muted);font-weight:400}
 .room-input:focus{border-color:var(--accent)}
-.join-btn{background:var(--accent);border:none;border-radius:10px;padding:11px 20px;color:#000;font-size:.92rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:opacity .15s}
+.join-btn{
+  background:var(--accent);border:none;border-radius:10px;padding:11px 20px;
+  color:#000;font-size:.92rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:opacity .15s
+}
 .join-btn:hover{opacity:.85}
+
+/* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:100;backdrop-filter:blur(4px)}
 .modal-overlay.active{display:flex}
-.modal-box{background:var(--surface);border:1.5px solid var(--border);border-radius:22px;padding:30px;width:min(520px,92vw);animation:fadeUp .25s ease;max-height:90vh;overflow-y:auto}
+.modal-box{
+  background:var(--surface);border:1.5px solid var(--border);border-radius:22px;
+  padding:30px;width:min(520px,92vw);animation:fadeUp .25s ease;max-height:90vh;overflow-y:auto
+}
 .modal-header{display:flex;align-items:center;gap:12px;margin-bottom:26px}
 .modal-icon{font-size:2rem}
 .modal-title{font-size:1.25rem;font-weight:800}
 .setting-group{margin-bottom:20px}
 .setting-label{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;font-weight:600;margin-bottom:10px}
 .pill-row{display:flex;gap:8px;flex-wrap:wrap}
-.pill{padding:8px 18px;border-radius:999px;border:1.5px solid var(--border);background:var(--surface2);color:var(--muted);font-size:.88rem;font-weight:600;cursor:pointer;transition:all .15s}
+.pill{
+  padding:8px 18px;border-radius:999px;border:1.5px solid var(--border);
+  background:var(--surface2);color:var(--muted);font-size:.88rem;font-weight:600;
+  cursor:pointer;transition:all .15s
+}
 .pill:hover:not(:disabled){border-color:var(--accent);color:var(--text)}
 .pill.active{background:var(--accent);border-color:var(--accent);color:#000}
 .pill:disabled{opacity:.3;cursor:not-allowed}
@@ -80,13 +135,21 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .modal-room-label{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-weight:600;margin-bottom:8px}
 .modal-room-row{display:flex;align-items:center;gap:10px}
 .modal-room-code{font-family:monospace;font-size:1rem;font-weight:800;color:var(--accent);flex:1;letter-spacing:.05em}
-.copy-code-btn{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:6px 12px;color:var(--muted);font-size:.82rem;cursor:pointer;transition:all .15s;white-space:nowrap}
+.copy-code-btn{
+  background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:6px 12px;
+  color:var(--muted);font-size:.82rem;cursor:pointer;transition:all .15s;white-space:nowrap
+}
 .copy-code-btn:hover{border-color:var(--accent);color:var(--text)}
 .modal-room-hint{font-size:.75rem;color:var(--muted);margin-top:6px}
 .modal-btns{display:flex;gap:10px;justify-content:flex-end}
 .map-note{font-size:.74rem;color:#f59e0b;margin-top:7px;display:none}
+
+/* QUIZ (기존 모드) */
 .quiz-topbar{display:flex;align-items:center;gap:8px;margin-bottom:18px}
-.back-btn{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;color:var(--muted);padding:8px 12px;cursor:pointer;font-size:.85rem;transition:all .15s;flex-shrink:0}
+.back-btn{
+  background:var(--surface);border:1.5px solid var(--border);border-radius:10px;
+  color:var(--muted);padding:8px 12px;cursor:pointer;font-size:.85rem;transition:all .15s;flex-shrink:0
+}
 .back-btn:hover{border-color:var(--accent);color:var(--text)}
 .quiz-mode-label{font-size:.83rem;color:var(--muted);flex:1;font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .q-counter{font-size:.92rem;font-weight:800;color:var(--text);white-space:nowrap;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:5px 10px}
@@ -106,18 +169,34 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .timer-bar.urgent{background:#ef4444}
 .timer-num{font-size:.85rem;font-weight:700;min-width:28px;text-align:center;color:var(--muted)}
 .timer-num.urgent{color:#ef4444}
-.q-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:30px 22px;margin-bottom:13px;min-height:210px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;text-align:center}
+.q-card{
+  background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);
+  padding:30px 22px;margin-bottom:13px;min-height:210px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;text-align:center
+}
 .q-label{font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;font-weight:600}
 .q-flag{width:min(290px,88%);aspect-ratio:3/2;object-fit:cover;border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,.55);display:block}
 .map-wrap-outer{position:relative;width:100%}
 #map-inner{width:100%;height:280px;border-radius:12px;overflow:hidden}
 .map-controls{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;gap:4px;z-index:1000}
-.zoom-btn{width:36px;height:36px;background:white;border:none;border-radius:8px;font-size:1.1rem;font-weight:800;cursor:pointer;color:#333;box-shadow:0 2px 8px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;transition:background .15s}
+.zoom-btn{
+  width:36px;height:36px;background:white;border:none;border-radius:8px;font-size:1.1rem;font-weight:800;
+  cursor:pointer;color:#333;box-shadow:0 2px 8px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;transition:background .15s
+}
 .zoom-btn:hover{background:#e8e8e8}
 .q-text{font-size:clamp(1.6rem,5vw,2.5rem);font-weight:800;letter-spacing:-.02em;line-height:1.2}
 .answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.ans-btn{background:var(--surface);border:1.5px solid var(--border);border-radius:13px;padding:14px 17px;color:var(--text);font-size:.94rem;font-weight:500;cursor:pointer;text-align:left;transition:border-color .15s,background .15s;line-height:1.45;display:flex;align-items:flex-start;gap:10px;word-break:break-word;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
-.ans-key{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;min-width:24px;border-radius:7px;background:var(--surface2);font-size:.73rem;font-weight:700;color:var(--muted)}
+.ans-btn{
+  background:var(--surface);border:1.5px solid var(--border);border-radius:13px;
+  padding:14px 17px;color:var(--text);font-size:.94rem;font-weight:500;cursor:pointer;
+  text-align:left;transition:border-color .15s,background .15s;line-height:1.45;
+  display:flex;align-items:flex-start;gap:10px;word-break:break-word;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation
+}
+.ans-key{
+  display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;min-width:24px;
+  border-radius:7px;background:var(--surface2);font-size:.73rem;font-weight:700;color:var(--muted)
+}
 @media(hover:hover){.ans-btn:hover:not(:disabled){border-color:var(--accent);background:var(--surface2)}}
 @media(hover:none){.ans-btn:active:not(:disabled){border-color:var(--accent);background:var(--surface2)}}
 .ans-btn.correct{background:rgba(16,185,129,.13)!important;border-color:#10b981!important;color:#10b981!important}
@@ -126,7 +205,156 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .ans-btn.wrong .ans-key{background:#ef4444;color:#fff}
 .ans-btn:disabled:not(.correct):not(.wrong){border-color:var(--border)!important;background:var(--surface)!important;opacity:.55}
 .ans-btn:disabled{cursor:default}
-.result-wrap{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:clamp(32px,6vw,56px) clamp(18px,4vw,44px);text-align:center;margin-top:16px}
+
+/* ═══════════════════════════════════════════
+   GEO GUESSING SCREEN
+═══════════════════════════════════════════ */
+#geoguess{display:none;width:100%;max-width:780px;animation:fadeUp .3s ease}
+#geoguess.active{display:block}
+
+.gg-topbar{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.gg-round-badge{
+  background:linear-gradient(135deg,#10b981,#059669);
+  color:#fff;font-size:.75rem;font-weight:800;padding:5px 12px;border-radius:999px;white-space:nowrap
+}
+.gg-total-score{
+  font-size:1rem;font-weight:800;color:#10b981;white-space:nowrap;margin-left:auto;
+  background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);border-radius:8px;padding:5px 12px
+}
+
+/* 지도 영역 */
+.gg-map-container{
+  position:relative;border-radius:16px;overflow:hidden;
+  border:2px solid var(--border);margin-bottom:14px;
+  box-shadow:0 8px 40px rgba(0,0,0,.5)
+}
+#gg-map{width:100%;height:420px}
+.gg-hint-overlay{
+  position:absolute;top:14px;left:14px;right:14px;
+  background:rgba(7,13,26,.88);backdrop-filter:blur(8px);
+  border:1px solid var(--border);border-radius:12px;padding:14px 16px;
+  display:flex;align-items:center;gap:12px;z-index:500;pointer-events:none
+}
+.gg-hint-icon{font-size:1.8rem;flex-shrink:0}
+.gg-hint-text{flex:1}
+.gg-hint-label{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-weight:600;margin-bottom:4px}
+.gg-hint-value{font-size:1.1rem;font-weight:700;color:var(--text);line-height:1.3}
+.gg-map-instruction{
+  position:absolute;bottom:14px;left:50%;transform:translateX(-50%);
+  background:rgba(7,13,26,.85);backdrop-filter:blur(6px);
+  border:1px solid rgba(255,255,255,.1);border-radius:999px;
+  padding:8px 20px;font-size:.82rem;color:var(--muted);white-space:nowrap;z-index:500;
+  animation:pulse 2s infinite
+}
+.gg-map-instruction.hidden{display:none}
+
+/* 제출 버튼 */
+.gg-submit-area{display:flex;gap:10px;align-items:center;margin-bottom:14px}
+.gg-submit-btn{
+  flex:1;padding:15px;background:linear-gradient(135deg,#10b981,#059669);
+  border:none;border-radius:13px;color:#fff;font-size:1rem;font-weight:800;
+  cursor:pointer;transition:all .2s;opacity:.4;pointer-events:none
+}
+.gg-submit-btn.ready{opacity:1;pointer-events:auto}
+.gg-submit-btn.ready:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(16,185,129,.4)}
+.gg-skip-btn{
+  padding:15px 20px;background:var(--surface2);border:1.5px solid var(--border);
+  border-radius:13px;color:var(--muted);font-size:.9rem;font-weight:700;cursor:pointer;transition:all .15s
+}
+.gg-skip-btn:hover{border-color:#ef4444;color:#ef4444}
+
+/* 결과 카드 */
+.gg-result-card{
+  background:var(--surface);border:1.5px solid var(--border);border-radius:16px;
+  padding:20px 22px;margin-bottom:14px;display:none;animation:fadeUp .3s ease
+}
+.gg-result-card.visible{display:block}
+.gg-result-top{display:flex;align-items:center;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.gg-score-display{
+  width:80px;height:80px;border-radius:50%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-weight:900;flex-shrink:0;position:relative
+}
+.gg-score-display::before{
+  content:'';position:absolute;inset:-3px;border-radius:50%;
+  background:conic-gradient(var(--score-color,#10b981) var(--score-pct,0%), var(--surface2) 0%);
+  z-index:-1
+}
+.gg-score-display::after{
+  content:'';position:absolute;inset:3px;border-radius:50%;background:var(--surface);z-index:-1
+}
+.gg-score-pts{font-size:1.3rem;color:var(--score-color,#10b981);line-height:1}
+.gg-score-label{font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.gg-result-info{flex:1;min-width:0}
+.gg-result-country{font-size:1.3rem;font-weight:900;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.gg-result-flag{width:32px;height:22px;object-fit:cover;border-radius:4px}
+.gg-distance-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.gg-dist-badge{
+  display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;
+  font-size:.82rem;font-weight:700;border:1px solid
+}
+.gg-color-bar{
+  height:8px;border-radius:4px;margin-top:10px;overflow:hidden;
+  background:linear-gradient(90deg,#10b981,#f59e0b 50%,#ef4444)
+}
+.gg-color-indicator{
+  width:12px;height:12px;border-radius:50%;border:2px solid white;
+  margin-top:-10px;transform:translateX(-50%);transition:left .5s ease;
+  box-shadow:0 2px 6px rgba(0,0,0,.5);position:relative
+}
+.gg-feedback-msg{
+  margin-top:10px;font-size:.85rem;color:var(--muted);line-height:1.5;
+  border-left:3px solid var(--border);padding-left:10px
+}
+
+/* 미니맵 (결과 확인용) */
+.gg-result-map-wrap{
+  border-radius:12px;overflow:hidden;border:1px solid var(--border);
+  height:220px;margin-top:12px;position:relative
+}
+#gg-result-map{width:100%;height:100%}
+
+/* 진행 바 */
+.gg-progress{display:flex;gap:6px;margin-bottom:14px}
+.gg-prog-dot{
+  flex:1;height:5px;border-radius:3px;background:var(--surface2);transition:all .3s
+}
+.gg-prog-dot.done{background:#10b981}
+.gg-prog-dot.current{background:var(--accent);animation:pulse 1.5s infinite}
+
+/* 최종 결과 */
+.gg-final-wrap{
+  background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);
+  padding:clamp(28px,5vw,48px) clamp(16px,4vw,40px);text-align:center
+}
+.gg-final-emoji{font-size:4rem;display:block;margin-bottom:10px}
+.gg-final-title{font-size:1.8rem;font-weight:900;margin-bottom:6px;letter-spacing:-.02em}
+.gg-final-score{font-size:5rem;font-weight:900;color:#10b981;line-height:1;animation:popIn .4s ease}
+.gg-final-max{font-size:.85rem;color:var(--muted);margin-top:4px}
+.gg-round-breakdown{margin-top:20px;text-align:left}
+.gg-breakdown-title{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-weight:600;margin-bottom:10px}
+.gg-breakdown-row{
+  display:flex;align-items:center;gap:10px;padding:9px 13px;
+  border-radius:10px;margin-bottom:6px;background:var(--surface2);font-size:.85rem
+}
+.gg-brow-flag{width:28px;height:19px;object-fit:cover;border-radius:3px;flex-shrink:0}
+.gg-brow-name{flex:1;font-weight:600}
+.gg-brow-dist{font-size:.78rem;color:var(--muted)}
+.gg-brow-pts{font-weight:800;color:#10b981}
+
+/* 색상 피드백 헬퍼 */
+.color-blazing{--score-color:#f97316}   /* 아주 가까움 */
+.color-hot{--score-color:#f59e0b}       /* 가까움 */
+.color-warm{--score-color:#eab308}      /* 보통 */
+.color-cool{--score-color:#3b82f6}      /* 멈 */
+.color-cold{--score-color:#8b5cf6}      /* 멀음 */
+.color-frozen{--score-color:#ef4444}    /* 아주 멀음 */
+
+/* RESULT 화면 (기존) */
+.result-wrap{
+  background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);
+  padding:clamp(32px,6vw,56px) clamp(18px,4vw,44px);text-align:center;margin-top:16px
+}
 .result-emoji{font-size:4.5rem;display:block;margin-bottom:12px}
 .result-title{font-size:1.8rem;font-weight:900;margin-bottom:20px;letter-spacing:-.02em}
 .result-score{font-size:5rem;font-weight:900;color:var(--accent);line-height:1;animation:popIn .4s ease}
@@ -141,9 +369,16 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .btn-primary:hover{opacity:.86;transform:translateY(-1px)}
 .btn-secondary{background:var(--surface2);color:var(--text);border:1.5px solid var(--border)}
 .btn-secondary:hover{border-color:var(--accent)}
-.share-btn{padding:13px 22px;border-radius:12px;font-size:.93rem;font-weight:700;cursor:pointer;border:1.5px solid var(--border);background:var(--surface2);color:var(--text);transition:all .2s;display:flex;align-items:center;gap:7px;touch-action:manipulation}
+.share-btn{
+  padding:13px 22px;border-radius:12px;font-size:.93rem;font-weight:700;cursor:pointer;
+  border:1.5px solid var(--border);background:var(--surface2);color:var(--text);transition:all .2s;
+  display:flex;align-items:center;gap:7px;touch-action:manipulation
+}
 .share-btn:hover{border-color:#10b981;color:#10b981}
-.result-room{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px 18px;margin:20px 0;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.result-room{
+  background:var(--surface2);border:1px solid var(--border);border-radius:12px;
+  padding:14px 18px;margin:20px 0;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap
+}
 .result-room-label{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-weight:600}
 .result-room-code{font-family:monospace;font-size:.95rem;font-weight:800;color:var(--accent);letter-spacing:.05em}
 .result-room-hint{font-size:.75rem;color:var(--muted);width:100%;margin-top:2px}
@@ -155,7 +390,6 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .review-dot.no{background:#ef4444}
 .review-q{flex:1;color:var(--muted)}
 .review-a{color:var(--text);font-weight:600;text-align:right}
-/* LEADERBOARD */
 .lb-wrap{margin-top:24px;border-top:1px solid var(--border);padding-top:20px;text-align:left}
 .lb-header{font-size:.76rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-weight:600;margin-bottom:12px}
 .lb-row{display:flex;align-items:center;gap:10px;padding:9px 13px;border-radius:10px;margin-bottom:6px;background:var(--surface2);font-size:.86rem}
@@ -166,27 +400,109 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .lb-detail{font-size:.78rem;color:var(--muted);white-space:nowrap}
 .lb-score{font-weight:800;color:var(--accent);white-space:nowrap}
 .lb-empty,.lb-loading{text-align:center;color:var(--muted);font-size:.85rem;padding:20px 0}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#1a2948;border:1px solid var(--border);border-radius:10px;padding:11px 22px;font-size:.88rem;font-weight:500;z-index:300;transition:transform .3s;pointer-events:none;white-space:nowrap}
+
+/* ═══════════════════════════════════════════
+   COUNTRY WORDLE
+═══════════════════════════════════════════ */
+.cw-topbar{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.cw-title{font-size:1rem;font-weight:800;flex:1;color:var(--text)}
+.cw-attempts{font-size:.8rem;color:var(--muted);white-space:nowrap;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:5px 10px}
+.cw-mystery{
+  background:var(--surface);border:1.5px solid rgba(167,139,250,.25);border-radius:16px;
+  padding:20px 22px;margin-bottom:16px;text-align:center
+}
+.cw-mystery-label{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;font-weight:600;margin-bottom:8px}
+.cw-mystery-hint{font-size:1rem;color:var(--text);font-weight:600}
+.cw-input-row{display:flex;gap:8px;margin-bottom:16px;position:relative}
+.cw-input{
+  flex:1;background:var(--surface2);border:1.5px solid var(--border);border-radius:12px;
+  padding:13px 16px;color:var(--text);font-size:.98rem;font-family:inherit;outline:none;transition:border-color .15s
+}
+.cw-input:focus{border-color:#a78bfa}
+.cw-input-btn{
+  background:#a78bfa;border:none;border-radius:12px;padding:13px 22px;
+  color:#000;font-size:.92rem;font-weight:800;cursor:pointer;white-space:nowrap;transition:opacity .15s
+}
+.cw-input-btn:hover{opacity:.85}
+.cw-input-btn:disabled{opacity:.4;cursor:not-allowed}
+.cw-autocomplete{
+  position:absolute;top:calc(100% + 4px);left:0;right:68px;
+  background:var(--surface);border:1.5px solid rgba(167,139,250,.3);border-radius:12px;
+  z-index:50;overflow:hidden;display:none;box-shadow:0 8px 32px rgba(0,0,0,.5);max-height:220px;overflow-y:auto
+}
+.cw-autocomplete.open{display:block}
+.cw-ac-item{
+  padding:10px 14px;cursor:pointer;font-size:.9rem;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;transition:background .1s
+}
+.cw-ac-item:last-child{border-bottom:none}
+.cw-ac-item:hover,.cw-ac-item.highlighted{background:var(--surface2)}
+.cw-ac-flag{width:28px;height:19px;object-fit:cover;border-radius:3px;flex-shrink:0}
+.cw-guesses{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.cw-guess-row{
+  display:flex;align-items:center;gap:10px;padding:12px 14px;
+  border-radius:12px;border:1.5px solid;animation:slideIn .3s ease;font-size:.9rem
+}
+.cw-guess-flag{width:32px;height:22px;object-fit:cover;border-radius:4px;flex-shrink:0}
+.cw-guess-name{flex:1;font-weight:700}
+.cw-guess-dist{font-size:.82rem;font-weight:600;white-space:nowrap}
+.cw-guess-dir{font-size:1.1rem;flex-shrink:0;display:inline-block}
+.cw-temp-label{font-size:.72rem;font-weight:800;padding:3px 8px;border-radius:999px;white-space:nowrap;border:1px solid}
+.cw-blazing{background:rgba(249,115,22,.1);border-color:#f97316!important}
+.cw-hot    {background:rgba(245,158,11,.1);border-color:#f59e0b!important}
+.cw-warm   {background:rgba(234,179,8,.1); border-color:#eab308!important}
+.cw-mild   {background:rgba(52,211,153,.1);border-color:#34d399!important}
+.cw-cool   {background:rgba(96,165,250,.1);border-color:#60a5fa!important}
+.cw-cold   {background:rgba(139,92,246,.1);border-color:#8b5cf6!important}
+.cw-frozen {background:rgba(167,139,250,.1);border-color:#a78bfa!important}
+.tc-blazing{color:#f97316}.tc-hot{color:#f59e0b}.tc-warm{color:#eab308}
+.tc-mild{color:#34d399}.tc-cool{color:#60a5fa}.tc-cold{color:#8b5cf6}.tc-frozen{color:#a78bfa}
+.cw-result-banner{
+  background:var(--surface);border:1.5px solid;border-radius:14px;
+  padding:20px 22px;text-align:center;margin-bottom:14px;display:none;animation:popIn .4s ease
+}
+.cw-result-banner.visible{display:block}
+.cw-result-banner.win{border-color:#10b981;background:rgba(16,185,129,.08)}
+.cw-result-banner.lose{border-color:#ef4444;background:rgba(239,68,68,.08)}
+.cw-result-emoji{font-size:3rem;display:block;margin-bottom:8px}
+.cw-result-title{font-size:1.4rem;font-weight:900;margin-bottom:4px}
+.cw-result-sub{font-size:.9rem;color:var(--muted);margin-bottom:14px;line-height:1.5}
+@media(max-width:480px){.cw-input-btn{padding:13px 14px;font-size:.85rem}}
+
+/* TOAST */
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:#1a2948;border:1px solid var(--border);border-radius:10px;
+  padding:11px 22px;font-size:.88rem;font-weight:500;z-index:300;transition:transform .3s;
+  pointer-events:none;white-space:nowrap
+}
 .toast.show{transform:translateX(-50%) translateY(0)}
+
 @media(max-width:480px){
   .mode-grid{grid-template-columns:1fr}
   .answers-grid{grid-template-columns:1fr}
   .hero-globe{animation:none}
   #map-inner{height:220px}
+  #gg-map{height:320px}
   .modal-btns{flex-direction:column}
   .q-counter{font-size:.82rem;padding:4px 8px}
   .streak-badge{min-width:28px;font-size:.85rem}
   .diff-badge{font-size:.68rem;padding:3px 7px}
+  .gg-submit-area{flex-direction:column}
+  .gg-submit-btn,.gg-skip-btn{width:100%}
 }
 </style>
 </head>
 <body>
-<!-- HOME -->
+
+<!-- ══════════════════════════════════════════
+     HOME
+══════════════════════════════════════════ -->
 <div id="home" class="screen active">
   <div class="hero">
     <span class="hero-globe">🌍</span>
     <h1 class="hero-title">GeoQuiz App</h1>
-    <p class="hero-sub">World Geography Quiz — 5 modes · 4 difficulties · 112 countries</p>
+    <p class="hero-sub">World Geography Quiz — 6 modes · 4 difficulties · 112 countries</p>
     <div class="hero-stats">
       👁 Today <span id="views-today">—</span> &nbsp;·&nbsp; Total <span id="views-total">—</span>
     </div>
@@ -195,6 +511,8 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
       <span class="hero-name-hint">(click to change)</span>
     </div>
   </div>
+
+  <div class="section-label">📚 Quiz Modes</div>
   <div class="mode-grid">
     <div class="mode-card" style="--c:#f59e0b" onclick="openSettings('flag')">
       <span class="mode-icon">🚩</span>
@@ -222,6 +540,27 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
       <div class="mode-desc">Guess the country from its greeting</div>
     </div>
   </div>
+
+  <div class="section-label" style="margin-top:8px">🌍 Geo Guessing</div>
+  <div class="mode-grid" style="grid-template-columns:1fr 1fr">
+    <div class="mode-card featured" style="--c:#10b981" onclick="openGeoGuessSettings()">
+      <span class="mode-icon">📍</span>
+      <div class="mode-name">GeoGuessr Mode</div>
+      <div class="mode-desc">
+        A clue appears (flag / capital / greeting). Click anywhere on the world map to guess the country's location.
+        Score is based on distance — the closer you click, the higher the points!
+        Color feedback shows how hot or cold your guess is. 🔥❄️
+      </div>
+    </div>
+    <div class="mode-card featured" style="--c:#a78bfa;background:linear-gradient(135deg,#0e1829,#16102a)" onclick="openWordleSettings()">
+      <span class="mode-icon">🧭</span>
+      <div class="mode-name">Country Wordle</div>
+      <div class="mode-desc">
+        Type any country name to guess the mystery country. Each guess reveals the distance &amp; direction — get closer with every try! 🔥→❄️ color feedback guides you.
+      </div>
+    </div>
+  </div>
+
   <div class="join-section">
     <div class="join-title">🎮 Play the Same Questions with Friends Using a Room Code</div>
     <div class="join-row">
@@ -234,7 +573,10 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
     </div>
   </div>
 </div>
-<!-- SETTINGS MODAL -->
+
+<!-- ══════════════════════════════════════════
+     SETTINGS MODAL (기존 퀴즈)
+══════════════════════════════════════════ -->
 <div class="modal-overlay" id="settings-modal">
   <div class="modal-box">
     <div class="modal-header">
@@ -278,7 +620,60 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
     </div>
   </div>
 </div>
-<!-- QUIZ -->
+
+<!-- ══════════════════════════════════════════
+     GEO GUESS SETTINGS MODAL
+══════════════════════════════════════════ -->
+<div class="modal-overlay" id="gg-settings-modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-icon">📍</span>
+      <div class="modal-title">GeoGuessr Settings</div>
+    </div>
+    <div class="setting-group">
+      <div class="setting-label">Clue Type</div>
+      <div class="pill-row" id="gg-clue-pills">
+        <button class="pill active" data-val="flag">🚩 Flag</button>
+        <button class="pill" data-val="capital">🏛️ Capital</button>
+        <button class="pill" data-val="greeting">👋 Greeting</button>
+        <button class="pill" data-val="mix">🎲 Mix</button>
+      </div>
+    </div>
+    <div class="setting-group">
+      <div class="setting-label">Difficulty (Country Pool)</div>
+      <div class="pill-row" id="gg-diff-pills">
+        <button class="pill" data-val="easy">🟢 Easy</button>
+        <button class="pill active" data-val="medium">🟡 Medium</button>
+        <button class="pill" data-val="hard">🔴 Hard</button>
+        <button class="pill" data-val="mix">🎲 Mix</button>
+      </div>
+    </div>
+    <div class="setting-group">
+      <div class="setting-label">Number of Rounds</div>
+      <div class="pill-row" id="gg-round-pills">
+        <button class="pill" data-val="3">3</button>
+        <button class="pill active" data-val="5">5</button>
+        <button class="pill" data-val="10">10</button>
+      </div>
+    </div>
+    <div class="setting-group">
+      <div class="setting-label">Time per Round</div>
+      <div class="pill-row" id="gg-time-pills">
+        <button class="pill" data-val="30">30s</button>
+        <button class="pill active" data-val="60">60s</button>
+        <button class="pill" data-val="0">No Limit</button>
+      </div>
+    </div>
+    <div class="modal-btns">
+      <button class="btn btn-secondary" onclick="closeGGSettings()">Cancel</button>
+      <button class="btn btn-primary" style="background:#10b981" onclick="startGeoGuess()">Start GeoGuessr →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     QUIZ (기존 퀴즈)
+══════════════════════════════════════════ -->
 <div id="quiz" class="screen">
   <div class="quiz-topbar">
     <button class="back-btn" onclick="goHome()">← Home</button>
@@ -296,7 +691,10 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
   <div class="q-card" id="q-card"></div>
   <div class="answers-grid" id="answers"></div>
 </div>
-<!-- RESULT -->
+
+<!-- ══════════════════════════════════════════
+     RESULT (기존 퀴즈)
+══════════════════════════════════════════ -->
 <div id="result" class="screen">
   <div class="result-wrap">
     <span class="result-emoji" id="r-emoji">🎉</span>
@@ -319,7 +717,6 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
       <button class="btn btn-secondary" onclick="goHome()">Choose Mode</button>
       <button class="share-btn" onclick="shareScore()">📤 Share</button>
     </div>
-    <!-- LEADERBOARD -->
     <div class="lb-wrap">
       <div class="lb-header">🏆 Leaderboard — <span id="lb-code-label" style="color:var(--accent);font-family:monospace;font-size:.82rem;font-weight:800"></span></div>
       <div id="lb-list"><div class="lb-loading">Loading...</div></div>
@@ -330,9 +727,212 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
     </div>
   </div>
 </div>
+
+<!-- ══════════════════════════════════════════
+     GEO GUESSING SCREEN
+══════════════════════════════════════════ -->
+<div id="geoguess" class="screen">
+  <!-- 상단 바 -->
+  <div class="gg-topbar">
+    <button class="back-btn" onclick="goHome()">← Home</button>
+    <div class="gg-round-badge" id="gg-round-badge">Round 1 / 5</div>
+    <div class="timer-bar-wrap" style="width:100px;margin-left:8px">
+      <div class="timer-bar" id="gg-timer-bar" style="background:#10b981"></div>
+    </div>
+    <div class="timer-num" id="gg-timer-num">60</div>
+    <div class="gg-total-score">🌍 <span id="gg-total-score-val">0</span> pts</div>
+  </div>
+
+  <!-- 진행 점 -->
+  <div class="gg-progress" id="gg-progress"></div>
+
+  <!-- 지도 -->
+  <div class="gg-map-container">
+    <div id="gg-map"></div>
+    <div class="gg-hint-overlay" id="gg-hint-overlay">
+      <div class="gg-hint-icon" id="gg-hint-icon">🚩</div>
+      <div class="gg-hint-text">
+        <div class="gg-hint-label" id="gg-hint-label">CLUE — Which country is this?</div>
+        <div class="gg-hint-value" id="gg-hint-value">Loading...</div>
+      </div>
+    </div>
+    <div class="gg-map-instruction" id="gg-map-instruction">📍 Click on the map to place your guess</div>
+  </div>
+
+  <!-- 제출 -->
+  <div class="gg-submit-area">
+    <button class="gg-submit-btn" id="gg-submit-btn" onclick="submitGeoGuess()">
+      Submit Guess →
+    </button>
+    <button class="gg-skip-btn" onclick="skipGeoGuess()">Skip ⏭</button>
+  </div>
+
+  <!-- 라운드 결과 -->
+  <div class="gg-result-card" id="gg-result-card">
+    <div class="gg-result-top">
+      <div class="gg-score-display" id="gg-score-display">
+        <div class="gg-score-pts" id="gg-score-pts">0</div>
+        <div class="gg-score-label">pts</div>
+      </div>
+      <div class="gg-result-info">
+        <div class="gg-result-country" id="gg-result-country">
+          <img class="gg-result-flag" id="gg-result-flag" src="" alt="">
+          <span id="gg-result-country-name">Country</span>
+        </div>
+        <div class="gg-distance-row">
+          <div class="gg-dist-badge" id="gg-dist-badge">— km away</div>
+          <div class="gg-dist-badge" id="gg-accuracy-badge" style="color:#a78bfa;border-color:#a78bfa;background:rgba(167,139,250,.1)">0% accuracy</div>
+        </div>
+        <!-- 색상 온도 바 -->
+        <div style="margin-top:10px">
+          <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--muted);margin-bottom:4px">
+            <span>🔥 Perfect</span><span>❄️ Far</span>
+          </div>
+          <div class="gg-color-bar">
+            <div style="height:100%;width:4px;background:white;opacity:.7;position:relative;transition:left .5s" id="gg-bar-indicator"></div>
+          </div>
+        </div>
+        <div class="gg-feedback-msg" id="gg-feedback-msg"></div>
+      </div>
+    </div>
+    <!-- 결과 미니맵 -->
+    <div class="gg-result-map-wrap">
+      <div id="gg-result-map"></div>
+    </div>
+    <div style="margin-top:12px;text-align:center">
+      <button class="btn btn-primary" id="gg-next-btn" onclick="nextGeoRound()" style="background:#10b981;color:#fff;min-width:160px">
+        Next Round →
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     GEO GUESS FINAL RESULT
+══════════════════════════════════════════ -->
+<div id="gg-final" class="screen">
+  <div class="gg-final-wrap">
+    <span class="gg-final-emoji" id="gg-final-emoji">🌍</span>
+    <div class="gg-final-title" id="gg-final-title">Well Played!</div>
+    <div class="gg-final-score" id="gg-final-score">0</div>
+    <div class="gg-final-max" id="gg-final-max">out of 5000 pts</div>
+    <div class="gg-round-breakdown">
+      <div class="gg-breakdown-title">Round Breakdown</div>
+      <div id="gg-breakdown-list"></div>
+    </div>
+    <div class="btn-row" style="margin-top:24px">
+      <button class="btn btn-primary" style="background:#10b981;color:#fff" onclick="restartGeoGuess()">Play Again</button>
+      <button class="btn btn-secondary" onclick="goHome()">Choose Mode</button>
+      <button class="share-btn" onclick="shareGeoScore()">📤 Share</button>
+    </div>
+    <!-- 리더보드 -->
+    <div class="lb-wrap">
+      <div class="lb-header">🏆 GeoGuessr Leaderboard</div>
+      <div id="gg-lb-list"><div class="lb-loading">Loading...</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     COUNTRY WORDLE SETTINGS MODAL
+══════════════════════════════════════════ -->
+<div class="modal-overlay" id="cw-settings-modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-icon">🧭</span>
+      <div class="modal-title">Country Wordle Settings</div>
+    </div>
+    <div class="setting-group">
+      <div class="setting-label">Difficulty (Max Attempts)</div>
+      <div class="pill-row" id="cw-diff-pills">
+        <button class="pill" data-val="easy">🟢 Easy (∞)</button>
+        <button class="pill active" data-val="medium">🟡 Medium (15)</button>
+        <button class="pill" data-val="hard">🔴 Hard (8)</button>
+      </div>
+    </div>
+    <div class="setting-group">
+      <div class="setting-label">Country Pool</div>
+      <div class="pill-row" id="cw-pool-pills">
+        <button class="pill active" data-val="easy">🌎 Famous (30)</button>
+        <button class="pill" data-val="medium">🌍 Medium (62)</button>
+        <button class="pill" data-val="mix">🌏 All (112)</button>
+      </div>
+    </div>
+    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;font-size:.83rem;color:var(--muted);line-height:1.6">
+      🧭 A mystery country is chosen. Type any country name to guess — you'll see the distance &amp; direction from your guess to the answer. Hot colors = closer!
+    </div>
+    <div class="modal-btns" style="margin-top:20px">
+      <button class="btn btn-secondary" onclick="closeCWSettings()">Cancel</button>
+      <button class="btn btn-primary" style="background:#a78bfa" onclick="startCountryWordle()">Start →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     COUNTRY WORDLE GAME SCREEN
+══════════════════════════════════════════ -->
+<div id="countrywordle" class="screen">
+  <div class="cw-topbar">
+    <button class="back-btn" onclick="goHome()">← Home</button>
+    <div class="cw-title">🧭 Country Wordle</div>
+    <div class="cw-attempts" id="cw-attempts-badge">∞ attempts</div>
+    <button class="btn btn-secondary" style="padding:6px 14px;font-size:.8rem" onclick="startCountryWordle()">New Game</button>
+  </div>
+
+  <!-- 힌트 박스 -->
+  <div class="cw-mystery">
+    <div class="cw-mystery-label">🎯 Guess the Mystery Country</div>
+    <div class="cw-mystery-hint" id="cw-hint-text">Enter the name of any country to make your first guess.</div>
+  </div>
+
+  <!-- 색상 범례 -->
+  <div style="display:flex;align-items:center;justify-content:space-between;font-size:.72rem;color:var(--muted);margin-bottom:6px;padding:0 2px">
+    <span>🔥 Very close</span><span>Distance guide</span><span>❄️ Very far</span>
+  </div>
+  <div style="display:flex;gap:3px;margin-bottom:14px;border-radius:6px;overflow:hidden;height:7px">
+    <div style="flex:1;background:#f97316"></div>
+    <div style="flex:1;background:#f59e0b"></div>
+    <div style="flex:1;background:#eab308"></div>
+    <div style="flex:1;background:#34d399"></div>
+    <div style="flex:1;background:#60a5fa"></div>
+    <div style="flex:1;background:#8b5cf6"></div>
+    <div style="flex:1;background:#a78bfa"></div>
+  </div>
+
+  <!-- 입력 -->
+  <div class="cw-input-row">
+    <input type="text" id="cw-input" class="cw-input"
+      placeholder="Type a country name..."
+      autocomplete="off" spellcheck="false"
+      oninput="cwOnInput()"
+      onkeydown="cwOnKeydown(event)">
+    <button class="cw-input-btn" id="cw-submit-btn" onclick="cwSubmit()">Guess →</button>
+    <div class="cw-autocomplete" id="cw-autocomplete"></div>
+  </div>
+
+  <!-- 결과 배너 (win/lose) -->
+  <div class="cw-result-banner" id="cw-result-banner">
+    <span class="cw-result-emoji" id="cw-result-emoji">🎉</span>
+    <div class="cw-result-title" id="cw-result-title">You got it!</div>
+    <div class="cw-result-sub" id="cw-result-sub"></div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-primary" style="background:#a78bfa" onclick="startCountryWordle()">Play Again</button>
+      <button class="btn btn-secondary" onclick="goHome()">Home</button>
+      <button class="share-btn" onclick="shareCWScore()">📤 Share</button>
+    </div>
+  </div>
+
+  <!-- 추측 목록 -->
+  <div class="cw-guesses" id="cw-guesses"></div>
+</div>
+
 <div class="toast" id="toast"></div>
+
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
+/* ════════════════════════════════════════════════════════════
+   CONSTANTS & STATE
+════════════════════════════════════════════════════════════ */
 const GITHUB_URL='https://pnut102142-del.github.io/geoquiz';
 const FB_URL='https://geoquiz-87a6f-default-rtdb.europe-west1.firebasedatabase.app';
 const MODE_ENCODE={flag:'FLAG',map:'MAP',cap2ctry:'CAP',ctry2cap:'CTR',lang:'LANG'};
@@ -340,7 +940,8 @@ const MODE_DECODE={FLAG:'flag',MAP:'map',CAP:'cap2ctry',CTR:'ctry2cap',LANG:'lan
 const DIFF_ENCODE={easy:'E',medium:'M',hard:'H',mix:'X'};
 const DIFF_DECODE={E:'easy',M:'medium',H:'hard',X:'mix'};
 const DIFF_LABEL={easy:'🟢 Easy',medium:'🟡 Medium',hard:'🔴 Hard',mix:'🎲 Mix'};
-// ── COUNTRIES ──────────────────────────────────────────────────────
+
+/* ── 국가 데이터 ── */
 const countries=[
   // EASY (30)
   {name:"United States",     code:"us",capital:"Washington D.C.", greeting:"Hey there!",                           lat:38.9, lng:-95.7,  zoom:4, diff:'easy'},
@@ -357,7 +958,7 @@ const countries=[
   {name:"Australia",         code:"au",capital:"Canberra",        greeting:"G'day!",                               lat:-25.3,lng:133.8,  zoom:4, diff:'easy'},
   {name:"Brazil",            code:"br",capital:"Brasília",        greeting:"Olá, tudo bem?",                       lat:-14.2,lng:-51.9,  zoom:4, diff:'easy'},
   {name:"South Korea",       code:"kr",capital:"Seoul",           greeting:"Annyeonghaseyo (안녕하세요)",            lat:35.9, lng:127.8,  zoom:6, diff:'easy'},
-  {name:"Mexico",            code:"mx",capital:"Mexico City",     greeting:"¡Hola! ¿Qué tal?",                   lat:23.6, lng:-102.6, zoom:5, diff:'easy'},
+  {name:"Mexico",            code:"mx",capital:"Mexico City",     greeting:"¡Hola! ¿Qué tal?",                    lat:23.6, lng:-102.6, zoom:5, diff:'easy'},
   {name:"Argentina",         code:"ar",capital:"Buenos Aires",    greeting:"¡Hola, che!",                         lat:-38.4,lng:-63.6,  zoom:4, diff:'easy'},
   {name:"Netherlands",       code:"nl",capital:"Amsterdam",       greeting:"Goedendag!",                           lat:52.1, lng:5.3,    zoom:7, diff:'easy'},
   {name:"Sweden",            code:"se",capital:"Stockholm",       greeting:"Hej!",                                 lat:63.1, lng:16.0,   zoom:5, diff:'easy'},
@@ -407,13 +1008,13 @@ const countries=[
   {name:"Chile",             code:"cl",capital:"Santiago",        greeting:"¡Hola, huevón!",                      lat:-35.7,lng:-71.5,  zoom:5, diff:'medium'},
   {name:"Cambodia",          code:"kh",capital:"Phnom Penh",      greeting:"Choum reap suor (ជំរាបសួរ)",           lat:12.6, lng:104.5,  zoom:6, diff:'medium'},
   // HARD (50)
-  {name:"Bhutan",            code:"bt",capital:"Thimphu",         greeting:"Kuzu Zangpo (བཀྲ་ཤིས་བདེ་ལེགས)",      lat:27.5, lng:90.4,   zoom:7, diff:'hard'},
-  {name:"Myanmar",           code:"mm",capital:"Naypyidaw",       greeting:"Mingalarbar (မင်္ဂလာပါ)",              lat:19.2, lng:96.1,   zoom:5, diff:'hard'},
-  {name:"Laos",              code:"la",capital:"Vientiane",       greeting:"Sabaidee (ສະບາຍດີ)",                   lat:17.9, lng:102.5,  zoom:6, diff:'hard'},
-  {name:"Kyrgyzstan",        code:"kg",capital:"Bishkek",         greeting:"Salamatsyzby ",           lat:41.2, lng:74.8,   zoom:6, diff:'hard'},
-  {name:"Tajikistan",        code:"tj",capital:"Dushanbe",        greeting:"Salom ",                    lat:38.9, lng:71.3,   zoom:6, diff:'hard'},
+  {name:"Bhutan",            code:"bt",capital:"Thimphu",         greeting:"Kuzu Zangpo",                          lat:27.5, lng:90.4,   zoom:7, diff:'hard'},
+  {name:"Myanmar",           code:"mm",capital:"Naypyidaw",       greeting:"Mingalarbar",                          lat:19.2, lng:96.1,   zoom:5, diff:'hard'},
+  {name:"Laos",              code:"la",capital:"Vientiane",       greeting:"Sabaidee",                             lat:17.9, lng:102.5,  zoom:6, diff:'hard'},
+  {name:"Kyrgyzstan",        code:"kg",capital:"Bishkek",         greeting:"Salamatsyzby",                         lat:41.2, lng:74.8,   zoom:6, diff:'hard'},
+  {name:"Tajikistan",        code:"tj",capital:"Dushanbe",        greeting:"Salom",                                lat:38.9, lng:71.3,   zoom:6, diff:'hard'},
   {name:"Uzbekistan",        code:"uz",capital:"Tashkent",        greeting:"Assalomu alaykum",                     lat:41.4, lng:63.9,   zoom:6, diff:'hard'},
-  {name:"Turkmenistan",      code:"tm",capital:"Ashgabat",        greeting:"Salam ",                       lat:38.9, lng:59.6,   zoom:6, diff:'hard'},
+  {name:"Turkmenistan",      code:"tm",capital:"Ashgabat",        greeting:"Salam",                                lat:38.9, lng:59.6,   zoom:6, diff:'hard'},
   {name:"Timor-Leste",       code:"tl",capital:"Dili",            greeting:"Bondia",                               lat:-8.9, lng:125.7,  zoom:8, diff:'hard'},
   {name:"Lithuania",         code:"lt",capital:"Vilnius",         greeting:"Labas",                                lat:55.2, lng:23.9,   zoom:7, diff:'hard'},
   {name:"Latvia",            code:"lv",capital:"Riga",            greeting:"Labdien",                              lat:56.9, lng:24.6,   zoom:7, diff:'hard'},
@@ -421,45 +1022,48 @@ const countries=[
   {name:"Moldova",           code:"md",capital:"Chișinău",        greeting:"Bună ziua",                            lat:47.4, lng:28.4,   zoom:7, diff:'hard'},
   {name:"Slovenia",          code:"si",capital:"Ljubljana",       greeting:"Dober dan",                            lat:46.1, lng:14.8,   zoom:8, diff:'hard'},
   {name:"Croatia",           code:"hr",capital:"Zagreb",          greeting:"Dobar dan",                            lat:45.1, lng:16.4,   zoom:7, diff:'hard'},
-  {name:"Bosnia & Herzegovina",code:"ba",capital:"Sarajevo",      greeting:"Zdravo ",                     lat:44.2, lng:17.4,   zoom:7, diff:'hard'},
-  {name:"Serbia",            code:"rs",capital:"Belgrade",        greeting:"Zdravo ",                     lat:44.0, lng:21.0,   zoom:7, diff:'hard'},
+  {name:"Bosnia & Herzegovina",code:"ba",capital:"Sarajevo",      greeting:"Zdravo",                               lat:44.2, lng:17.4,   zoom:7, diff:'hard'},
+  {name:"Serbia",            code:"rs",capital:"Belgrade",        greeting:"Zdravo",                               lat:44.0, lng:21.0,   zoom:7, diff:'hard'},
   {name:"Albania",           code:"al",capital:"Tirana",          greeting:"Mirëdita",                             lat:41.2, lng:20.2,   zoom:7, diff:'hard'},
-  {name:"North Macedonia",   code:"mk",capital:"Skopje",          greeting:"Zdravo",                  lat:41.6, lng:21.7,   zoom:8, diff:'hard'},
-  {name:"Montenegro",        code:"me",capital:"Podgorica",       greeting:"Dobar dan ",               lat:42.7, lng:19.4,   zoom:8, diff:'hard'},
+  {name:"North Macedonia",   code:"mk",capital:"Skopje",          greeting:"Zdravo",                               lat:41.6, lng:21.7,   zoom:8, diff:'hard'},
+  {name:"Montenegro",        code:"me",capital:"Podgorica",       greeting:"Dobar dan",                            lat:42.7, lng:19.4,   zoom:8, diff:'hard'},
   {name:"Malta",             code:"mt",capital:"Valletta",        greeting:"Bonġu",                                lat:35.9, lng:14.4,   zoom:10,diff:'hard'},
   {name:"Luxembourg",        code:"lu",capital:"Luxembourg City", greeting:"Moien",                                lat:49.8, lng:6.1,    zoom:9, diff:'hard'},
   {name:"Kosovo",            code:"xk",capital:"Pristina",        greeting:"Mirë se vjen",                         lat:42.6, lng:20.9,   zoom:8, diff:'hard'},
   {name:"Rwanda",            code:"rw",capital:"Kigali",          greeting:"Muraho",                               lat:-2.0, lng:29.9,   zoom:8, diff:'hard'},
   {name:"Burundi",           code:"bi",capital:"Gitega",          greeting:"Amahoro",                              lat:-3.4, lng:29.9,   zoom:8, diff:'hard'},
-  {name:"Eritrea",           code:"er",capital:"Asmara",          greeting:"Selam ",                         lat:15.2, lng:39.8,   zoom:7, diff:'hard'},
-  {name:"Djibouti",          code:"dj",capital:"Djibouti City",   greeting:"Nabad",                        lat:11.8, lng:42.6,   zoom:8, diff:'hard'},
+  {name:"Eritrea",           code:"er",capital:"Asmara",          greeting:"Selam",                                lat:15.2, lng:39.8,   zoom:7, diff:'hard'},
+  {name:"Djibouti",          code:"dj",capital:"Djibouti City",   greeting:"Nabad",                                lat:11.8, lng:42.6,   zoom:8, diff:'hard'},
   {name:"Malawi",            code:"mw",capital:"Lilongwe",        greeting:"Moni",                                 lat:-13.2,lng:34.3,   zoom:7, diff:'hard'},
   {name:"Lesotho",           code:"ls",capital:"Maseru",          greeting:"Lumela",                               lat:-29.6,lng:28.2,   zoom:8, diff:'hard'},
-  {name:"Eswatini",          code:"sz",capital:"Mbabane",         greeting:"Sawubona",                      lat:-26.5,lng:31.5,   zoom:9, diff:'hard'},
-  {name:"Mali",              code:"ml",capital:"Bamako",          greeting:"I ni ce ",                     lat:17.6, lng:-3.0,   zoom:6, diff:'hard'},
-  {name:"Burkina Faso",      code:"bf",capital:"Ouagadougou",     greeting:"Nba ye ",                      lat:12.4, lng:-1.6,   zoom:7, diff:'hard'},
-  {name:"Togo",              code:"tg",capital:"Lomé",            greeting:"Bonjour ",                  lat:8.6,  lng:0.8,    zoom:7, diff:'hard'},
-  {name:"Benin",             code:"bj",capital:"Porto-Novo",      greeting:"Mi do",                          lat:9.3,  lng:2.3,    zoom:7, diff:'hard'},
-  {name:"Sierra Leone",      code:"sl",capital:"Freetown",        greeting:"Kusheh ",                        lat:8.5,  lng:-11.8,  zoom:7, diff:'hard'},
-  {name:"Gabon",             code:"ga",capital:"Libreville",      greeting:"Bonjour ",                   lat:-0.8, lng:11.6,   zoom:7, diff:'hard'},
+  {name:"Eswatini",          code:"sz",capital:"Mbabane",         greeting:"Sawubona",                             lat:-26.5,lng:31.5,   zoom:9, diff:'hard'},
+  {name:"Mali",              code:"ml",capital:"Bamako",          greeting:"I ni ce",                              lat:17.6, lng:-3.0,   zoom:6, diff:'hard'},
+  {name:"Burkina Faso",      code:"bf",capital:"Ouagadougou",     greeting:"Nba ye",                               lat:12.4, lng:-1.6,   zoom:7, diff:'hard'},
+  {name:"Togo",              code:"tg",capital:"Lomé",            greeting:"Bonjour",                              lat:8.6,  lng:0.8,    zoom:7, diff:'hard'},
+  {name:"Benin",             code:"bj",capital:"Porto-Novo",      greeting:"Mi do",                                lat:9.3,  lng:2.3,    zoom:7, diff:'hard'},
+  {name:"Sierra Leone",      code:"sl",capital:"Freetown",        greeting:"Kusheh",                               lat:8.5,  lng:-11.8,  zoom:7, diff:'hard'},
+  {name:"Gabon",             code:"ga",capital:"Libreville",      greeting:"Bonjour",                              lat:-0.8, lng:11.6,   zoom:7, diff:'hard'},
   {name:"Comoros",           code:"km",capital:"Moroni",          greeting:"Hujambo",                              lat:-11.6,lng:43.3,   zoom:9, diff:'hard'},
-  {name:"Cape Verde",        code:"cv",capital:"Praia",           greeting:"Bon dia ",                      lat:16.0, lng:-24.0,  zoom:9, diff:'hard'},
-  {name:"Suriname",          code:"sr",capital:"Paramaribo",      greeting:"Hallo ",                    lat:3.9,  lng:-56.0,  zoom:7, diff:'hard'},
-  {name:"Belize",            code:"bz",capital:"Belmopan",        greeting:"Hello ",                        lat:17.2, lng:-88.5,  zoom:8, diff:'hard'},
-  {name:"Guyana",            code:"gy",capital:"Georgetown",      greeting:"Wha de scene?",              lat:4.9,  lng:-58.9,  zoom:7, diff:'hard'},
-  {name:"Trinidad & Tobago", code:"tt",capital:"Port of Spain",   greeting:"Wha happening? ",          lat:10.7, lng:-61.2,  zoom:9, diff:'hard'},
+  {name:"Cape Verde",        code:"cv",capital:"Praia",           greeting:"Bon dia",                              lat:16.0, lng:-24.0,  zoom:9, diff:'hard'},
+  {name:"Suriname",          code:"sr",capital:"Paramaribo",      greeting:"Hallo",                                lat:3.9,  lng:-56.0,  zoom:7, diff:'hard'},
+  {name:"Belize",            code:"bz",capital:"Belmopan",        greeting:"Hello",                                lat:17.2, lng:-88.5,  zoom:8, diff:'hard'},
+  {name:"Guyana",            code:"gy",capital:"Georgetown",      greeting:"Wha de scene?",                        lat:4.9,  lng:-58.9,  zoom:7, diff:'hard'},
+  {name:"Trinidad & Tobago", code:"tt",capital:"Port of Spain",   greeting:"Wha happening?",                       lat:10.7, lng:-61.2,  zoom:9, diff:'hard'},
   {name:"Tonga",             code:"to",capital:"Nuku'alofa",      greeting:"Mālō e lelei",                         lat:-19.9,lng:-175.2, zoom:9, diff:'hard'},
   {name:"Samoa",             code:"ws",capital:"Apia",            greeting:"Talofa",                               lat:-13.8,lng:-172.1, zoom:9, diff:'hard'},
-  {name:"Vanuatu",           code:"vu",capital:"Port Vila",       greeting:"Halo ",                        lat:-15.4,lng:167.0,  zoom:8, diff:'hard'},
-  {name:"Papua New Guinea",  code:"pg",capital:"Port Moresby",    greeting:"Gude ",                      lat:-6.3, lng:143.9,  zoom:6, diff:'hard'},
-  {name:"Solomon Islands",   code:"sb",capital:"Honiara",         greeting:"Halo ",                         lat:-9.4, lng:160.2,  zoom:8, diff:'hard'},
-  {name:"Mozambique",        code:"mz",capital:"Maputo",          greeting:"Bom dia ",                  lat:-18.7,lng:35.5,   zoom:6, diff:'hard'},
-  {name:"Zambia",            code:"zm",capital:"Lusaka",          greeting:"Muli bwanji ",                   lat:-13.1,lng:27.8,   zoom:6, diff:'hard'},
-  {name:"Niger",             code:"ne",capital:"Niamey",          greeting:"Salam ",                         lat:17.6, lng:8.1,    zoom:6, diff:'hard'},
-  {name:"Chad",              code:"td",capital:"N'Djamena",       greeting:"Salam ",                 lat:15.5, lng:18.7,   zoom:6, diff:'hard'},
-  {name:"Cameroon",          code:"cm",capital:"Yaoundé",         greeting:"Bonjour ",                 lat:5.4,  lng:12.4,   zoom:6, diff:'hard'},
+  {name:"Vanuatu",           code:"vu",capital:"Port Vila",       greeting:"Halo",                                 lat:-15.4,lng:167.0,  zoom:8, diff:'hard'},
+  {name:"Papua New Guinea",  code:"pg",capital:"Port Moresby",    greeting:"Gude",                                 lat:-6.3, lng:143.9,  zoom:6, diff:'hard'},
+  {name:"Solomon Islands",   code:"sb",capital:"Honiara",         greeting:"Halo",                                 lat:-9.4, lng:160.2,  zoom:8, diff:'hard'},
+  {name:"Mozambique",        code:"mz",capital:"Maputo",          greeting:"Bom dia",                              lat:-18.7,lng:35.5,   zoom:6, diff:'hard'},
+  {name:"Zambia",            code:"zm",capital:"Lusaka",          greeting:"Muli bwanji",                          lat:-13.1,lng:27.8,   zoom:6, diff:'hard'},
+  {name:"Niger",             code:"ne",capital:"Niamey",          greeting:"Salam",                                lat:17.6, lng:8.1,    zoom:6, diff:'hard'},
+  {name:"Chad",              code:"td",capital:"N'Djamena",       greeting:"Salam",                                lat:15.5, lng:18.7,   zoom:6, diff:'hard'},
+  {name:"Cameroon",          code:"cm",capital:"Yaoundé",         greeting:"Bonjour",                              lat:5.4,  lng:12.4,   zoom:6, diff:'hard'},
 ];
-// ── STATE ──────────────────────────────────────────────────────────
+
+/* ════════════════════════════════════════════════════════════
+   SHARED STATE (기존 퀴즈)
+════════════════════════════════════════════════════════════ */
 let mode=null,questionCount=10,timePerQ=30,currentSeed=null,difficulty='hard';
 let questions=[],qIdx=0,score=0,correctCount=0,streak=0,maxStreak=0;
 let answered=false,timerInterval=null,timeLeft=30;
@@ -472,29 +1076,76 @@ const MODES={
   ctry2cap:{label:'🌆 Country → Capital', accent:'#8b5cf6',icon:'🌆'},
   lang:    {label:'👋 Greeting Quiz',     accent:'#ec4899',icon:'👋'},
 };
-// ── NAME MANAGEMENT ────────────────────────────────────────────────
+
+/* ════════════════════════════════════════════════════════════
+   GEO GUESSING STATE
+════════════════════════════════════════════════════════════ */
+let ggMap=null,ggResultMap=null;
+let ggRounds=[],ggCurrentRound=0,ggTotalScore=0;
+let ggGuessMarker=null,ggGuessLatLng=null;
+let ggTimerInterval=null,ggTimeLeft=60;
+let ggSettings={clue:'flag',diff:'medium',rounds:5,time:60};
+let ggResults=[]; // 각 라운드 결과 저장
+
+/* ════════════════════════════════════════════════════════════
+   DISTANCE 계산 (Haversine)
+════════════════════════════════════════════════════════════ */
+function haversineKm(lat1,lng1,lat2,lng2){
+  const R=6371;
+  const dLat=(lat2-lat1)*Math.PI/180;
+  const dLng=(lng2-lng1)*Math.PI/180;
+  const a=Math.sin(dLat/2)**2+
+    Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
+  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+}
+
+/* 거리 → 점수 계산 (최대 1000점/라운드) */
+function distToScore(km){
+  // 0km → 1000, ~2000km → 500, ~10000km → 0
+  if(km<=0) return 1000;
+  const score=Math.round(1000*Math.exp(-km/2000));
+  return Math.max(0,Math.min(1000,score));
+}
+
+/* 거리 → 색상 피드백 */
+function distToColor(km){
+  if(km<200)  return{cls:'color-blazing',emoji:'🔥🔥🔥',text:'On Fire! Practically perfect!',    hex:'#f97316',pct:5};
+  if(km<500)  return{cls:'color-blazing',emoji:'🔥🔥',  text:'Blazing hot! Very close!',         hex:'#f97316',pct:15};
+  if(km<1000) return{cls:'color-hot',    emoji:'🔥',    text:'Hot! Great guess!',                 hex:'#f59e0b',pct:28};
+  if(km<2000) return{cls:'color-warm',   emoji:'🌡️',   text:'Warm — you were in the region.',    hex:'#eab308',pct:42};
+  if(km<4000) return{cls:'color-cool',   emoji:'🌊',   text:'Cool — on the right continent?',    hex:'#3b82f6',pct:60};
+  if(km<7000) return{cls:'color-cold',   emoji:'❄️',   text:'Cold — far from the target.',       hex:'#8b5cf6',pct:78};
+  return{cls:'color-frozen',emoji:'🥶',text:'Frozen! Very far away.',                             hex:'#ef4444',pct:95};
+}
+
+/* ════════════════════════════════════════════════════════════
+   NAME MANAGEMENT
+════════════════════════════════════════════════════════════ */
 function ensureName(){
-  let name = localStorage.getItem('gq_name');
-  while(!name || !name.trim()){
-    name = prompt("👋 Welcome to GeoQuiz!\nWhat name should appear on the leaderboard?", "");
-    if(name === null){ name = 'Rik'; break; }
+  let name=localStorage.getItem('gq_name');
+  while(!name||!name.trim()){
+    name=prompt("👋 Welcome to GeoQuiz!\nWhat name should appear on the leaderboard?","");
+    if(name===null){name='Rik';break;}
   }
-  name = name.trim().slice(0,16) || 'Rik';
-  localStorage.setItem('gq_name', name);
-  const el = document.getElementById('hero-name-val');
-  if(el) el.textContent = name;
+  name=name.trim().slice(0,16)||'Rik';
+  localStorage.setItem('gq_name',name);
+  const el=document.getElementById('hero-name-val');
+  if(el)el.textContent=name;
 }
 function changeName(){
-  const cur = localStorage.getItem('gq_name') || '';
-  const nw = prompt('Change your name:', cur);
-  if(nw && nw.trim()){
-    const clean = nw.trim().slice(0,16);
-    localStorage.setItem('gq_name', clean);
-    document.getElementById('hero-name-val').textContent = clean;
+  const cur=localStorage.getItem('gq_name')||'';
+  const nw=prompt('Change your name:',cur);
+  if(nw&&nw.trim()){
+    const clean=nw.trim().slice(0,16);
+    localStorage.setItem('gq_name',clean);
+    document.getElementById('hero-name-val').textContent=clean;
     showToast('✅ Name updated!');
   }
 }
-// ── FIREBASE ───────────────────────────────────────────────────────
+
+/* ════════════════════════════════════════════════════════════
+   FIREBASE
+════════════════════════════════════════════════════════════ */
 async function fbGet(p){try{const r=await fetch(`${FB_URL}${p}.json`);return r.json();}catch{return null;}}
 async function fbSet(p,v){try{await fetch(`${FB_URL}${p}.json`,{method:'PUT',body:JSON.stringify(v),headers:{'Content-Type':'application/json'}});}catch{}}
 async function fbPush(p,v){try{const r=await fetch(`${FB_URL}${p}.json`,{method:'POST',body:JSON.stringify(v),headers:{'Content-Type':'application/json'}});return r.json();}catch{return null;}}
@@ -503,8 +1154,7 @@ async function initViews(){
     const today=new Date().toISOString().slice(0,10).replace(/-/g,'');
     let[total,td]=await Promise.all([fbGet('/views/total'),fbGet(`/views/daily/${today}`)]);
     total=(total||0)+1;td=(td||0)+1;
-    fbSet('/views/total',total);
-    fbSet(`/views/daily/${today}`,td);
+    fbSet('/views/total',total);fbSet(`/views/daily/${today}`,td);
     document.getElementById('views-today').textContent=td.toLocaleString();
     document.getElementById('views-total').textContent=total.toLocaleString();
   }catch{
@@ -518,16 +1168,17 @@ async function initViews(){
     }catch{}
   }
 }
-// ── LEADERBOARD ────────────────────────────────────────────────────
+
+/* ════════════════════════════════════════════════════════════
+   LEADERBOARD (기존 퀴즈)
+════════════════════════════════════════════════════════════ */
 async function submitScore(){
-  if(scoreSaved) return;
-  const name = localStorage.getItem('gq_name') || 'Rik';
-  mySubmittedName = name;
-  scoreSaved = true;
-  const rc = getRoomCode().replace(/-/g,'_');
+  if(scoreSaved)return;
+  const name=localStorage.getItem('gq_name')||'Rik';
+  mySubmittedName=name;scoreSaved=true;
+  const rc=getRoomCode().replace(/-/g,'_');
   await fbPush(`/scores/${rc}`,{name,score,correct:correctCount,total:questions.length,mode:MODES[mode].label,difficulty,ts:Date.now()});
-  showToast('🏆 Score saved!');
-  loadLeaderboard();
+  showToast('🏆 Score saved!');loadLeaderboard();
 }
 async function loadLeaderboard(){
   const el=document.getElementById('lb-list');
@@ -550,8 +1201,41 @@ async function loadLeaderboard(){
     el.appendChild(d);
   });
 }
+
+/* GeoGuess 리더보드 */
+async function submitGGScore(){
+  const name=localStorage.getItem('gq_name')||'Rik';
+  const key=`GG_${ggSettings.clue.toUpperCase()}_${ggSettings.rounds}`;
+  await fbPush(`/gg_scores/${key}`,{name,score:ggTotalScore,rounds:ggSettings.rounds,clue:ggSettings.clue,ts:Date.now()});
+  showToast('🏆 GeoGuessr score saved!');
+  loadGGLeaderboard();
+}
+async function loadGGLeaderboard(){
+  const el=document.getElementById('gg-lb-list');
+  el.innerHTML='<div class="lb-loading">Loading...</div>';
+  const key=`GG_${ggSettings.clue.toUpperCase()}_${ggSettings.rounds}`;
+  const data=await fbGet(`/gg_scores/${key}`);
+  if(!data){el.innerHTML='<div class="lb-empty">No scores yet!</div>';return;}
+  const entries=Object.values(data).sort((a,b)=>b.score-a.score).slice(0,5);
+  el.innerHTML='';
+  const medals=['🥇','🥈','🥉'];
+  entries.forEach((e,i)=>{
+    const d=document.createElement('div');
+    d.className='lb-row';
+    const maxPts=ggSettings.rounds*1000;
+    d.innerHTML=`<div class="lb-rank${i<3?' gold':''}">${medals[i]||i+1}</div>
+      <div class="lb-name">${esc(e.name)}</div>
+      <div class="lb-detail">${e.rounds} rounds</div>
+      <div class="lb-score">${e.score}/${maxPts}</div>`;
+    el.appendChild(d);
+  });
+}
+
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-// ── SEEDED RNG ─────────────────────────────────────────────────────
+
+/* ════════════════════════════════════════════════════════════
+   SEEDED RNG
+════════════════════════════════════════════════════════════ */
 function mulberry32(seed){
   return function(){
     seed|=0;seed=seed+0x6D2B79F5|0;
@@ -566,9 +1250,34 @@ function seededShuffle(arr,seed){
   return a;
 }
 function newSeed(){return Math.floor(100000+Math.random()*899999);}
-// ── DIFFICULTY ─────────────────────────────────────────────────────
+
+/* ════════════════════════════════════════════════════════════
+   HELPERS
+════════════════════════════════════════════════════════════ */
 function getPool(d){return d==='mix'?countries:countries.filter(c=>c.diff===d);}
-// ── ROOM CODE ──────────────────────────────────────────────────────
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function setAccent(c){['quiz','result'].forEach(id=>document.getElementById(id).style.setProperty('--accent',c));}
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const el=document.getElementById(id);el.classList.add('active');el.style.animation='none';el.offsetHeight;el.style.animation='';
+}
+function getWrongs(correct,field,n=3){
+  const cv=correct[field];
+  return shuffle(countries.filter(c=>c.name!==correct.name&&c[field]!==cv)).slice(0,n).map(c=>c[field]);
+}
+function showToast(msg){
+  const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');
+  clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2500);
+}
+function updateStreak(){
+  const el=document.getElementById('streak-badge');
+  if(streak>=2){const prev=el.textContent;el.textContent=`🔥${streak}`;if(prev!==el.textContent){el.classList.remove('pop');el.offsetHeight;el.classList.add('pop');}}
+  else el.textContent='';
+}
+
+/* ════════════════════════════════════════════════════════════
+   ROOM CODE
+════════════════════════════════════════════════════════════ */
 function getRoomCode(){return`${MODE_ENCODE[mode]}-${questionCount}-${timePerQ}-${DIFF_ENCODE[difficulty]}-${currentSeed}`;}
 function parseRoomCode(raw){
   const p=raw.trim().toUpperCase().split('-');
@@ -593,7 +1302,10 @@ function joinRoom(){
   document.getElementById('room-input').value='';
   startQuiz();
 }
-// ── SETTINGS ───────────────────────────────────────────────────────
+
+/* ════════════════════════════════════════════════════════════
+   SETTINGS (기존 퀴즈)
+════════════════════════════════════════════════════════════ */
 function openSettings(m){
   mode=m;currentSeed=newSeed();
   const info=MODES[m];
@@ -654,27 +1366,353 @@ function confirmSettings(){
   questions=seededShuffle(pool,currentSeed).slice(0,Math.min(questionCount,pool.length));
   startQuiz();
 }
-// ── HELPERS ────────────────────────────────────────────────────────
-function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-function setAccent(c){['quiz','result'].forEach(id=>document.getElementById(id).style.setProperty('--accent',c));}
-function showScreen(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  const el=document.getElementById(id);el.classList.add('active');el.style.animation='none';el.offsetHeight;el.style.animation='';
+
+/* ════════════════════════════════════════════════════════════
+   GEO GUESSING — SETTINGS
+════════════════════════════════════════════════════════════ */
+function openGeoGuessSettings(){
+  // 클루 필
+  document.getElementById('gg-clue-pills').querySelectorAll('.pill').forEach(p=>{
+    p.classList.toggle('active',p.dataset.val===ggSettings.clue);
+    p.onclick=()=>{
+      document.getElementById('gg-clue-pills').querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
+      p.classList.add('active');ggSettings.clue=p.dataset.val;
+    };
+  });
+  // 난이도
+  document.getElementById('gg-diff-pills').querySelectorAll('.pill').forEach(p=>{
+    p.classList.toggle('active',p.dataset.val===ggSettings.diff);
+    p.onclick=()=>{
+      document.getElementById('gg-diff-pills').querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
+      p.classList.add('active');ggSettings.diff=p.dataset.val;
+    };
+  });
+  // 라운드 수
+  document.getElementById('gg-round-pills').querySelectorAll('.pill').forEach(p=>{
+    p.classList.toggle('active',parseInt(p.dataset.val)===ggSettings.rounds);
+    p.onclick=()=>{
+      document.getElementById('gg-round-pills').querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
+      p.classList.add('active');ggSettings.rounds=parseInt(p.dataset.val);
+    };
+  });
+  // 시간
+  document.getElementById('gg-time-pills').querySelectorAll('.pill').forEach(p=>{
+    p.classList.toggle('active',parseInt(p.dataset.val)===ggSettings.time);
+    p.onclick=()=>{
+      document.getElementById('gg-time-pills').querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
+      p.classList.add('active');ggSettings.time=parseInt(p.dataset.val);
+    };
+  });
+  document.getElementById('gg-settings-modal').classList.add('active');
 }
-function getWrongs(correct,field,n=3){
-  const cv=correct[field];
-  return shuffle(countries.filter(c=>c.name!==correct.name&&c[field]!==cv)).slice(0,n).map(c=>c[field]);
+function closeGGSettings(){document.getElementById('gg-settings-modal').classList.remove('active');}
+
+/* ════════════════════════════════════════════════════════════
+   GEO GUESSING — MAIN FLOW
+════════════════════════════════════════════════════════════ */
+function startGeoGuess(){
+  closeGGSettings();
+  // 라운드 준비
+  const pool=shuffle(getPool(ggSettings.diff));
+  ggRounds=pool.slice(0,Math.min(ggSettings.rounds,pool.length));
+  ggCurrentRound=0;ggTotalScore=0;ggResults=[];
+  showScreen('geoguess');
+  renderGeoRound();
 }
-function showToast(msg){
-  const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');
-  clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2500);
+
+function renderGeoRound(){
+  const country=ggRounds[ggCurrentRound];
+  const total=ggRounds.length;
+
+  // 상단
+  document.getElementById('gg-round-badge').textContent=`Round ${ggCurrentRound+1} / ${total}`;
+  document.getElementById('gg-total-score-val').textContent=ggTotalScore;
+
+  // 진행 점
+  const prog=document.getElementById('gg-progress');
+  prog.innerHTML='';
+  for(let i=0;i<total;i++){
+    const dot=document.createElement('div');
+    dot.className='gg-prog-dot'+(i<ggCurrentRound?' done':i===ggCurrentRound?' current':'');
+    prog.appendChild(dot);
+  }
+
+  // 클루 표시
+  const clueType=ggSettings.clue==='mix'
+    ?['flag','capital','greeting'][Math.floor(Math.random()*3)]
+    :ggSettings.clue;
+
+  if(clueType==='flag'){
+    document.getElementById('gg-hint-icon').innerHTML=`<img src="https://flagcdn.com/w80/${country.code}.png" style="width:56px;height:38px;object-fit:cover;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.4)">`;
+    document.getElementById('gg-hint-label').textContent='FLAG — Which country is this?';
+    document.getElementById('gg-hint-value').textContent='Click the map where this country is!';
+  } else if(clueType==='capital'){
+    document.getElementById('gg-hint-icon').textContent='🏛️';
+    document.getElementById('gg-hint-label').textContent='CAPITAL — Where is the country with this capital?';
+    document.getElementById('gg-hint-value').textContent=country.capital;
+  } else {
+    document.getElementById('gg-hint-icon').textContent='👋';
+    document.getElementById('gg-hint-label').textContent='GREETING — Where is the country with this greeting?';
+    document.getElementById('gg-hint-value').textContent=country.greeting;
+  }
+
+  // 지도 초기화
+  ggGuessMarker=null;ggGuessLatLng=null;
+  document.getElementById('gg-submit-btn').classList.remove('ready');
+  document.getElementById('gg-map-instruction').classList.remove('hidden');
+  document.getElementById('gg-result-card').classList.remove('visible');
+
+  // 기존 맵 제거
+  if(ggMap){ggMap.remove();ggMap=null;}
+  if(ggResultMap){ggResultMap.remove();ggResultMap=null;}
+
+  setTimeout(()=>{
+    ggMap=L.map('gg-map',{
+      zoomControl:true,
+      attributionControl:false,
+      minZoom:1,maxZoom:6
+    }).setView([20,10],2);
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',{maxZoom:19}).addTo(ggMap);
+
+    ggMap.on('click',function(e){
+      ggGuessLatLng=e.latlng;
+      if(ggGuessMarker)ggMap.removeLayer(ggGuessMarker);
+      ggGuessMarker=L.marker(e.latlng,{
+        icon:L.divIcon({
+          className:'',
+          html:`<div style="
+            width:20px;height:20px;background:#60a5fa;border:3px solid white;
+            border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,.5);
+            transform:translate(-50%,-50%)
+          "></div>`,
+          iconSize:[20,20]
+        })
+      }).addTo(ggMap);
+      document.getElementById('gg-submit-btn').classList.add('ready');
+      document.getElementById('gg-map-instruction').classList.add('hidden');
+    });
+    ggMap.invalidateSize();
+  },60);
+
+  // 타이머
+  clearInterval(ggTimerInterval);
+  if(ggSettings.time>0){
+    ggTimeLeft=ggSettings.time;
+    updateGGTimer();
+    ggTimerInterval=setInterval(()=>{
+      ggTimeLeft--;updateGGTimer();
+      if(ggTimeLeft<=0){clearInterval(ggTimerInterval);skipGeoGuess();}
+    },1000);
+  } else {
+    document.getElementById('gg-timer-num').textContent='∞';
+    document.getElementById('gg-timer-bar').style.width='100%';
+  }
 }
-function updateStreak(){
-  const el=document.getElementById('streak-badge');
-  if(streak>=2){const prev=el.textContent;el.textContent=`🔥${streak}`;if(prev!==el.textContent){el.classList.remove('pop');el.offsetHeight;el.classList.add('pop');}}
-  else{el.textContent='';}
+
+function updateGGTimer(){
+  const bar=document.getElementById('gg-timer-bar');
+  const num=document.getElementById('gg-timer-num');
+  const pct=(ggTimeLeft/ggSettings.time)*100;
+  bar.style.width=`${pct}%`;
+  num.textContent=ggTimeLeft;
+  bar.style.background=ggTimeLeft<=10?'#ef4444':'#10b981';
 }
-// ── QUIZ FLOW ──────────────────────────────────────────────────────
+
+function submitGeoGuess(){
+  if(!ggGuessLatLng)return;
+  clearInterval(ggTimerInterval);
+  const country=ggRounds[ggCurrentRound];
+  const dist=haversineKm(ggGuessLatLng.lat,ggGuessLatLng.lng,country.lat,country.lng);
+  const pts=distToScore(dist);
+  const cf=distToColor(dist);
+  ggTotalScore+=pts;
+  ggResults.push({country,dist,pts,guessLat:ggGuessLatLng.lat,guessLng:ggGuessLatLng.lng});
+  showGeoRoundResult(country,dist,pts,cf);
+}
+
+function skipGeoGuess(){
+  clearInterval(ggTimerInterval);
+  const country=ggRounds[ggCurrentRound];
+  ggResults.push({country,dist:null,pts:0,guessLat:null,guessLng:null});
+  showGeoRoundResult(country,null,0,distToColor(99999));
+}
+
+function showGeoRoundResult(country,dist,pts,cf){
+  // 버튼 비활성화
+  if(ggGuessMarker)ggMap.removeLayer(ggGuessMarker);
+
+  // 점수 표시
+  const maxScore=ggRounds.length*1000;
+  const pct=Math.min(100,Math.round(pts/10));
+  const scoreDisp=document.getElementById('gg-score-display');
+  scoreDisp.style.setProperty('--score-color',cf.hex);
+  scoreDisp.style.setProperty('--score-pct',`${pct*3.6}deg`);
+  document.getElementById('gg-score-pts').textContent=pts;
+
+  // 국가 정보
+  document.getElementById('gg-result-flag').src=`https://flagcdn.com/w80/${country.code}.png`;
+  document.getElementById('gg-result-country-name').textContent=country.name;
+
+  // 거리 배지
+  const distBadge=document.getElementById('gg-dist-badge');
+  if(dist!==null){
+    const distText=dist<1?'< 1 km':dist<1000?`${Math.round(dist)} km`:`${(dist/1000).toFixed(1)}k km`;
+    distBadge.textContent=`📍 ${distText} away`;
+    distBadge.style.color=cf.hex;distBadge.style.borderColor=cf.hex;
+    distBadge.style.background=cf.hex+'22';
+  } else {
+    distBadge.textContent='⏭ Skipped';
+    distBadge.style.color='var(--muted)';distBadge.style.borderColor='var(--border)';
+    distBadge.style.background='transparent';
+  }
+
+  // 정확도 배지
+  const accuracy=Math.round(pts/10);
+  const accBadge=document.getElementById('gg-accuracy-badge');
+  accBadge.textContent=`${accuracy}% accuracy`;
+
+  // 온도 바 인디케이터
+  const indicator=document.getElementById('gg-bar-indicator');
+  indicator.style.marginLeft=`${cf.pct}%`;
+
+  // 피드백 메시지
+  const feedbackEl=document.getElementById('gg-feedback-msg');
+  feedbackEl.innerHTML=`${cf.emoji} ${cf.text}<br>
+    <span style="color:var(--text);font-weight:600">${country.name}</span>
+    is at ${country.lat.toFixed(1)}°, ${country.lng.toFixed(1)}°
+    — Capital: <strong>${country.capital}</strong>`;
+
+  // 결과 카드 표시
+  document.getElementById('gg-result-card').classList.add('visible');
+
+  // 다음 버튼 텍스트
+  const nextBtn=document.getElementById('gg-next-btn');
+  const isLast=ggCurrentRound>=ggRounds.length-1;
+  nextBtn.textContent=isLast?'See Final Results 🏆':'Next Round →';
+
+  // 결과 미니맵
+  setTimeout(()=>{
+    if(ggResultMap){ggResultMap.remove();ggResultMap=null;}
+    ggResultMap=L.map('gg-result-map',{
+      zoomControl:false,attributionControl:false,dragging:false,
+      touchZoom:false,scrollWheelZoom:false
+    });
+
+    // 맞는 위치와 추측 위치 둘 다 보이도록 bounds 설정
+    const correctLatLng=[country.lat,country.lng];
+    if(dist!==null&&ggGuessLatLng){
+      const guessLatLng=[ggGuessLatLng.lat,ggGuessLatLng.lng];
+      const bounds=L.latLngBounds([correctLatLng,guessLatLng]).pad(0.3);
+      ggResultMap.fitBounds(bounds);
+    } else {
+      ggResultMap.setView(correctLatLng,4);
+    }
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',{maxZoom:19}).addTo(ggResultMap);
+
+    // 정답 마커 (초록)
+    L.marker(correctLatLng,{
+      icon:L.divIcon({
+        className:'',
+        html:`<div style="
+          width:24px;height:24px;background:#10b981;border:3px solid white;
+          border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,.5);
+          display:flex;align-items:center;justify-content:center;
+          font-size:12px;transform:translate(-50%,-50%)
+        ">✓</div>`,
+        iconSize:[24,24]
+      })
+    }).addTo(ggResultMap).bindPopup(`<b>${country.name}</b>`).openPopup();
+
+    // 추측 마커 (파랑) + 연결선
+    if(dist!==null&&ggGuessLatLng){
+      L.marker([ggGuessLatLng.lat,ggGuessLatLng.lng],{
+        icon:L.divIcon({
+          className:'',
+          html:`<div style="
+            width:20px;height:20px;background:#60a5fa;border:3px solid white;
+            border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,.5);
+            transform:translate(-50%,-50%)
+          "></div>`,
+          iconSize:[20,20]
+        })
+      }).addTo(ggResultMap);
+
+      // 선 연결
+      L.polyline([[ggGuessLatLng.lat,ggGuessLatLng.lng],correctLatLng],{
+        color:cf.hex,weight:2,dashArray:'6,4',opacity:.8
+      }).addTo(ggResultMap);
+    }
+    ggResultMap.invalidateSize();
+  },100);
+}
+
+function nextGeoRound(){
+  ggCurrentRound++;
+  if(ggCurrentRound>=ggRounds.length){
+    showGeoFinal();
+  } else {
+    document.getElementById('gg-result-card').classList.remove('visible');
+    renderGeoRound();
+  }
+}
+
+function showGeoFinal(){
+  if(ggMap){ggMap.remove();ggMap=null;}
+  if(ggResultMap){ggResultMap.remove();ggResultMap=null;}
+
+  const maxPts=ggRounds.length*1000;
+  const pct=ggTotalScore/maxPts;
+  const grades=[
+    {min:.9,emoji:'🌟',title:'Geographic Genius!'},
+    {min:.7,emoji:'🗺️',title:'World Explorer!'},
+    {min:.5,emoji:'🌍',title:'Globetrotter!'},
+    {min:.3,emoji:'🧭',title:'Getting There!'},
+    {min:0, emoji:'✈️',title:'Keep Exploring!'},
+  ];
+  const g=grades.find(x=>pct>=x.min);
+
+  document.getElementById('gg-final-emoji').textContent=g.emoji;
+  document.getElementById('gg-final-title').textContent=g.title;
+  document.getElementById('gg-final-score').textContent=ggTotalScore;
+  document.getElementById('gg-final-max').textContent=`out of ${maxPts} pts (${Math.round(pct*100)}%)`;
+
+  // 라운드 브레이크다운
+  const list=document.getElementById('gg-breakdown-list');
+  list.innerHTML='';
+  ggResults.forEach((r,i)=>{
+    const d=document.createElement('div');
+    d.className='gg-breakdown-row';
+    const distTxt=r.dist===null?'Skipped':r.dist<1000?`${Math.round(r.dist)} km`:`${(r.dist/1000).toFixed(1)}k km`;
+    const cf=distToColor(r.dist??99999);
+    d.innerHTML=`
+      <img class="gg-brow-flag" src="https://flagcdn.com/w40/${r.country.code}.png" alt="">
+      <div class="gg-brow-name">${r.country.name}</div>
+      <div class="gg-brow-dist" style="color:${cf.hex}">${distTxt} ${r.dist!==null?cf.emoji:''}</div>
+      <div class="gg-brow-pts">+${r.pts}</div>`;
+    list.appendChild(d);
+  });
+
+  showScreen('gg-final');
+  submitGGScore();
+}
+
+function restartGeoGuess(){
+  openGeoGuessSettings();
+}
+
+function shareGeoScore(){
+  const maxPts=ggRounds.length*1000;
+  const pct=Math.round(ggTotalScore/maxPts*100);
+  const text=`🌍 GeoGuessr Challenge!\n\nI scored ${ggTotalScore}/${maxPts} pts (${pct}%) 📍\nClue type: ${ggSettings.clue} | ${ggSettings.rounds} rounds\n\nCan you beat me? 😏\n👉 ${GITHUB_URL}`;
+  if(navigator.share){navigator.share({title:'GeoQuiz App',text}).catch(()=>{});}
+  else{navigator.clipboard.writeText(text).then(()=>showToast('📋 Copied! Share it with friends 🌍')).catch(()=>showToast('❌ Copy failed'));}
+}
+
+/* ════════════════════════════════════════════════════════════
+   QUIZ FLOW (기존)
+════════════════════════════════════════════════════════════ */
 function startQuiz(){
   qIdx=0;score=0;correctCount=0;streak=0;maxStreak=0;history=[];answered=false;
   scoreSaved=false;mySubmittedName='';
@@ -785,11 +1823,13 @@ function getQSummary(){
   if(mode==='cap2ctry')return`Capital: ${c.capital}`;if(mode==='ctry2cap')return`Country: ${c.name}`;
   if(mode==='lang')return`"${c.greeting.split('(')[0].trim()}"`;
 }
-// ── RESULT ─────────────────────────────────────────────────────────
+
+/* ════════════════════════════════════════════════════════════
+   RESULT (기존 퀴즈)
+════════════════════════════════════════════════════════════ */
 function showResult(){
   if(leafMap){leafMap.remove();leafMap=null;}
-  clearInterval(timerInterval);
-  document.onkeydown=null;
+  clearInterval(timerInterval);document.onkeydown=null;
   const total=questions.length,pct=correctCount/total;
   const grades=[
     {min:1.0,emoji:'🏆',title:'Perfect!',    msg:"Flawless! You're a true geography genius!"},
@@ -818,43 +1858,296 @@ function showResult(){
     rev.appendChild(d);
   });
   document.getElementById('play-again-btn').onclick=()=>startQuiz();
-  showScreen('result');
-  // Auto-save score to leaderboard
-  submitScore();
+  showScreen('result');submitScore();
 }
-// ── SHARE ──────────────────────────────────────────────────────────
+
+/* ════════════════════════════════════════════════════════════
+   SHARE (기존 퀴즈)
+════════════════════════════════════════════════════════════ */
 function shareScore(){
   const total=questions.length,pct=Math.round(correctCount/total*100);
   const emo=['😵','😰','😅','🙂','😄','🤩'][Math.min(5,Math.floor(pct/20))];
   const streakLine=maxStreak>=3?`🔥 Best streak: ${maxStreak} in a row!\n`:'';
   const shareUrl=`${GITHUB_URL}?room=${getRoomCode()}`;
-  const text=`🌍 Hey! Come play GeoQuiz with me!
-
-I just scored ${score} points (${correctCount}/${total} correct) ${emo}
-Mode: ${MODES[mode].label} [${DIFF_LABEL[difficulty]}]
-${streakLine}
-Think you can beat me? 😏
-Click the link — same questions await:
-👉 ${shareUrl}`;
+  const text=`🌍 Hey! Come play GeoQuiz with me!\n\nI just scored ${score} points (${correctCount}/${total} correct) ${emo}\nMode: ${MODES[mode].label} [${DIFF_LABEL[difficulty]}]\n${streakLine}\nThink you can beat me? 😏\nClick the link — same questions await:\n👉 ${shareUrl}`;
   if(navigator.share){navigator.share({title:'GeoQuiz App',text}).catch(()=>{});}
   else{navigator.clipboard.writeText(text).then(()=>showToast('📋 Copied! Share it with friends 🎮')).catch(()=>showToast('❌ Copy failed'));}
 }
-// ── NAV ────────────────────────────────────────────────────────────
+
+/* ════════════════════════════════════════════════════════════
+   COUNTRY WORDLE — STATE & SETTINGS
+════════════════════════════════════════════════════════════ */
+let cwSettings = { diff: 'medium', pool: 'easy' };
+let cwTarget = null;          // 정답 국가 객체
+let cwGuesses = [];           // 추측 배열
+let cwMaxAttempts = 15;       // 난이도별 최대 횟수
+let cwDone = false;
+let cwAcHighlight = -1;       // 자동완성 키보드 선택 인덱스
+
+const CW_MAX = { easy: Infinity, medium: 15, hard: 8 };
+
+/* 방향 계산 (bearing → 화살표) */
+function bearing(lat1, lng1, lat2, lng2) {
+  const φ1 = lat1 * Math.PI/180, φ2 = lat2 * Math.PI/180;
+  const Δλ = (lng2 - lng1) * Math.PI/180;
+  const y = Math.sin(Δλ) * Math.cos(φ2);
+  const x = Math.cos(φ1)*Math.sin(φ2) - Math.sin(φ1)*Math.cos(φ2)*Math.cos(Δλ);
+  const θ = Math.atan2(y, x) * 180/Math.PI;
+  return (θ + 360) % 360;
+}
+function bearingArrow(deg) {
+  // 8방향
+  const dirs = ['↑','↗','→','↘','↓','↙','←','↖'];
+  return dirs[Math.round(deg / 45) % 8];
+}
+
+/* 거리 → 색상 클래스 */
+function cwDistColor(km) {
+  if (km < 300)  return { cls:'cw-blazing', tc:'tc-blazing', label:'🔥🔥🔥', hex:'#f97316' };
+  if (km < 700)  return { cls:'cw-hot',     tc:'tc-hot',     label:'🔥🔥',   hex:'#f59e0b' };
+  if (km < 1500) return { cls:'cw-warm',    tc:'tc-warm',    label:'🔥',     hex:'#eab308' };
+  if (km < 3000) return { cls:'cw-mild',    tc:'tc-mild',    label:'🌡️',    hex:'#34d399' };
+  if (km < 5000) return { cls:'cw-cool',    tc:'tc-cool',    label:'🌊',    hex:'#60a5fa' };
+  if (km < 8000) return { cls:'cw-cold',    tc:'tc-cold',    label:'❄️',    hex:'#8b5cf6' };
+  return           { cls:'cw-frozen',  tc:'tc-frozen',  label:'🥶',     hex:'#a78bfa' };
+}
+
+/* ── 설정 모달 ── */
+function openWordleSettings() {
+  ['cw-diff-pills','cw-pool-pills'].forEach(id => {
+    const grp = document.getElementById(id);
+    const key = id === 'cw-diff-pills' ? 'diff' : 'pool';
+    grp.querySelectorAll('.pill').forEach(p => {
+      p.classList.toggle('active', p.dataset.val === cwSettings[key]);
+      p.onclick = () => {
+        grp.querySelectorAll('.pill').forEach(x => x.classList.remove('active'));
+        p.classList.add('active');
+        cwSettings[key] = p.dataset.val;
+      };
+    });
+  });
+  document.getElementById('cw-settings-modal').classList.add('active');
+}
+function closeCWSettings() {
+  document.getElementById('cw-settings-modal').classList.remove('active');
+}
+
+/* ── 게임 시작 ── */
+function startCountryWordle() {
+  closeCWSettings();
+  cwGuesses = [];
+  cwDone = false;
+  cwAcHighlight = -1;
+  cwMaxAttempts = CW_MAX[cwSettings.diff];
+
+  // 풀 선택
+  const pool = getPool(cwSettings.pool);
+  cwTarget = pool[Math.floor(Math.random() * pool.length)];
+
+  // UI 초기화
+  document.getElementById('cw-guesses').innerHTML = '';
+  document.getElementById('cw-result-banner').className = 'cw-result-banner';
+  document.getElementById('cw-input').value = '';
+  document.getElementById('cw-input').disabled = false;
+  document.getElementById('cw-submit-btn').disabled = false;
+  document.getElementById('cw-autocomplete').className = 'cw-autocomplete';
+  updateCWAttemptsDisplay();
+  document.getElementById('cw-hint-text').textContent = 'Enter the name of any country to make your first guess.';
+  showScreen('countrywordle');
+  document.getElementById('cw-input').focus();
+}
+
+function updateCWAttemptsDisplay() {
+  const left = cwMaxAttempts === Infinity ? '∞' : cwMaxAttempts - cwGuesses.length;
+  const total = cwMaxAttempts === Infinity ? '∞' : cwMaxAttempts;
+  document.getElementById('cw-attempts-badge').textContent =
+    cwMaxAttempts === Infinity ? '∞ attempts' : `${left} / ${total} left`;
+}
+
+/* ── 자동완성 ── */
+function cwOnInput() {
+  if (cwDone) return;
+  const val = document.getElementById('cw-input').value.trim().toLowerCase();
+  const ac = document.getElementById('cw-autocomplete');
+  cwAcHighlight = -1;
+  if (val.length < 1) { ac.className = 'cw-autocomplete'; return; }
+
+  const matches = countries
+    .filter(c => c.name.toLowerCase().startsWith(val))
+    .slice(0, 6);
+
+  if (!matches.length) { ac.className = 'cw-autocomplete'; return; }
+
+  ac.innerHTML = matches.map((c, i) =>
+    `<div class="cw-ac-item" data-name="${c.name}" onclick="cwSelectAC('${c.name.replace(/'/g,"\\'")}')">
+      <img class="cw-ac-flag" src="https://flagcdn.com/w40/${c.code}.png" alt="">
+      <span>${c.name}</span>
+    </div>`
+  ).join('');
+  ac.className = 'cw-autocomplete open';
+}
+
+function cwSelectAC(name) {
+  document.getElementById('cw-input').value = name;
+  document.getElementById('cw-autocomplete').className = 'cw-autocomplete';
+  cwAcHighlight = -1;
+  cwSubmit();
+}
+
+function cwOnKeydown(e) {
+  const ac = document.getElementById('cw-autocomplete');
+  const items = ac.querySelectorAll('.cw-ac-item');
+  if (ac.classList.contains('open') && items.length) {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      cwAcHighlight = Math.min(cwAcHighlight + 1, items.length - 1);
+      items.forEach((el, i) => el.classList.toggle('highlighted', i === cwAcHighlight));
+      if (items[cwAcHighlight]) document.getElementById('cw-input').value = items[cwAcHighlight].dataset.name;
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      cwAcHighlight = Math.max(cwAcHighlight - 1, 0);
+      items.forEach((el, i) => el.classList.toggle('highlighted', i === cwAcHighlight));
+      if (items[cwAcHighlight]) document.getElementById('cw-input').value = items[cwAcHighlight].dataset.name;
+    } else if (e.key === 'Escape') {
+      ac.className = 'cw-autocomplete';
+    }
+  }
+  if (e.key === 'Enter') cwSubmit();
+}
+
+/* ── 추측 제출 ── */
+function cwSubmit() {
+  if (cwDone) return;
+  const raw = document.getElementById('cw-input').value.trim();
+  if (!raw) return;
+
+  // 국가 매칭 (대소문자 무시)
+  const matched = countries.find(c => c.name.toLowerCase() === raw.toLowerCase());
+  if (!matched) { showToast('❌ Unknown country — check spelling'); return; }
+
+  // 이미 추측한 국가 체크
+  if (cwGuesses.find(g => g.name === matched.name)) {
+    showToast('⚠️ Already guessed!'); return;
+  }
+
+  document.getElementById('cw-input').value = '';
+  document.getElementById('cw-autocomplete').className = 'cw-autocomplete';
+
+  const dist = Math.round(haversineKm(matched.lat, matched.lng, cwTarget.lat, cwTarget.lng));
+  const bear = bearing(matched.lat, matched.lng, cwTarget.lat, cwTarget.lng);
+  const arrow = bearingArrow(bear);
+  const cf = cwDistColor(dist);
+  const isWin = matched.name === cwTarget.name;
+
+  cwGuesses.unshift({ name: matched.name, code: matched.code, dist, arrow, cf, isWin });
+  renderCWGuesses();
+  updateCWAttemptsDisplay();
+
+  // 힌트 텍스트 업데이트
+  if (!isWin) {
+    const distTxt = dist < 1000 ? `${dist} km` : `${(dist/1000).toFixed(1)}k km`;
+    document.getElementById('cw-hint-text').textContent =
+      `${matched.name} is ${distTxt} away ${arrow} — keep guessing!`;
+  }
+
+  if (isWin) {
+    cwEndGame(true);
+  } else if (cwMaxAttempts !== Infinity && cwGuesses.length >= cwMaxAttempts) {
+    cwEndGame(false);
+  }
+}
+
+/* ── 추측 행 렌더 ── */
+function renderCWGuesses() {
+  const container = document.getElementById('cw-guesses');
+  container.innerHTML = cwGuesses.map((g, i) => {
+    const distTxt = g.dist === 0 ? '0 km' : g.dist < 1000 ? `${g.dist} km` : `${(g.dist/1000).toFixed(1)}k km`;
+    // 온도계 바 너비 (최대거리 20000km 기준)
+    const barW = g.isWin ? 100 : Math.max(4, Math.round((1 - g.dist/20000) * 100));
+    return `
+      <div class="cw-guess-row ${g.isWin ? 'cw-blazing' : g.cf.cls}" style="animation-delay:${i===0?.1:0}s">
+        <img class="cw-guess-flag" src="https://flagcdn.com/w40/${g.code}.png" alt="">
+        <div class="cw-guess-name">${g.name}</div>
+        ${g.isWin
+          ? `<div class="cw-temp-label" style="color:#10b981;border-color:#10b981;background:rgba(16,185,129,.15)">✓ CORRECT!</div>`
+          : `<div class="cw-guess-dir">${g.arrow}</div>
+             <div class="cw-guess-dist ${g.cf.tc}">${distTxt}</div>
+             <div style="width:80px;height:6px;background:var(--surface2);border-radius:3px;overflow:hidden;flex-shrink:0">
+               <div style="height:100%;width:${barW}%;background:${g.cf.hex};border-radius:3px;transition:width .6s ease"></div>
+             </div>
+             <div class="cw-temp-label ${g.cf.tc}" style="border-color:${g.cf.hex}">${g.cf.label}</div>`
+        }
+      </div>`;
+  }).join('');
+}
+
+/* ── 게임 종료 ── */
+function cwEndGame(win) {
+  cwDone = true;
+  document.getElementById('cw-input').disabled = true;
+  document.getElementById('cw-submit-btn').disabled = true;
+
+  const banner = document.getElementById('cw-result-banner');
+  banner.className = `cw-result-banner visible ${win ? 'win' : 'lose'}`;
+
+  if (win) {
+    const tries = cwGuesses.length;
+    document.getElementById('cw-result-emoji').textContent = tries === 1 ? '🏆' : tries <= 3 ? '🎉' : '😊';
+    document.getElementById('cw-result-title').textContent =
+      tries === 1 ? 'First Try!!' : `Got it in ${tries} ${tries === 1 ? 'try' : 'tries'}!`;
+    document.getElementById('cw-result-sub').textContent =
+      `The mystery country was ${cwTarget.name}. Capital: ${cwTarget.capital}.`;
+  } else {
+    document.getElementById('cw-result-emoji').textContent = '😭';
+    document.getElementById('cw-result-title').textContent = 'Out of guesses!';
+    document.getElementById('cw-result-sub').innerHTML =
+      `The mystery country was <strong style="color:var(--text)">${cwTarget.name}</strong>.<br>Capital: ${cwTarget.capital} · ${cwTarget.diff} difficulty`;
+  }
+  // 결과 배너로 스크롤
+  banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+/* ── 공유 ── */
+function shareCWScore() {
+  const tries = cwGuesses.length;
+  const win = cwGuesses[0]?.isWin;
+  const maxStr = cwMaxAttempts === Infinity ? '∞' : cwMaxAttempts;
+  const rows = [...cwGuesses].reverse().map(g => {
+    if (g.isWin) return '✅';
+    if (g.dist < 300)  return '🟥';
+    if (g.dist < 1500) return '🟧';
+    if (g.dist < 5000) return '🟨';
+    return '🟦';
+  }).join('');
+  const text = `🧭 Country Wordle\n${rows}\n${win ? `Solved in ${tries}/${maxStr}` : `Failed (${maxStr} attempts)`}\n${GITHUB_URL}`;
+  if (navigator.share) navigator.share({ title: 'Country Wordle', text }).catch(() => {});
+  else navigator.clipboard.writeText(text).then(() => showToast('📋 Copied!'));
+}
+
+/* ════════════════════════════════════════════════════════════
+   NAV
+════════════════════════════════════════════════════════════ */
 function goHome(){
   if(leafMap){leafMap.remove();leafMap=null;}
-  clearInterval(timerInterval);document.onkeydown=null;showScreen('home');
+  if(ggMap){ggMap.remove();ggMap=null;}
+  if(ggResultMap){ggResultMap.remove();ggResultMap=null;}
+  clearInterval(timerInterval);clearInterval(ggTimerInterval);
+  document.onkeydown=null;showScreen('home');
 }
-// ── INIT ───────────────────────────────────────────────────────────
+
+/* ════════════════════════════════════════════════════════════
+   INIT
+════════════════════════════════════════════════════════════ */
 initViews();
 ensureName();
 // URL에 ?room=XXX 있으면 자동 입장
 (function(){
-  const roomCode = new URLSearchParams(window.location.search).get('room');
-  if(!roomCode) return;
-  const parsed = parseRoomCode(roomCode);
-  if(!parsed){ showToast('❌ Invalid room code'); return; }
-  mode=parsed.mode; questionCount=parsed.questionCount;
-  timePerQ=parsed.timePerQ; difficulty=parsed.difficulty; currentSeed=parsed.seed;
+  const roomCode=new URLSearchParams(window.location.search).get('room');
+  if(!roomCode)return;
+  const parsed=parseRoomCode(roomCode);
+  if(!parsed){showToast('❌ Invalid room code');return;}
+  mode=parsed.mode;questionCount=parsed.questionCount;
+  timePerQ=parsed.timePerQ;difficulty=parsed.difficulty;currentSeed=parsed.seed;
   const pool=getPool(difficulty);
   questions=seededShuffle(pool,currentSeed).slice(0,Math.min(questionCount,pool.length));
   window.history.replaceState({},'',window.location.pathname);
