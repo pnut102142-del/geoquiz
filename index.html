@@ -14,6 +14,7 @@
 <meta property="og:title" content="GeoQuiz App | World Geography Quiz">
 <meta property="og:description" content="Guess countries from flags, maps, capitals & greetings! 4 difficulty levels, challenge friends with room codes!">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -846,8 +847,8 @@ body{
       <div class="setting-label">Difficulty (Max Attempts)</div>
       <div class="pill-row" id="cw-diff-pills">
         <button class="pill" data-val="easy">🟢 Easy (∞)</button>
-        <button class="pill active" data-val="medium">🟡 Medium (15)</button>
-        <button class="pill" data-val="hard">🔴 Hard (8)</button>
+        <button class="pill active" data-val="medium">🟡 Medium (12)</button>
+        <button class="pill" data-val="hard">🔴 Hard (6)</button>
       </div>
     </div>
     <div class="setting-group">
@@ -922,13 +923,40 @@ body{
     </div>
   </div>
 
-  <!-- 추측 목록 -->
-  <div class="cw-guesses" id="cw-guesses"></div>
+  <!-- 지도 + 추측 목록 레이아웃 -->
+  <div style="display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap">
+
+    <!-- 지도 (왼쪽) -->
+    <div style="flex:1;min-width:260px">
+      <div style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-weight:600;margin-bottom:6px">
+        🗺️ Guess Map
+      </div>
+      <div style="position:relative;border-radius:14px;overflow:hidden;border:1.5px solid var(--border);box-shadow:0 4px 20px rgba(0,0,0,.4)">
+        <div id="cw-map" style="width:100%;height:340px"></div>
+        <div id="cw-map-placeholder" style="
+          position:absolute;inset:0;display:flex;flex-direction:column;
+          align-items:center;justify-content:center;gap:8px;
+          background:var(--surface2);color:var(--muted);font-size:.85rem;text-align:center;padding:16px
+        ">
+          <span style="font-size:2.5rem">🌍</span>
+          Your guesses will appear here
+        </div>
+      </div>
+    </div>
+
+    <!-- 추측 목록 (오른쪽) -->
+    <div style="flex:1;min-width:260px">
+      <div style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-weight:600;margin-bottom:6px">
+        📋 Guess History
+      </div>
+      <div class="cw-guesses" id="cw-guesses"></div>
+    </div>
+
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 /* ════════════════════════════════════════════════════════════
    CONSTANTS & STATE
@@ -1878,13 +1906,15 @@ function shareScore(){
    COUNTRY WORDLE — STATE & SETTINGS
 ════════════════════════════════════════════════════════════ */
 let cwSettings = { diff: 'medium', pool: 'easy' };
-let cwTarget = null;          // 정답 국가 객체
-let cwGuesses = [];           // 추측 배열
-let cwMaxAttempts = 15;       // 난이도별 최대 횟수
+let cwTarget = null;
+let cwGuesses = [];
+let cwMaxAttempts = 12;
 let cwDone = false;
-let cwAcHighlight = -1;       // 자동완성 키보드 선택 인덱스
+let cwAcHighlight = -1;
+let cwMap = null;           // Leaflet 지도
+let cwGeoLayers = [];       // GeoJSON 레이어들 (누적)
 
-const CW_MAX = { easy: Infinity, medium: 15, hard: 8 };
+const CW_MAX = { easy: Infinity, medium: 12, hard: 6 };
 
 /* 방향 계산 (bearing → 화살표) */
 function bearing(lat1, lng1, lat2, lng2) {
@@ -1939,6 +1969,7 @@ function startCountryWordle() {
   cwDone = false;
   cwAcHighlight = -1;
   cwMaxAttempts = CW_MAX[cwSettings.diff];
+  cwGeoLayers = [];
 
   // 풀 선택
   const pool = getPool(cwSettings.pool);
@@ -1953,7 +1984,26 @@ function startCountryWordle() {
   document.getElementById('cw-autocomplete').className = 'cw-autocomplete';
   updateCWAttemptsDisplay();
   document.getElementById('cw-hint-text').textContent = 'Enter the name of any country to make your first guess.';
+  document.getElementById('cw-map-placeholder').style.display = 'flex';
+
   showScreen('countrywordle');
+
+  // 지도 초기화
+  if (cwMap) { cwMap.remove(); cwMap = null; }
+  setTimeout(() => {
+    cwMap = L.map('cw-map', {
+      zoomControl: true,
+      attributionControl: false,
+      minZoom: 1, maxZoom: 8,
+      scrollWheelZoom: false
+    }).setView([20, 10], 2);
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom: 19,
+      attribution: 'Esri'
+    }).addTo(cwMap);
+    cwMap.invalidateSize();
+  }, 80);
+
   document.getElementById('cw-input').focus();
 }
 
@@ -2043,6 +2093,9 @@ function cwSubmit() {
   renderCWGuesses();
   updateCWAttemptsDisplay();
 
+  // 지도에 GeoJSON 하이라이트
+  cwHighlightCountry(matched, cf, isWin);
+
   // 힌트 텍스트 업데이트
   if (!isWin) {
     const distTxt = dist < 1000 ? `${dist} km` : `${(dist/1000).toFixed(1)}k km`;
@@ -2055,6 +2108,60 @@ function cwSubmit() {
   } else if (cwMaxAttempts !== Infinity && cwGuesses.length >= cwMaxAttempts) {
     cwEndGame(false);
   }
+}
+
+/* ── 지도 국가 하이라이트 (GeoJSON via Nominatim) ── */
+async function cwHighlightCountry(matched, cf, isWin) {
+  if (!cwMap) return;
+
+  // 플레이스홀더 숨기기
+  document.getElementById('cw-map-placeholder').style.display = 'none';
+
+  try {
+    const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(matched.name)}&format=geojson&polygon_geojson=1&limit=1&featuretype=country`;
+    const res = await fetch(url, { headers: { 'Accept-Language': 'en' } });
+    const data = await res.json();
+    if (!data.features || !data.features.length) {
+      // GeoJSON 없으면 원 마커로 폴백
+      cwAddFallbackMarker(matched, cf, isWin);
+      return;
+    }
+
+    const fillColor = isWin ? '#10b981' : cf.hex;
+    const layer = L.geoJSON(data, {
+      style: {
+        color: fillColor,
+        fillColor: fillColor,
+        fillOpacity: isWin ? 0.55 : 0.35,
+        weight: isWin ? 2.5 : 1.5,
+        opacity: 0.9
+      }
+    }).addTo(cwMap);
+
+    // 툴팁
+    const distTxt = matched.name === cwTarget.name
+      ? '✓ Correct!'
+      : matched.dist < 1000 ? `${matched.dist} km away` : `${(matched.dist/1000).toFixed(1)}k km away`;
+    layer.bindTooltip(`<b>${matched.name}</b><br>${distTxt}`, { permanent: false, direction: 'center' });
+
+    cwGeoLayers.push(layer);
+
+    // 정답이면 지도 해당 국가로 이동
+    if (isWin) {
+      cwMap.fitBounds(layer.getBounds(), { padding: [30, 30], maxZoom: 6 });
+    }
+  } catch (e) {
+    cwAddFallbackMarker(matched, cf, isWin);
+  }
+}
+
+function cwAddFallbackMarker(matched, cf, isWin) {
+  if (!cwMap) return;
+  const color = isWin ? '#10b981' : cf.hex;
+  L.circleMarker([matched.lat, matched.lng], {
+    radius: 10, color: color, fillColor: color,
+    fillOpacity: 0.6, weight: 2
+  }).addTo(cwMap).bindTooltip(`<b>${matched.name}</b>`, { permanent: false });
 }
 
 /* ── 추측 행 렌더 ── */
@@ -2102,8 +2209,9 @@ function cwEndGame(win) {
     document.getElementById('cw-result-title').textContent = 'Out of guesses!';
     document.getElementById('cw-result-sub').innerHTML =
       `The mystery country was <strong style="color:var(--text)">${cwTarget.name}</strong>.<br>Capital: ${cwTarget.capital} · ${cwTarget.diff} difficulty`;
+    // 패배 시 정답 국가를 지도에 초록으로 표시
+    cwHighlightCountry({ ...cwTarget, dist: 0 }, { hex: '#10b981', label: '✓' }, true);
   }
-  // 결과 배너로 스크롤
   banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
@@ -2131,6 +2239,8 @@ function goHome(){
   if(leafMap){leafMap.remove();leafMap=null;}
   if(ggMap){ggMap.remove();ggMap=null;}
   if(ggResultMap){ggResultMap.remove();ggResultMap=null;}
+  if(cwMap){cwMap.remove();cwMap=null;}
+  cwGeoLayers=[];
   clearInterval(timerInterval);clearInterval(ggTimerInterval);
   document.onkeydown=null;showScreen('home');
 }
