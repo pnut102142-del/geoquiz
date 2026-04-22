@@ -1949,6 +1949,8 @@ let cwMap = null;
 let cwGeoLayers = [];
 let cwSeed = null;
 let cwTimerInterval = null;
+let cwScore = 0;   // ← 이 줄 추가
+
 let cwTimeLeft = 0;
 
 const CW_MAX = { easy: Infinity, medium: 12, hard: 6 };
@@ -2127,22 +2129,20 @@ function cwStartGuessTimer() {
   cwTimerInterval = setInterval(() => {
     cwTimeLeft--;
     cwUpdateTimerUI();
- if (cwTimeLeft <= 0) {
-  clearInterval(cwTimerInterval);
 
-  // 기존: 강제 제출
-  // 변경: 빈 턴으로 카운트만 올리기
-  cwGuesses.unshift({ isTimeout: true });
-  updateCWAttemptsDisplay();
-  renderCWGuesses();
-  showToast('⏰ Time\'s up! Attempt lost.');
-
-  if (cwMaxAttempts !== Infinity && cwGuesses.length >= cwMaxAttempts) {
-    cwEndGame(false); // 기회 다 썼으면 게임 오버
-  } else {
-    cwStartGuessTimer(); // 다음 턴 타이머 재시작
-  }
-}
+   if (cwTimeLeft <= 0) {
+      clearInterval(cwTimerInterval);
+      cwGuesses.unshift({ isTimeout: true });
+      updateCWAttemptsDisplay();
+      renderCWGuesses();
+      showToast('⏰ 시간 초과\! 기회 -1');
+      if (cwMaxAttempts \!== Infinity && cwGuesses.length >= cwMaxAttempts) {
+        cwEndGame(false);
+      } else {
+        cwStartGuessTimer();
+      }
+    }
+    
   }, 1000);
 }
 function cwUpdateTimerUI() {
@@ -2238,6 +2238,12 @@ function cwSubmit() {
   // 지도에 GeoJSON 하이라이트 — dist 명시적으로 전달
   cwHighlightCountry(matched, dist, cf, isWin);
 
+    if (g.isTimeout) {
+      return `<div class="cw-guess-row" style="border-color:#ef4444;opacity:.6;animation-delay:0s">
+        <div style="flex:1;color:#ef4444;font-size:.85rem">⏰ Time's up — skipped</div>
+      </div>`;
+    }
+  
   // 힌트 텍스트 업데이트
   if (!isWin) {
     const distTxt = `${dist.toLocaleString()} km`;
@@ -2347,46 +2353,85 @@ if (g.isTimeout) {
 /* ── 게임 종료 ── */
 function cwEndGame(win) {
   cwDone = true;
+  clearInterval(cwTimerInterval);
   document.getElementById('cw-input').disabled = true;
   document.getElementById('cw-submit-btn').disabled = true;
-
+ 
+  // 점수 계산
+  const totalAttempts = cwGuesses.length;
+  const timeouts = cwGuesses.filter(g => g.isTimeout).length;
+  if (win) {
+    const maxAtt = cwMaxAttempts === Infinity ? Math.max(totalAttempts, 1) : cwMaxAttempts;
+    cwScore = Math.max(50, Math.round(1000 - (totalAttempts - 1) * (950 / maxAtt)));
+  } else {
+    cwScore = 0;
+  }
+ 
   const banner = document.getElementById('cw-result-banner');
   banner.className = `cw-result-banner visible ${win ? 'win' : 'lose'}`;
-
+ 
   if (win) {
-    const tries = cwGuesses.length;
-    document.getElementById('cw-result-emoji').textContent = tries === 1 ? '🏆' : tries <= 3 ? '🎉' : '😊';
+    document.getElementById('cw-result-emoji').textContent =
+      totalAttempts === 1 ? '🏆' : totalAttempts <= 3 ? '🎉' : totalAttempts <= 6 ? '😊' : '😅';
     document.getElementById('cw-result-title').textContent =
-      tries === 1 ? 'First Try!!' : `Got it in ${tries} ${tries === 1 ? 'try' : 'tries'}!`;
-    document.getElementById('cw-result-sub').textContent =
-      `The mystery country was ${cwTarget.name}. Capital: ${cwTarget.capital}.`;
+      totalAttempts === 1 ? 'First Try\!\!' : `Got it in ${totalAttempts} ${totalAttempts === 1 ? 'try' : 'tries'}\!`;
+    document.getElementById('cw-result-sub').innerHTML =
+      `The mystery country was <strong style="color:var(--text)">${cwTarget.name}</strong>. Capital: ${cwTarget.capital}.<br>
+       <span style="color:#a78bfa;font-size:1.3rem;font-weight:900">${cwScore} pts</span>
+       <span style="color:var(--muted);font-size:.82rem"> / 1000</span>
+       ${timeouts > 0 ? `<span style="color:#ef4444;font-size:.82rem"> &nbsp;·&nbsp; ⏰ ${timeouts} timeout${timeouts>1?'s':''}</span>` : ''}`;
   } else {
     document.getElementById('cw-result-emoji').textContent = '😭';
-    document.getElementById('cw-result-title').textContent = 'Out of guesses!';
+    document.getElementById('cw-result-title').textContent = 'Out of guesses\!';
     document.getElementById('cw-result-sub').innerHTML =
-      `The mystery country was <strong style="color:var(--text)">${cwTarget.name}</strong>.<br>Capital: ${cwTarget.capital} · ${cwTarget.diff} difficulty`;
-    // 패배 시 정답 국가를 지도에 초록으로 표시
+      `The mystery country was <strong style="color:var(--text)">${cwTarget.name}</strong>.<br>
+       Capital: ${cwTarget.capital} · ${cwTarget.diff} difficulty<br>
+       <span style="color:var(--muted);font-size:.85rem">Score: 0 pts</span>`;
     cwHighlightCountry(cwTarget, 0, { hex: '#10b981', label: '✓' }, true);
   }
   banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
+ 
+
+  
 
 /* ── 공유 ── */
 function shareCWScore() {
-  const tries = cwGuesses.length;
-  const win = cwGuesses[0]?.isWin;
+  const win = \!\!cwGuesses.find(g => g.isWin);
+  const total = cwGuesses.length;
   const maxStr = cwMaxAttempts === Infinity ? '∞' : cwMaxAttempts;
-  const rows = [...cwGuesses].reverse().map(g => {
-    if (g.isWin) return '✅';
-    if (g.dist < 300)  return '🟥';
-    if (g.dist < 1500) return '🟧';
-    if (g.dist < 5000) return '🟨';
-    return '🟦';
+  const diffLabel = { easy:'∞ attempts', medium:'12 attempts', hard:'6 attempts' }[cwSettings.diff] || '';
+ 
+  // 이모지 그리드 — 오래된 추측부터 표시
+  const grid = [...cwGuesses].reverse().map(g => {
+    if (g.isWin)     return '✅';
+    if (g.isTimeout) return '⏰';
+    if (g.dist < 500)   return '🟥';
+    if (g.dist < 1500)  return '🟧';
+    if (g.dist < 3000)  return '🟨';
+    if (g.dist < 5000)  return '🟩';
+    if (g.dist < 8000)  return '🟦';
+    return '🟪';
   }).join('');
-  const text = `🧭 Country Wordle\n${rows}\n${win ? `Solved in ${tries}/${maxStr}` : `Failed (${maxStr} attempts)`}\n${GITHUB_URL}`;
-  if (navigator.share) navigator.share({ title: 'Country Wordle', text }).catch(() => {});
-  else navigator.clipboard.writeText(text).then(() => showToast('📋 Copied!'));
+ 
+  const resultLine = win
+    ? `${total}/${maxStr} guesses · ${cwScore}/1000 pts 🏆`
+    : `Failed ${total}/${maxStr} · 0 pts 😭`;
+ 
+  const text =
+    `🧭 Country Wordle — ${cwTarget.name}\n` +
+    `${grid}\n` +
+    `${resultLine}\n` +
+    `Difficulty: ${diffLabel}\n` +
+    `\n👉 Play: ${GITHUB_URL}`;
+ 
+  if (navigator.share) {
+    navigator.share({ title: 'Country Wordle', text }).catch(() => {});
+  } else {
+    navigator.clipboard.writeText(text).then(() => showToast('📋 Copied\! Share with friends 🌍'));
+  }
 }
+ 
 
 /* ════════════════════════════════════════════════════════════
    NAV
