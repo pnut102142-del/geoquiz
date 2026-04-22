@@ -2109,8 +2109,7 @@ function startCountryWordle(fromCode) {
 
   document.getElementById('cw-input').focus();
   if (cwSettings.time > 0) cwStartGuessTimer();
-}
-}
+} 
 
 function updateCWAttemptsDisplay() {
   const left = cwMaxAttempts === Infinity ? '∞' : cwMaxAttempts - cwGuesses.length;
