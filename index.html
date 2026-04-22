@@ -2320,22 +2320,31 @@ function cwAddFallbackMarker(matched, dist, cf, isWin) {
 }
 
 /* ── 추측 행 렌더 ── */
+  /* ── 추측 행 렌더 ── */
 function renderCWGuesses() {
   const container = document.getElementById('cw-guesses');
+  if (!container) return; // 컨테이너가 없을 경우 대비
+
   container.innerHTML = cwGuesses.map((g, i) => {
- 
-    // 맨 위에 이 조건 추가
-if (g.isTimeout) {
-  return `
-    <div class="cw-guess-row" style="border-color:#ef4444;opacity:.6;animation-delay:0s">
-      <div style="flex:1;color:#ef4444;font-size:.85rem">⏰ Time's up — turn skipped</div>
-    </div>`;
-}
-// 기존 로직은 그대로 유지const distTxt = g.dist === 0 ? '0 km' : `${g.dist.toLocaleString()} km`;
-    // 온도계 바 너비 — 지구 최대거리 20,037km 기준 반전
+    // 1. 시간 초과 조건 처리
+    if (g.isTimeout) {
+      return `
+        <div class="cw-guess-row" style="border-color:#ef4444;opacity:.6;animation-delay:0s">
+          <div style="flex:1;color:#ef4444;font-size:.85rem">⏰ Time's up — turn skipped</div>
+        </div>`;
+    }
+
+    // 2. 변수 선언 (주석 분리 완료)
+    const distTxt = g.dist === 0 ? '0 km' : `${g.dist.toLocaleString()} km`;
+    
+    // 온도계 바 너비 계산
     const barW = g.isWin ? 100 : Math.max(3, Math.round((1 - g.dist / 20037) * 100));
+    
+    // 애니메이션 딜레이 설정
+    const delay = i === 0 ? 0.1 : 0;
+
     return `
-      <div class="cw-guess-row ${g.isWin ? 'cw-blazing' : g.cf.cls}" style="animation-delay:${i===0?.1:0}s">
+      <div class="cw-guess-row ${g.isWin ? 'cw-blazing' : g.cf.cls}" style="animation-delay:${delay}s">
         <img class="cw-guess-flag" src="https://flagcdn.com/w40/${g.code}.png" alt="">
         <div class="cw-guess-name">${g.name}</div>
         ${g.isWin
