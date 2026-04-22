@@ -2127,14 +2127,22 @@ function cwStartGuessTimer() {
   cwTimerInterval = setInterval(() => {
     cwTimeLeft--;
     cwUpdateTimerUI();
-    if (cwTimeLeft <= 0) {
-      clearInterval(cwTimerInterval);
-      // 시간 초과 → 강제 제출 (입력값 있으면 제출, 없으면 패스)
-      const val = document.getElementById('cw-input').value.trim();
-      if (val) cwSubmit();
-      else showToast('⏰ Time\'s up! Try a country!');
-      // 다음 추측 타이머는 cwSubmit 내부에서 재시작
-    }
+ if (cwTimeLeft <= 0) {
+  clearInterval(cwTimerInterval);
+
+  // 기존: 강제 제출
+  // 변경: 빈 턴으로 카운트만 올리기
+  cwGuesses.unshift({ isTimeout: true });
+  updateCWAttemptsDisplay();
+  renderCWGuesses();
+  showToast('⏰ Time\'s up! Attempt lost.');
+
+  if (cwMaxAttempts !== Infinity && cwGuesses.length >= cwMaxAttempts) {
+    cwEndGame(false); // 기회 다 썼으면 게임 오버
+  } else {
+    cwStartGuessTimer(); // 다음 턴 타이머 재시작
+  }
+}
   }, 1000);
 }
 function cwUpdateTimerUI() {
@@ -2309,7 +2317,15 @@ function cwAddFallbackMarker(matched, dist, cf, isWin) {
 function renderCWGuesses() {
   const container = document.getElementById('cw-guesses');
   container.innerHTML = cwGuesses.map((g, i) => {
-    const distTxt = g.dist === 0 ? '0 km' : `${g.dist.toLocaleString()} km`;
+ 
+    // 맨 위에 이 조건 추가
+if (g.isTimeout) {
+  return `
+    <div class="cw-guess-row" style="border-color:#ef4444;opacity:.6;animation-delay:0s">
+      <div style="flex:1;color:#ef4444;font-size:.85rem">⏰ Time's up — turn skipped</div>
+    </div>`;
+}
+// 기존 로직은 그대로 유지const distTxt = g.dist === 0 ? '0 km' : `${g.dist.toLocaleString()} km`;
     // 온도계 바 너비 — 지구 최대거리 20,037km 기준 반전
     const barW = g.isWin ? 100 : Math.max(3, Math.round((1 - g.dist / 20037) * 100));
     return `
