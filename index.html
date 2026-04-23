@@ -1355,8 +1355,9 @@ function nextCWRound(){
 }
 function showCWFinal(){
   const total=cwRoundScores.length;
-  const won=cwRoundScores.filter(r=>r.won).length;
-  const pct=Math.round(won/total*100);
+ const won=cwRoundScores.filter(r=>r.won).length;
+const pct=Math.round(won/total*100);
+const totalScore=cwRoundScores.reduce((sum,r)=>sum+(r.score||0),0);
   const grades=[{min:1,e:'🏆',t:'Perfect\!'},{min:.8,e:'🎉',t:'Amazing\!'},{min:.6,e:'😊',t:'Great Job\!'},{min:.4,e:'🤔',t:'Not Bad\!'},{min:0,e:'🌏',t:'Keep Trying\!'}];
   const g=grades.find(x=>pct/100>=x.min);
   const banner=document.getElementById('cw-result-banner');
@@ -1767,7 +1768,7 @@ function cwEndGame(win){
   else{cwScore=0;}
   const banner=document.getElementById('cw-result-banner');
   banner.className=`cw-result-banner visible ${win?'win':'lose'}`;
-  cwRoundScores.push({country:cwTarget,won:win,attempts:cwGuesses.filter(g=>!g.isTimeout).length});
+  cwRoundScores.push({country:cwTarget,won:win,attempts:cwGuesses.filter(g=>!g.isTimeout).length,score:cwScore});
   const moreRounds=cwRoundIdx+1<cwRounds.length;
   const nxtBtn=document.getElementById('cw-next-round-btn');
   const finBtn=document.getElementById('cw-finish-btn');
