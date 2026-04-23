@@ -1838,13 +1838,17 @@ ensureName();
 (function(){
   const roomCode=new URLSearchParams(window.location.search).get('room');
   if(!roomCode)return;
+  window.history.replaceState({},'',window.location.pathname);
+  const cwP=parseCWRoomCode(roomCode);
+  if(cwP){cwSettings={diff:cwP.diff,pool:cwP.pool,time:cwP.time};cwSeed=cwP.seed;startCountryWordle(true);return;}
+  const ggP=parseGGRoomCode(roomCode);
+  if(ggP){ggSettings={clue:ggP.clue,diff:ggP.diff,rounds:ggP.rounds,time:ggP.time,seed:ggP.seed};startGeoGuess();return;}
   const parsed=parseRoomCode(roomCode);
   if(!parsed){showToast('❌ Invalid room code');return;}
   mode=parsed.mode;questionCount=parsed.questionCount;
   timePerQ=parsed.timePerQ;difficulty=parsed.difficulty;currentSeed=parsed.seed;
   const pool=getPool(difficulty);
   questions=seededShuffle(pool,currentSeed).slice(0,Math.min(questionCount,pool.length));
-  window.history.replaceState({},'',window.location.pathname);
   startQuiz();
 })();
 
