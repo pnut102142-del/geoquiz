@@ -162,7 +162,6 @@ body{
 .gg-hint-value{font-size:1.1rem;font-weight:700;color:var(--text);line-height:1.3}
 .gg-map-instruction{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(7,13,26,.85);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:8px 20px;font-size:.82rem;color:var(--muted);white-space:nowrap;z-index:500;animation:pulse 2s infinite}
 .gg-map-instruction.hidden{display:none}
-.gg-submit-area{display:flex;gap:10px;align-items:center;margin-bottom:14px}
 .gg-submit-btn{flex:1;padding:15px;background:linear-gradient(135deg,#10b981,#059669);border:none;border-radius:13px;color:#fff;font-size:1rem;font-weight:800;cursor:pointer;transition:all .2s;opacity:.4;pointer-events:none;touch-action:manipulation}
 .gg-submit-btn.ready{opacity:1;pointer-events:auto}
 .gg-submit-btn.ready:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(16,185,129,.4)}
@@ -477,7 +476,7 @@ body{
   </div>
   <div class="gg-progress" id="gg-progress"></div>
   <div class="gg-map-container">
-    <div id="gg-map"></div>
+   <div id="gg-map"></div>
       <div class="gg-hint-overlay" id="gg-hint-overlay">
         <div class="gg-hint-text">
           <div class="gg-hint-label" id="gg-hint-label">CLUE — Which country is this?</div>
@@ -486,8 +485,13 @@ body{
             <div id="gg-hint-icon" style="flex-shrink:0">🚩</div>
           </div>
         </div>
-      </div> 
+      </div>
+      <div class="gg-submit-area" id="gg-submit-area" style="position:absolute;bottom:10px;left:10px;right:10px;z-index:500">
+        <button class="gg-submit-btn" id="gg-submit-btn" onclick="submitGeoGuess()">Submit Guess →</button>
+        <button class="gg-skip-btn" onclick="skipGeoGuess()">Skip ⏭</button>
+      </div>
     </div>
+  
     <div class="gg-map-instruction" id="gg-map-instruction">📍 Click on the map to place your guess</div>
   </div>
   <div class="gg-submit-area" id="gg-submit-area">
