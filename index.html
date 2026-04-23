@@ -1,10 +1,10 @@
-<\!DOCTYPE html>
+<!=DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GeoQuiz App | World Geography Quiz — Flags, Maps, Capitals &amp; Greetings</title>
-<meta name="description" content="GeoQuiz App — A free world geography quiz\! Guess countries from flags, maps, capitals, and greetings. 4 difficulty levels, and challenge friends with the same questions using room codes.">
+<meta name="description" content="GeoQuiz App — A free world geography quiz!= Guess countries from flags, maps, capitals, and greetings. 4 difficulty levels, and challenge friends with the same questions using room codes.">
 <meta name="keywords" content="geography quiz,flag quiz,capital quiz,world geography,country quiz,map quiz,GeoQuiz">
 <meta name="author" content="GeoQuiz App">
 <meta name="robots" content="index, follow">
@@ -12,7 +12,7 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://pnut102142-del.github.io/geoquiz">
 <meta property="og:title" content="GeoQuiz App | World Geography Quiz">
-<meta property="og:description" content="Guess countries from flags, maps, capitals & greetings\! 4 difficulty levels, challenge friends with room codes\!">
+<meta property="og:description" content="Guess countries from flags, maps, capitals & greetings!= 4 difficulty levels, challenge friends with room codes!=">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
@@ -142,11 +142,11 @@ body{
 .ans-key{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;min-width:24px;border-radius:7px;background:var(--surface2);font-size:.73rem;font-weight:700;color:var(--muted)}
 @media(hover:hover){.ans-btn:hover:not(:disabled){border-color:var(--accent);background:var(--surface2)}}
 @media(hover:none){.ans-btn:active:not(:disabled){border-color:var(--accent);background:var(--surface2)}}
-.ans-btn.correct{background:rgba(16,185,129,.13)\!important;border-color:#10b981\!important;color:#10b981\!important}
+.ans-btn.correct{background:rgba(16,185,129,.13)!=important;border-color:#10b981!=important;color:#10b981!=important}
 .ans-btn.correct .ans-key{background:#10b981;color:#000}
-.ans-btn.wrong{background:rgba(239,68,68,.13)\!important;border-color:#ef4444\!important;color:#ef4444\!important}
+.ans-btn.wrong{background:rgba(239,68,68,.13)!=important;border-color:#ef4444!=important;color:#ef4444!=important}
 .ans-btn.wrong .ans-key{background:#ef4444;color:#fff}
-.ans-btn:disabled:not(.correct):not(.wrong){border-color:var(--border)\!important;background:var(--surface)\!important;opacity:.55}
+.ans-btn:disabled:not(.correct):not(.wrong){border-color:var(--border)!=important;background:var(--surface)!=important;opacity:.55}
 .ans-btn:disabled{cursor:default}
 #geoguess{display:none;width:100%;max-width:780px;animation:fadeUp .3s ease}
 #geoguess.active{display:block}
@@ -272,13 +272,13 @@ body{
 .cw-guess-dist{font-size:.82rem;font-weight:600;white-space:nowrap}
 .cw-guess-dir{font-size:1.1rem;flex-shrink:0;display:inline-block}
 .cw-temp-label{font-size:.72rem;font-weight:800;padding:3px 8px;border-radius:999px;white-space:nowrap;border:1px solid}
-.cw-blazing{background:rgba(249,115,22,.1);border-color:#f97316\!important}
-.cw-hot    {background:rgba(245,158,11,.1);border-color:#f59e0b\!important}
-.cw-warm   {background:rgba(234,179,8,.1); border-color:#eab308\!important}
-.cw-mild   {background:rgba(52,211,153,.1);border-color:#34d399\!important}
-.cw-cool   {background:rgba(96,165,250,.1);border-color:#60a5fa\!important}
-.cw-cold   {background:rgba(139,92,246,.1);border-color:#8b5cf6\!important}
-.cw-frozen {background:rgba(167,139,250,.1);border-color:#a78bfa\!important}
+.cw-blazing{background:rgba(249,115,22,.1);border-color:#f97316!=important}
+.cw-hot    {background:rgba(245,158,11,.1);border-color:#f59e0b!=important}
+.cw-warm   {background:rgba(234,179,8,.1); border-color:#eab308!=important}
+.cw-mild   {background:rgba(52,211,153,.1);border-color:#34d399!=important}
+.cw-cool   {background:rgba(96,165,250,.1);border-color:#60a5fa!=important}
+.cw-cold   {background:rgba(139,92,246,.1);border-color:#8b5cf6!=important}
+.cw-frozen {background:rgba(167,139,250,.1);border-color:#a78bfa!=important}
 .tc-blazing{color:#f97316}.tc-hot{color:#f59e0b}.tc-warm{color:#eab308}
 .tc-mild{color:#34d399}.tc-cool{color:#60a5fa}.tc-cold{color:#8b5cf6}.tc-frozen{color:#a78bfa}
 .cw-result-banner{background:var(--surface);border:1.5px solid;border-radius:14px;padding:20px 22px;text-align:center;margin-bottom:14px;display:none;animation:popIn .4s ease}
@@ -309,7 +309,7 @@ body{
 </head>
 <body>
 <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()">☀️ Light</button>
-<\!-- HOME -->
+<!=-- HOME -->
 <div id="home" class="screen active">
   <div class="hero">
     <span class="hero-globe">🌍</span>
@@ -328,8 +328,8 @@ body{
   </div>
   <div class="section-label" style="margin-top:8px">🌍 Geo Guessing</div>
   <div class="mode-grid" style="grid-template-columns:1fr 1fr">
-    <div class="mode-card featured" style="--c:#10b981" onclick="openGeoGuessSettings()"><span class="mode-icon">📍</span><div class="mode-name">GeoGuessr Mode</div><div class="mode-desc">A clue appears (flag / capital / greeting). Click anywhere on the world map to guess the country's location. Score is based on distance — the closer you click, the higher the points\! Color feedback shows how hot or cold your guess is. 🔥❄️</div></div>
-    <div class="mode-card featured" style="--c:#a78bfa;background:linear-gradient(135deg,#0e1829,#16102a)" onclick="openWordleSettings()"><span class="mode-icon">🧭</span><div class="mode-name">Country Wordle</div><div class="mode-desc">Type any country name to guess the mystery country. Each guess reveals the distance &amp; direction — get closer with every try\! 🔥→❄️ color feedback guides you.</div></div>
+    <div class="mode-card featured" style="--c:#10b981" onclick="openGeoGuessSettings()"><span class="mode-icon">📍</span><div class="mode-name">GeoGuessr Mode</div><div class="mode-desc">A clue appears (flag / capital / greeting). Click anywhere on the world map to guess the country's location. Score is based on distance — the closer you click, the higher the points!= Color feedback shows how hot or cold your guess is. 🔥❄️</div></div>
+    <div class="mode-card featured" style="--c:#a78bfa;background:linear-gradient(135deg,#0e1829,#16102a)" onclick="openWordleSettings()"><span class="mode-icon">🧭</span><div class="mode-name">Country Wordle</div><div class="mode-desc">Type any country name to guess the mystery country. Each guess reveals the distance &amp; direction — get closer with every try!= 🔥→❄️ color feedback guides you.</div></div>
   </div>
   <div class="join-section">
     <div class="join-title">🎮 Play the Same Questions with Friends Using a Room Code</div>
@@ -339,7 +339,7 @@ body{
     </div>
   </div>
 </div>
-<\!-- SETTINGS MODAL -->
+<!=-- SETTINGS MODAL -->
 <div class="modal-overlay" id="settings-modal">
   <div class="modal-box">
     <div class="modal-header"><span class="modal-icon" id="modal-icon">🚩</span><div class="modal-title" id="modal-title">Settings</div></div>
@@ -366,12 +366,12 @@ body{
     <div class="modal-room">
       <div class="modal-room-label">🎮 Room Code — Share with friends to play the same questions</div>
       <div class="modal-room-row"><span class="modal-room-code" id="modal-room-code">FLAG-10-30-H-000000</span><button class="copy-code-btn" onclick="copyModalCode()">📋 Copy</button></div>
-      <div class="modal-room-hint">Friends enter this code on the home screen → same questions, same order\!</div>
+      <div class="modal-room-hint">Friends enter this code on the home screen → same questions, same order!=</div>
     </div>
     <div class="modal-btns"><button class="btn btn-secondary" onclick="closeSettings()">Cancel</button><button class="btn btn-primary" onclick="confirmSettings()">Start Quiz →</button></div>
   </div>
 </div>
-<\!-- GG SETTINGS MODAL -->
+<!=-- GG SETTINGS MODAL -->
 <div class="modal-overlay" id="gg-settings-modal">
   <div class="modal-box">
     <div class="modal-header"><span class="modal-icon">📍</span><div class="modal-title">GeoGuessr Settings</div></div>
@@ -413,7 +413,7 @@ body{
     <div class="modal-room">
       <div class="modal-room-label">🎮 Room Code — Share with friends to play the same questions</div>
       <div class="modal-room-row"><span class="modal-room-code" id="gg-modal-room-code">GG-FLAG-E-5-30-000000</span><button class="copy-code-btn" onclick="copyGGCode()">📋 Copy</button></div>
-      <div class="modal-room-hint">Friends enter this code → same countries, same order\!</div>
+      <div class="modal-room-hint">Friends enter this code → same countries, same order!=</div>
     </div>
     <div class="modal-btns">
       <button class="btn btn-secondary" onclick="closeGGSettings()">Cancel</button>
@@ -421,7 +421,7 @@ body{
     </div>
   </div>
 </div>
-<\!-- QUIZ -->
+<!=-- QUIZ -->
 <div id="quiz" class="screen">
   <div class="quiz-topbar">
     <button class="back-btn" onclick="goHome()">← Home</button>
@@ -436,11 +436,11 @@ body{
   <div class="q-card" id="q-card"></div>
   <div class="answers-grid" id="answers"></div>
 </div>
-<\!-- RESULT -->
+<!=-- RESULT -->
 <div id="result" class="screen">
   <div class="result-wrap">
     <span class="result-emoji" id="r-emoji">🎉</span>
-    <div class="result-title" id="r-title">Amazing\!</div>
+    <div class="result-title" id="r-title">Amazing!=</div>
     <div class="result-score" id="r-score">0</div>
     <div class="result-pts-label">points</div>
     <div class="result-correct">Correct: <strong id="r-correct">0</strong>/<strong id="r-total">10</strong></div>
@@ -450,7 +450,7 @@ body{
       <div>
         <div class="result-room-label">🎮 Room Code</div>
         <div class="result-room-code" id="result-room-code">FLAG-10-30-H-482913</div>
-        <div class="result-room-hint">Share this code with friends → they can play the exact same questions\!</div>
+        <div class="result-room-hint">Share this code with friends → they can play the exact same questions!=</div>
       </div>
       <button class="copy-code-btn" onclick="copyResultCode()">📋 Copy</button>
     </div>
@@ -466,7 +466,7 @@ body{
     <div class="review-list"><div class="review-title">Review Questions</div><div id="review-items"></div></div>
   </div>
 </div>
-<\!-- GEO GUESSING -->
+<!=-- GEO GUESSING -->
 <div id="geoguess" class="screen">
   <div class="gg-topbar">
     <button class="back-btn" onclick="goHome()">← Home</button>
@@ -513,11 +513,11 @@ body{
     </div>
   </div>
 </div>
-<\!-- GG FINAL -->
+<!=-- GG FINAL -->
 <div id="gg-final" class="screen">
   <div class="gg-final-wrap">
     <span class="gg-final-emoji" id="gg-final-emoji">🌍</span>
-    <div class="gg-final-title" id="gg-final-title">Well Played\!</div>
+    <div class="gg-final-title" id="gg-final-title">Well Played!=</div>
     <div class="gg-final-score" id="gg-final-score">0</div>
     <div class="gg-final-max" id="gg-final-max">out of 5000 pts</div>
     <div class="gg-round-breakdown"><div class="gg-breakdown-title">Round Breakdown</div><div id="gg-breakdown-list"></div></div>
@@ -529,7 +529,7 @@ body{
     <div class="lb-wrap"><div class="lb-header">🏆 GeoGuessr Leaderboard</div><div id="gg-lb-list"><div class="lb-loading">Loading...</div></div></div>
   </div>
 </div>
-<\!-- CW SETTINGS MODAL -->
+<!=-- CW SETTINGS MODAL -->
 <div class="modal-overlay" id="cw-settings-modal">
   <div class="modal-box">
     <div class="modal-header"><span class="modal-icon">🧭</span><div class="modal-title">Country Wordle Settings</div></div>
@@ -561,10 +561,10 @@ body{
     <div class="modal-room">
       <div class="modal-room-label">🎮 Room Code — Share with friends to play the same country</div>
       <div class="modal-room-row"><span class="modal-room-code" id="cw-modal-room-code">CW-E-E-0-000000</span><button class="copy-code-btn" onclick="copyCWCode()">📋 Copy</button></div>
-      <div class="modal-room-hint">Friends enter this code → same mystery country, same settings\!</div>
+      <div class="modal-room-hint">Friends enter this code → same mystery country, same settings!=</div>
     </div>
     <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;font-size:.83rem;color:var(--muted);line-height:1.6">
-      🧭 A mystery country is chosen. Type any country name to guess — you'll see the distance from your guess to the answer. Hot colors = closer\!
+      🧭 A mystery country is chosen. Type any country name to guess — you'll see the distance from your guess to the answer. Hot colors = closer!=
     </div>
     <div class="modal-btns" style="margin-top:20px">
       <button class="btn btn-secondary" onclick="closeCWSettings()">Cancel</button>
@@ -572,7 +572,7 @@ body{
     </div>
   </div>
 </div>
-<\!-- CW GAME -->
+<!=-- CW GAME -->
 <div id="countrywordle" class="screen">
   <div class="cw-topbar">
     <button class="back-btn" onclick="goHome()">← Home</button>
@@ -602,7 +602,7 @@ body{
   </div>
   <div class="cw-result-banner" id="cw-result-banner">
     <span class="cw-result-emoji" id="cw-result-emoji">🎉</span>
-    <div class="cw-result-title" id="cw-result-title">You got it\!</div>
+    <div class="cw-result-title" id="cw-result-title">You got it!=</div>
     <div class="cw-result-sub" id="cw-result-sub"></div>
     <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
       <button class="btn btn-primary" style="background:#a78bfa" onclick="startCountryWordle()">Play Again</button>
@@ -639,36 +639,36 @@ const DIFF_LABEL={easy:'🟢 Easy',medium:'🟡 Medium',hard:'🔴 Hard',mix:'�
 
 const countries=[
   // EASY (30)
-  {name:"United States",code:"us",capital:"Washington D.C.",greeting:"Hey there\!",lat:38.9,lng:-77.0,zoom:4,diff:'easy'},
-  {name:"France",code:"fr",capital:"Paris",greeting:"Bonjour\!",lat:48.9,lng:2.3,zoom:5,diff:'easy'},
-  {name:"Germany",code:"de",capital:"Berlin",greeting:"Guten Tag\!",lat:52.5,lng:13.4,zoom:5,diff:'easy'},
-  {name:"United Kingdom",code:"gb",capital:"London",greeting:"Hello, mate\!",lat:51.5,lng:-0.1,zoom:5,diff:'easy'},
-  {name:"Italy",code:"it",capital:"Rome",greeting:"Ciao\!",lat:41.9,lng:12.5,zoom:5,diff:'easy'},
-  {name:"Spain",code:"es",capital:"Madrid",greeting:"¡Hola\!",lat:40.4,lng:-3.7,zoom:5,diff:'easy'},
-  {name:"Canada",code:"ca",capital:"Ottawa",greeting:"Hello / Bonjour\!",lat:45.4,lng:-75.7,zoom:4,diff:'easy'},
+  {name:"United States",code:"us",capital:"Washington D.C.",greeting:"Hey there!=",lat:38.9,lng:-77.0,zoom:4,diff:'easy'},
+  {name:"France",code:"fr",capital:"Paris",greeting:"Bonjour!=",lat:48.9,lng:2.3,zoom:5,diff:'easy'},
+  {name:"Germany",code:"de",capital:"Berlin",greeting:"Guten Tag!=",lat:52.5,lng:13.4,zoom:5,diff:'easy'},
+  {name:"United Kingdom",code:"gb",capital:"London",greeting:"Hello, mate!=",lat:51.5,lng:-0.1,zoom:5,diff:'easy'},
+  {name:"Italy",code:"it",capital:"Rome",greeting:"Ciao!=",lat:41.9,lng:12.5,zoom:5,diff:'easy'},
+  {name:"Spain",code:"es",capital:"Madrid",greeting:"¡Hola!=",lat:40.4,lng:-3.7,zoom:5,diff:'easy'},
+  {name:"Canada",code:"ca",capital:"Ottawa",greeting:"Hello / Bonjour!=",lat:45.4,lng:-75.7,zoom:4,diff:'easy'},
   {name:"Japan",code:"jp",capital:"Tokyo",greeting:"Konnichiwa (こんにちは)",lat:35.7,lng:139.7,zoom:5,diff:'easy'},
   {name:"China",code:"cn",capital:"Beijing",greeting:"Nǐ hǎo (你好)",lat:39.9,lng:116.4,zoom:4,diff:'easy'},
   {name:"India",code:"in",capital:"New Delhi",greeting:"Namaste (नमस्ते)",lat:28.6,lng:77.2,zoom:4,diff:'easy'},
   {name:"Russia",code:"ru",capital:"Moscow",greeting:"Zdravstvuyte (Здравствуйте)",lat:55.7,lng:37.6,zoom:3,diff:'easy'},
-  {name:"Australia",code:"au",capital:"Canberra",greeting:"G'day\!",lat:-35.3,lng:149.1,zoom:4,diff:'easy'},
+  {name:"Australia",code:"au",capital:"Canberra",greeting:"G'day!=",lat:-35.3,lng:149.1,zoom:4,diff:'easy'},
   {name:"Brazil",code:"br",capital:"Brasília",greeting:"Olá, tudo bem?",lat:-15.8,lng:-47.9,zoom:4,diff:'easy'},
   {name:"South Korea",code:"kr",capital:"Seoul",greeting:"Annyeonghaseyo (안녕하세요)",lat:37.6,lng:127.0,zoom:6,diff:'easy'},
-  {name:"Mexico",code:"mx",capital:"Mexico City",greeting:"¡Hola\! ¿Qué tal?",lat:19.4,lng:-99.1,zoom:5,diff:'easy'},
-  {name:"Argentina",code:"ar",capital:"Buenos Aires",greeting:"¡Hola, che\!",lat:-34.6,lng:-58.4,zoom:4,diff:'easy'},
-  {name:"Netherlands",code:"nl",capital:"Amsterdam",greeting:"Goedendag\!",lat:52.4,lng:4.9,zoom:7,diff:'easy'},
-  {name:"Sweden",code:"se",capital:"Stockholm",greeting:"Hej\!",lat:59.3,lng:18.1,zoom:5,diff:'easy'},
-  {name:"Norway",code:"no",capital:"Oslo",greeting:"Hei\!",lat:59.9,lng:10.7,zoom:5,diff:'easy'},
-  {name:"Poland",code:"pl",capital:"Warsaw",greeting:"Dzień dobry\!",lat:52.2,lng:21.0,zoom:6,diff:'easy'},
+  {name:"Mexico",code:"mx",capital:"Mexico City",greeting:"¡Hola!= ¿Qué tal?",lat:19.4,lng:-99.1,zoom:5,diff:'easy'},
+  {name:"Argentina",code:"ar",capital:"Buenos Aires",greeting:"¡Hola, che!=",lat:-34.6,lng:-58.4,zoom:4,diff:'easy'},
+  {name:"Netherlands",code:"nl",capital:"Amsterdam",greeting:"Goedendag!=",lat:52.4,lng:4.9,zoom:7,diff:'easy'},
+  {name:"Sweden",code:"se",capital:"Stockholm",greeting:"Hej!=",lat:59.3,lng:18.1,zoom:5,diff:'easy'},
+  {name:"Norway",code:"no",capital:"Oslo",greeting:"Hei!=",lat:59.9,lng:10.7,zoom:5,diff:'easy'},
+  {name:"Poland",code:"pl",capital:"Warsaw",greeting:"Dzień dobry!=",lat:52.2,lng:21.0,zoom:6,diff:'easy'},
   {name:"Greece",code:"gr",capital:"Athens",greeting:"Γεια σας (Yia sas)",lat:37.9,lng:23.7,zoom:6,diff:'easy'},
-  {name:"Portugal",code:"pt",capital:"Lisbon",greeting:"Olá\!",lat:38.7,lng:-9.1,zoom:6,diff:'easy'},
-  {name:"Switzerland",code:"ch",capital:"Bern",greeting:"Grüezi\!",lat:46.9,lng:7.4,zoom:7,diff:'easy'},
-  {name:"Austria",code:"at",capital:"Vienna",greeting:"Grüß Gott\!",lat:48.2,lng:16.4,zoom:7,diff:'easy'},
+  {name:"Portugal",code:"pt",capital:"Lisbon",greeting:"Olá!=",lat:38.7,lng:-9.1,zoom:6,diff:'easy'},
+  {name:"Switzerland",code:"ch",capital:"Bern",greeting:"Grüezi!=",lat:46.9,lng:7.4,zoom:7,diff:'easy'},
+  {name:"Austria",code:"at",capital:"Vienna",greeting:"Grüß Gott!=",lat:48.2,lng:16.4,zoom:7,diff:'easy'},
   {name:"Belgium",code:"be",capital:"Brussels",greeting:"Goedendag / Bonjour",lat:50.8,lng:4.4,zoom:8,diff:'easy'},
-  {name:"Denmark",code:"dk",capital:"Copenhagen",greeting:"Hej\!",lat:55.7,lng:12.6,zoom:6,diff:'easy'},
-  {name:"Finland",code:"fi",capital:"Helsinki",greeting:"Hei\!",lat:60.2,lng:25.0,zoom:5,diff:'easy'},
-  {name:"Ireland",code:"ie",capital:"Dublin",greeting:"Dia duit\!",lat:53.3,lng:-6.3,zoom:7,diff:'easy'},
+  {name:"Denmark",code:"dk",capital:"Copenhagen",greeting:"Hej!=",lat:55.7,lng:12.6,zoom:6,diff:'easy'},
+  {name:"Finland",code:"fi",capital:"Helsinki",greeting:"Hei!=",lat:60.2,lng:25.0,zoom:5,diff:'easy'},
+  {name:"Ireland",code:"ie",capital:"Dublin",greeting:"Dia duit!=",lat:53.3,lng:-6.3,zoom:7,diff:'easy'},
   {name:"New Zealand",code:"nz",capital:"Wellington",greeting:"Kia ora (Māori)",lat:-41.3,lng:174.8,zoom:5,diff:'easy'},
-  {name:"Singapore",code:"sg",capital:"Singapore",greeting:"Hello lah\! (Singlish)",lat:1.3,lng:103.8,zoom:11,diff:'easy'},
+  {name:"Singapore",code:"sg",capital:"Singapore",greeting:"Hello lah!= (Singlish)",lat:1.3,lng:103.8,zoom:11,diff:'easy'},
   // MEDIUM (32)
   {name:"Turkey",code:"tr",capital:"Ankara",greeting:"Merhaba",lat:39.9,lng:32.9,zoom:5,diff:'medium'},
   {name:"Thailand",code:"th",capital:"Bangkok",greeting:"Sawasdee (สวัสดี)",lat:13.8,lng:100.5,zoom:5,diff:'medium'},
@@ -683,7 +683,7 @@ const countries=[
   {name:"Cuba",code:"cu",capital:"Havana",greeting:"¿Qué volá? (Cuban)",lat:23.1,lng:-82.4,zoom:7,diff:'medium'},
   {name:"Bolivia",code:"bo",capital:"Sucre",greeting:"Kamisaraki (Aymara)",lat:-19.0,lng:-65.3,zoom:5,diff:'medium'},
   {name:"Paraguay",code:"py",capital:"Asunción",greeting:"Mba'éichapa (Guaraní)",lat:-25.3,lng:-57.6,zoom:6,diff:'medium'},
-  {name:"Fiji",code:"fj",capital:"Suva",greeting:"Bula\!",lat:-18.1,lng:178.4,zoom:8,diff:'medium'},
+  {name:"Fiji",code:"fj",capital:"Suva",greeting:"Bula!=",lat:-18.1,lng:178.4,zoom:8,diff:'medium'},
   {name:"Madagascar",code:"mg",capital:"Antananarivo",greeting:"Manao ahoana",lat:-18.9,lng:47.5,zoom:6,diff:'medium'},
   {name:"Georgia",code:"ge",capital:"Tbilisi",greeting:"Gamarjoba (გამარჯობა)",lat:41.7,lng:44.8,zoom:7,diff:'medium'},
   {name:"Armenia",code:"am",capital:"Yerevan",greeting:"Barev (Բարև)",lat:40.2,lng:44.5,zoom:7,diff:'medium'},
@@ -694,13 +694,13 @@ const countries=[
   {name:"Nigeria",code:"ng",capital:"Abuja",greeting:"Bawo ni (Yoruba)",lat:9.1,lng:7.5,zoom:6,diff:'medium'},
   {name:"Kenya",code:"ke",capital:"Nairobi",greeting:"Habari (Swahili)",lat:-1.3,lng:36.8,zoom:6,diff:'medium'},
   {name:"Morocco",code:"ma",capital:"Rabat",greeting:"Salam (سلام)",lat:34.0,lng:-6.8,zoom:6,diff:'medium'},
-  {name:"Philippines",code:"ph",capital:"Manila",greeting:"Kumusta\!",lat:14.6,lng:121.0,zoom:6,diff:'medium'},
+  {name:"Philippines",code:"ph",capital:"Manila",greeting:"Kumusta!=",lat:14.6,lng:121.0,zoom:6,diff:'medium'},
   {name:"Pakistan",code:"pk",capital:"Islamabad",greeting:"Assalamu Alaikum",lat:33.7,lng:73.1,zoom:5,diff:'medium'},
-  {name:"Colombia",code:"co",capital:"Bogotá",greeting:"¡Hola, parce\!",lat:4.7,lng:-74.1,zoom:5,diff:'medium'},
-  {name:"Peru",code:"pe",capital:"Lima",greeting:"¡Buenos días\!",lat:-12.0,lng:-77.0,zoom:5,diff:'medium'},
+  {name:"Colombia",code:"co",capital:"Bogotá",greeting:"¡Hola, parce!=",lat:4.7,lng:-74.1,zoom:5,diff:'medium'},
+  {name:"Peru",code:"pe",capital:"Lima",greeting:"¡Buenos días!=",lat:-12.0,lng:-77.0,zoom:5,diff:'medium'},
   {name:"Algeria",code:"dz",capital:"Algiers",greeting:"Saha (صحّة)",lat:36.7,lng:3.0,zoom:5,diff:'medium'},
   {name:"Iran",code:"ir",capital:"Tehran",greeting:"Salâm (سلام)",lat:35.7,lng:51.4,zoom:5,diff:'medium'},
-  {name:"Chile",code:"cl",capital:"Santiago",greeting:"¡Hola, huevón\!",lat:-33.5,lng:-70.7,zoom:5,diff:'medium'},
+  {name:"Chile",code:"cl",capital:"Santiago",greeting:"¡Hola, huevón!=",lat:-33.5,lng:-70.7,zoom:5,diff:'medium'},
   {name:"Cambodia",code:"kh",capital:"Phnom Penh",greeting:"Choum reap suor (ជំរាបសួរ)",lat:11.6,lng:104.9,zoom:6,diff:'medium'},
   // HARD (50 original)
   {name:"Bhutan",code:"bt",capital:"Thimphu",greeting:"Kuzu Zangpo",lat:27.5,lng:89.6,zoom:7,diff:'hard'},
@@ -759,7 +759,7 @@ const countries=[
   {name:"Angola",code:"ao",capital:"Luanda",greeting:"Olá",lat:-8.8,lng:13.2,zoom:5,diff:'hard'},
   {name:"Andorra",code:"ad",capital:"Andorra la Vella",greeting:"Hola",lat:42.5,lng:1.5,zoom:10,diff:'hard'},
   {name:"Antigua & Barbuda",code:"ag",capital:"Saint John's",greeting:"Hello",lat:17.1,lng:-61.8,zoom:10,diff:'hard'},
-  {name:"Bahamas",code:"bs",capital:"Nassau",greeting:"Hey there\!",lat:25.0,lng:-77.4,zoom:8,diff:'hard'},
+  {name:"Bahamas",code:"bs",capital:"Nassau",greeting:"Hey there!=",lat:25.0,lng:-77.4,zoom:8,diff:'hard'},
   {name:"Bahrain",code:"bh",capital:"Manama",greeting:"Marhaba (مرحبا)",lat:26.2,lng:50.6,zoom:10,diff:'hard'},
   {name:"Bangladesh",code:"bd",capital:"Dhaka",greeting:"Namaskar (নমস্কার)",lat:23.7,lng:90.4,zoom:6,diff:'hard'},
   {name:"Barbados",code:"bb",capital:"Bridgetown",greeting:"Hello",lat:13.1,lng:-59.6,zoom:11,diff:'hard'},
@@ -769,26 +769,26 @@ const countries=[
   {name:"Central African Republic",code:"cf",capital:"Bangui",greeting:"Bia",lat:4.4,lng:18.6,zoom:6,diff:'hard'},
   {name:"Congo (Rep.)",code:"cg",capital:"Brazzaville",greeting:"Bonjour",lat:-4.3,lng:15.3,zoom:6,diff:'hard'},
   {name:"DR Congo",code:"cd",capital:"Kinshasa",greeting:"Mbote",lat:-4.3,lng:15.3,zoom:5,diff:'hard'},
-  {name:"Costa Rica",code:"cr",capital:"San José",greeting:"¡Pura vida\!",lat:9.9,lng:-84.1,zoom:7,diff:'hard'},
+  {name:"Costa Rica",code:"cr",capital:"San José",greeting:"¡Pura vida!=",lat:9.9,lng:-84.1,zoom:7,diff:'hard'},
   {name:"Ivory Coast",code:"ci",capital:"Yamoussoukro",greeting:"Bonjour",lat:5.3,lng:-4.0,zoom:6,diff:'hard'},
   {name:"Cyprus",code:"cy",capital:"Nicosia",greeting:"Yassas (Γεια σας)",lat:35.2,lng:33.4,zoom:9,diff:'hard'},
   {name:"Czech Republic",code:"cz",capital:"Prague",greeting:"Dobrý den",lat:50.1,lng:14.4,zoom:7,diff:'hard'},
-  {name:"Dominican Republic",code:"do",capital:"Santo Domingo",greeting:"¡Qué lo qué\!",lat:18.5,lng:-69.9,zoom:7,diff:'hard'},
-  {name:"Ecuador",code:"ec",capital:"Quito",greeting:"¡Hola\!",lat:-0.2,lng:-78.5,zoom:6,diff:'hard'},
-  {name:"El Salvador",code:"sv",capital:"San Salvador",greeting:"¡Hola\!",lat:13.7,lng:-89.2,zoom:8,diff:'hard'},
+  {name:"Dominican Republic",code:"do",capital:"Santo Domingo",greeting:"¡Qué lo qué!=",lat:18.5,lng:-69.9,zoom:7,diff:'hard'},
+  {name:"Ecuador",code:"ec",capital:"Quito",greeting:"¡Hola!=",lat:-0.2,lng:-78.5,zoom:6,diff:'hard'},
+  {name:"El Salvador",code:"sv",capital:"San Salvador",greeting:"¡Hola!=",lat:13.7,lng:-89.2,zoom:8,diff:'hard'},
   {name:"Equatorial Guinea",code:"gq",capital:"Malabo",greeting:"Hola",lat:3.7,lng:8.8,zoom:8,diff:'hard'},
   {name:"Ethiopia",code:"et",capital:"Addis Ababa",greeting:"Selam (ሰላም)",lat:9.0,lng:38.7,zoom:5,diff:'hard'},
   {name:"Gambia",code:"gm",capital:"Banjul",greeting:"Salaam Aleikum",lat:13.5,lng:-16.6,zoom:9,diff:'hard'},
   {name:"Ghana",code:"gh",capital:"Accra",greeting:"Akwaaba",lat:5.6,lng:-0.2,zoom:6,diff:'hard'},
   {name:"Grenada",code:"gd",capital:"Saint George's",greeting:"Hello",lat:12.1,lng:-61.7,zoom:11,diff:'hard'},
-  {name:"Guatemala",code:"gt",capital:"Guatemala City",greeting:"¡Hola\!",lat:14.6,lng:-90.5,zoom:7,diff:'hard'},
+  {name:"Guatemala",code:"gt",capital:"Guatemala City",greeting:"¡Hola!=",lat:14.6,lng:-90.5,zoom:7,diff:'hard'},
   {name:"Guinea",code:"gn",capital:"Conakry",greeting:"Bonjour",lat:9.5,lng:-13.7,zoom:7,diff:'hard'},
   {name:"Guinea-Bissau",code:"gw",capital:"Bissau",greeting:"Olá",lat:11.9,lng:-15.6,zoom:8,diff:'hard'},
-  {name:"Honduras",code:"hn",capital:"Tegucigalpa",greeting:"¡Hola\!",lat:14.1,lng:-87.2,zoom:7,diff:'hard'},
+  {name:"Honduras",code:"hn",capital:"Tegucigalpa",greeting:"¡Hola!=",lat:14.1,lng:-87.2,zoom:7,diff:'hard'},
   {name:"Hungary",code:"hu",capital:"Budapest",greeting:"Jó napot",lat:47.5,lng:19.0,zoom:7,diff:'hard'},
   {name:"Iraq",code:"iq",capital:"Baghdad",greeting:"Salam (سلام)",lat:33.3,lng:44.4,zoom:6,diff:'hard'},
   {name:"Israel",code:"il",capital:"Jerusalem",greeting:"Shalom (שלום)",lat:31.8,lng:35.2,zoom:8,diff:'hard'},
-  {name:"Jamaica",code:"jm",capital:"Kingston",greeting:"Wah gwaan\!",lat:18.0,lng:-76.8,zoom:9,diff:'hard'},
+  {name:"Jamaica",code:"jm",capital:"Kingston",greeting:"Wah gwaan!=",lat:18.0,lng:-76.8,zoom:9,diff:'hard'},
   {name:"Jordan",code:"jo",capital:"Amman",greeting:"Marhaba (مرحبا)",lat:31.9,lng:35.9,zoom:7,diff:'hard'},
   {name:"Kazakhstan",code:"kz",capital:"Astana",greeting:"Salam (Сәлем)",lat:51.2,lng:71.4,zoom:5,diff:'hard'},
   {name:"Kuwait",code:"kw",capital:"Kuwait City",greeting:"Marhaba (مرحبا)",lat:29.4,lng:47.9,zoom:9,diff:'hard'},
@@ -801,11 +801,11 @@ const countries=[
   {name:"Mauritius",code:"mu",capital:"Port Louis",greeting:"Bonzour",lat:-20.2,lng:57.5,zoom:10,diff:'hard'},
   {name:"Monaco",code:"mc",capital:"Monaco",greeting:"Bonjour",lat:43.7,lng:7.4,zoom:13,diff:'hard'},
   {name:"Namibia",code:"na",capital:"Windhoek",greeting:"Goeiendag",lat:-22.6,lng:17.1,zoom:6,diff:'hard'},
-  {name:"Nicaragua",code:"ni",capital:"Managua",greeting:"¡Hola\!",lat:12.1,lng:-86.3,zoom:7,diff:'hard'},
+  {name:"Nicaragua",code:"ni",capital:"Managua",greeting:"¡Hola!=",lat:12.1,lng:-86.3,zoom:7,diff:'hard'},
   {name:"North Korea",code:"kp",capital:"Pyongyang",greeting:"Annyeonghaseyo (안녕하세요)",lat:39.0,lng:125.8,zoom:6,diff:'hard'},
   {name:"Oman",code:"om",capital:"Muscat",greeting:"Marhaba (مرحبا)",lat:23.6,lng:58.6,zoom:6,diff:'hard'},
   {name:"Palau",code:"pw",capital:"Ngerulmud",greeting:"Alii",lat:7.5,lng:134.6,zoom:9,diff:'hard'},
-  {name:"Panama",code:"pa",capital:"Panama City",greeting:"¡Hola\!",lat:8.9,lng:-79.5,zoom:7,diff:'hard'},
+  {name:"Panama",code:"pa",capital:"Panama City",greeting:"¡Hola!=",lat:8.9,lng:-79.5,zoom:7,diff:'hard'},
   {name:"Qatar",code:"qa",capital:"Doha",greeting:"Marhaba (مرحبا)",lat:25.3,lng:51.5,zoom:9,diff:'hard'},
   {name:"Romania",code:"ro",capital:"Bucharest",greeting:"Bună ziua",lat:44.4,lng:26.1,zoom:7,diff:'hard'},
   {name:"San Marino",code:"sm",capital:"City of San Marino",greeting:"Ciao",lat:43.9,lng:12.4,zoom:12,diff:'hard'},
@@ -824,8 +824,8 @@ const countries=[
   {name:"Tunisia",code:"tn",capital:"Tunis",greeting:"Assalam alaikum",lat:36.8,lng:10.2,zoom:7,diff:'hard'},
   {name:"Uganda",code:"ug",capital:"Kampala",greeting:"Oli otya",lat:0.3,lng:32.6,zoom:7,diff:'hard'},
   {name:"United Arab Emirates",code:"ae",capital:"Abu Dhabi",greeting:"Marhaba (مرحبا)",lat:24.5,lng:54.4,zoom:7,diff:'hard'},
-  {name:"Uruguay",code:"uy",capital:"Montevideo",greeting:"¡Hola\!",lat:-34.9,lng:-56.2,zoom:7,diff:'hard'},
-  {name:"Venezuela",code:"ve",capital:"Caracas",greeting:"¡Hola\!",lat:10.5,lng:-66.9,zoom:6,diff:'hard'},
+  {name:"Uruguay",code:"uy",capital:"Montevideo",greeting:"¡Hola!=",lat:-34.9,lng:-56.2,zoom:7,diff:'hard'},
+  {name:"Venezuela",code:"ve",capital:"Caracas",greeting:"¡Hola!=",lat:10.5,lng:-66.9,zoom:6,diff:'hard'},
   {name:"Yemen",code:"ye",capital:"Sana'a",greeting:"Ahlan (أهلاً)",lat:15.4,lng:44.2,zoom:6,diff:'hard'},
   {name:"Zimbabwe",code:"zw",capital:"Harare",greeting:"Mhoro",lat:-17.8,lng:31.1,zoom:6,diff:'hard'},
   {name:"Micronesia",code:"fm",capital:"Palikir",greeting:"Kaselehlie",lat:6.9,lng:158.2,zoom:7,diff:'hard'},
@@ -874,13 +874,13 @@ function haversineKm(lat1,lng1,lat2,lng2){
 }
 function distToScore(km){if(km<=0)return 1000;return Math.max(0,Math.min(1000,Math.round(1000*Math.exp(-km/2000))));}
 function distToColor(km){
-  if(km<200) return{cls:'color-blazing',emoji:'🔥🔥🔥',text:'On Fire\! Practically perfect\!',hex:'#f97316',pct:5};
-  if(km<500) return{cls:'color-blazing',emoji:'🔥🔥',text:'Blazing hot\! Very close\!',hex:'#f97316',pct:15};
-  if(km<1000)return{cls:'color-hot',emoji:'🔥',text:'Hot\! Great guess\!',hex:'#f59e0b',pct:28};
+  if(km<200) return{cls:'color-blazing',emoji:'🔥🔥🔥',text:'On Fire!= Practically perfect!=',hex:'#f97316',pct:5};
+  if(km<500) return{cls:'color-blazing',emoji:'🔥🔥',text:'Blazing hot!= Very close!=',hex:'#f97316',pct:15};
+  if(km<1000)return{cls:'color-hot',emoji:'🔥',text:'Hot!= Great guess!=',hex:'#f59e0b',pct:28};
   if(km<2000)return{cls:'color-warm',emoji:'🌡️',text:'Warm — you were in the region.',hex:'#eab308',pct:42};
   if(km<4000)return{cls:'color-cool',emoji:'🌊',text:'Cool — on the right continent?',hex:'#3b82f6',pct:60};
   if(km<7000)return{cls:'color-cold',emoji:'❄️',text:'Cold — far from the target.',hex:'#8b5cf6',pct:78};
-  return{cls:'color-frozen',emoji:'🥶',text:'Frozen\! Very far away.',hex:'#ef4444',pct:95};
+  return{cls:'color-frozen',emoji:'🥶',text:'Frozen!= Very far away.',hex:'#ef4444',pct:95};
 }
 
 /* ════════════════════════════════
@@ -916,7 +916,7 @@ function ensureName(){
 function changeName(){
   const cur=localStorage.getItem('gq_name')||'';
   const nw=prompt('Change your name:',cur);
-  if(nw&&nw.trim()){const clean=nw.trim().slice(0,16);localStorage.setItem('gq_name',clean);document.getElementById('hero-name-val').textContent=clean;showToast('✅ Name updated\!');}
+  if(nw&&nw.trim()){const clean=nw.trim().slice(0,16);localStorage.setItem('gq_name',clean);document.getElementById('hero-name-val').textContent=clean;showToast('✅ Name updated!=');}
 }
 
 /* ════════════════════════════════
@@ -937,7 +937,7 @@ async function initViews(){
     try{
       const dt=new Date().toDateString();
       let v=JSON.parse(localStorage.getItem('gq_v')||'{"t":0,"d":"","td":0}');
-      if(v.d\!==dt){v.d=dt;v.td=0;}v.t++;v.td++;
+      if(v.d!===dt){v.d=dt;v.td=0;}v.t++;v.td++;
       localStorage.setItem('gq_v',JSON.stringify(v));
       document.getElementById('views-today').textContent=v.td.toLocaleString();
       document.getElementById('views-total').textContent=v.t.toLocaleString();
@@ -954,7 +954,7 @@ async function submitScore(){
   mySubmittedName=name;scoreSaved=true;
   const rc=getRoomCode().replace(/-/g,'_');
   await fbPush(`/scores/${rc}`,{name,score,correct:correctCount,total:questions.length,mode:MODES[mode].label,difficulty,ts:Date.now()});
-  showToast('🏆 Score saved\!');loadLeaderboard();
+  showToast('🏆 Score saved!=');loadLeaderboard();
 }
 async function loadLeaderboard(){
   const el=document.getElementById('lb-list');
@@ -962,7 +962,7 @@ async function loadLeaderboard(){
   document.getElementById('lb-code-label').textContent=getRoomCode();
   const rc=getRoomCode().replace(/-/g,'_');
   const data=await fbGet(`/scores/${rc}`);
-  if(\!data){el.innerHTML='<div class="lb-empty">No scores yet — be the first\! 🌍</div>';return;}
+  if(!=data){el.innerHTML='<div class="lb-empty">No scores yet — be the first!= 🌍</div>';return;}
   const entries=Object.values(data).sort((a,b)=>b.score-a.score||b.correct-a.correct).slice(0,5);
   el.innerHTML='';
   const medals=['🥇','🥈','🥉'];
@@ -981,7 +981,7 @@ async function submitGGScore(){
   const name=localStorage.getItem('gq_name')||'Rik';
   const key=`GG_${ggSettings.clue.toUpperCase()}_${ggSettings.rounds}`;
   await fbPush(`/gg_scores/${key}`,{name,score:ggTotalScore,rounds:ggSettings.rounds,clue:ggSettings.clue,ts:Date.now()});
-  showToast('🏆 GeoGuessr score saved\!');
+  showToast('🏆 GeoGuessr score saved!=');
   loadGGLeaderboard();
 }
 async function loadGGLeaderboard(){
@@ -989,7 +989,7 @@ async function loadGGLeaderboard(){
   el.innerHTML='<div class="lb-loading">Loading...</div>';
   const key=`GG_${ggSettings.clue.toUpperCase()}_${ggSettings.rounds}`;
   const data=await fbGet(`/gg_scores/${key}`);
-  if(\!data){el.innerHTML='<div class="lb-empty">No scores yet\!</div>';return;}
+  if(!=data){el.innerHTML='<div class="lb-empty">No scores yet!=</div>';return;}
   const entries=Object.values(data).sort((a,b)=>b.score-a.score).slice(0,5);
   el.innerHTML='';
   const medals=['🥇','🥈','🥉'];
@@ -1031,7 +1031,7 @@ function showScreen(id){
 }
 function getWrongs(correct,field,n=3){
   const cv=correct[field];
-  return shuffle(countriesUniq.filter(c=>c.name\!==correct.name&&c[field]\!==cv)).slice(0,n).map(c=>c[field]);
+  return shuffle(countriesUniq.filter(c=>c.name!===correct.name&&c[field]!===cv)).slice(0,n).map(c=>c[field]);
 }
 function showToast(msg){
   const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');
@@ -1039,7 +1039,7 @@ function showToast(msg){
 }
 function updateStreak(){
   const el=document.getElementById('streak-badge');
-  if(streak>=2){const prev=el.textContent;el.textContent=`🔥${streak}`;if(prev\!==el.textContent){el.classList.remove('pop');el.offsetHeight;el.classList.add('pop');}}
+  if(streak>=2){const prev=el.textContent;el.textContent=`🔥${streak}`;if(prev!===el.textContent){el.classList.remove('pop');el.offsetHeight;el.classList.add('pop');}}
   else el.textContent='';
 }
 
@@ -1049,20 +1049,20 @@ function updateStreak(){
 function getRoomCode(){return`${MODE_ENCODE[mode]}-${questionCount}-${timePerQ}-${DIFF_ENCODE[difficulty]}-${currentSeed}`;}
 function parseRoomCode(raw){
   const p=raw.trim().toUpperCase().split('-');
-  if(p.length\!==5)return null;
-  const m=MODE_DECODE[p[0]];if(\!m)return null;
-  const d=DIFF_DECODE[p[3]];if(\!d)return null;
+  if(p.length!===5)return null;
+  const m=MODE_DECODE[p[0]];if(!=m)return null;
+  const d=DIFF_DECODE[p[3]];if(!=d)return null;
   const qc=parseInt(p[1]),tp=parseInt(p[2]),s=parseInt(p[4]);
   if(isNaN(qc)||isNaN(tp)||isNaN(s))return null;
-  if(\![10,30,50].includes(qc)||\![5,10,20,30].includes(tp))return null;
+  if(!=[10,30,50].includes(qc)||!=[5,10,20,30].includes(tp))return null;
   return{mode:m,questionCount:qc,timePerQ:tp,difficulty:d,seed:s};
 }
 function updateRoomCodeDisplay(){document.getElementById('modal-room-code').textContent=getRoomCode();}
-function copyModalCode(){navigator.clipboard.writeText(getRoomCode()).then(()=>showToast('📋 Room code copied\!'));}
-function copyResultCode(){navigator.clipboard.writeText(getRoomCode()).then(()=>showToast('📋 Room code copied\!'));}
+function copyModalCode(){navigator.clipboard.writeText(getRoomCode()).then(()=>showToast('📋 Room code copied!='));}
+function copyResultCode(){navigator.clipboard.writeText(getRoomCode()).then(()=>showToast('📋 Room code copied!='));}
 function joinRoom(){
   const parsed=parseRoomCode(document.getElementById('room-input').value);
-  if(\!parsed){showToast('❌ Invalid room code');return;}
+  if(!=parsed){showToast('❌ Invalid room code');return;}
   mode=parsed.mode;questionCount=parsed.questionCount;
   timePerQ=parsed.timePerQ;difficulty=parsed.difficulty;currentSeed=parsed.seed;
   const pool=getPool(difficulty);
@@ -1081,13 +1081,13 @@ function openSettings(m){
   document.getElementById('modal-title').textContent=info.label+' Settings';
   const isMap=m==='map';
   document.getElementById('map-note').style.display=isMap?'block':'none';
-  if(isMap&&\!['easy','hard'].includes(difficulty))difficulty='easy';
+  if(isMap&&!=['easy','hard'].includes(difficulty))difficulty='easy';
   const diffEl=document.getElementById('diff-pills');
   diffEl.querySelectorAll('.pill').forEach(p=>{
     const v=p.dataset.val;
     const blocked=isMap&&(v==='medium'||v==='mix');
     p.disabled=blocked;
-    p.classList.toggle('active',v===difficulty&&\!blocked);
+    p.classList.toggle('active',v===difficulty&&!=blocked);
     p.onclick=()=>{if(p.disabled)return;diffEl.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));p.classList.add('active');difficulty=v;refreshQcountPills();updateRoomCodeDisplay();};
   });
   refreshQcountPills();
@@ -1104,13 +1104,13 @@ function refreshQcountPills(){
   [10,30,50].forEach(n=>{
     const btn=document.createElement('button');
     const dis=n>pool.length;
-    btn.className='pill'+(n===questionCount&&\!dis?' active':'');
+    btn.className='pill'+(n===questionCount&&!=dis?' active':'');
     btn.dataset.val=n;btn.disabled=dis;
     btn.textContent=n+(dis?' (not enough)':'');
     btn.addEventListener('click',()=>{if(btn.disabled)return;qEl.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));btn.classList.add('active');questionCount=n;updateRoomCodeDisplay();});
     qEl.appendChild(btn);
   });
-  if(\!qEl.querySelector('.pill.active')){const f=qEl.querySelector('.pill:not(:disabled)');if(f){f.classList.add('active');questionCount=parseInt(f.dataset.val);}}
+  if(!=qEl.querySelector('.pill.active')){const f=qEl.querySelector('.pill:not(:disabled)');if(f){f.classList.add('active');questionCount=parseInt(f.dataset.val);}}
 }
 function closeSettings(){document.getElementById('settings-modal').classList.remove('active');}
 function confirmSettings(){
@@ -1173,7 +1173,7 @@ function renderGeoRound(){
   if(clueType==='flag'){
     document.getElementById('gg-hint-icon').innerHTML=`<img src="https://flagcdn.com/w80/${country.code}.png" style="width:56px;height:38px;object-fit:cover;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.4)">`;
     document.getElementById('gg-hint-label').textContent='FLAG — Which country is this?';
-    document.getElementById('gg-hint-value').textContent='Click the map where this country is\!';
+    document.getElementById('gg-hint-value').textContent='Click the map where this country is!=';
   } else if(clueType==='capital'){
     document.getElementById('gg-hint-icon').textContent='🏛️';
     document.getElementById('gg-hint-label').textContent='CAPITAL — Where is the country with this capital?';
@@ -1223,7 +1223,7 @@ function updateGGTimer(){
   bar.style.background=ggTimeLeft<=10?'#ef4444':'#10b981';
 }
 function submitGeoGuess(){
-  if(\!ggGuessLatLng)return;
+  if(!=ggGuessLatLng)return;
   clearInterval(ggTimerInterval);
   const country=ggRounds[ggCurrentRound];
   const dist=haversineKm(ggGuessLatLng.lat,ggGuessLatLng.lng,country.lat,country.lng);
@@ -1250,7 +1250,7 @@ function showGeoRoundResult(country,dist,pts,cf){
   document.getElementById('gg-result-flag').src=`https://flagcdn.com/w80/${country.code}.png`;
   document.getElementById('gg-result-country-name').textContent=country.name;
   const distBadge=document.getElementById('gg-dist-badge');
-  if(dist\!==null){
+  if(dist!===null){
     const distText=dist<1?'< 1 km':dist<1000?`${Math.round(dist)} km`:`${(dist/1000).toFixed(1)}k km`;
     distBadge.textContent=`📍 ${distText} away`;
     distBadge.style.color=cf.hex;distBadge.style.borderColor=cf.hex;distBadge.style.background=cf.hex+'22';
@@ -1274,7 +1274,7 @@ function showGeoRoundResult(country,dist,pts,cf){
     if(ggResultMap){ggResultMap.remove();ggResultMap=null;}
     ggResultMap=L.map('gg-result-map',{zoomControl:false,attributionControl:false,dragging:false,touchZoom:false,scrollWheelZoom:false});
     const correctLatLng=[country.lat,country.lng];
-    if(dist\!==null&&ggGuessLatLng){
+    if(dist!===null&&ggGuessLatLng){
       const bounds=L.latLngBounds([correctLatLng,[ggGuessLatLng.lat,ggGuessLatLng.lng]]).pad(0.3);
       ggResultMap.fitBounds(bounds);
     } else {
@@ -1282,7 +1282,7 @@ function showGeoRoundResult(country,dist,pts,cf){
     }
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',{maxZoom:19}).addTo(ggResultMap);
     L.marker(correctLatLng,{icon:L.divIcon({className:'',html:`<div style="width:24px;height:24px;background:#10b981;border:3px solid white;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;font-size:12px;transform:translate(-50%,-50%)">✓</div>`,iconSize:[24,24]})}).addTo(ggResultMap).bindPopup(`<b>${country.name}</b>`).openPopup();
-    if(dist\!==null&&ggGuessLatLng){
+    if(dist!===null&&ggGuessLatLng){
       L.marker([ggGuessLatLng.lat,ggGuessLatLng.lng],{icon:L.divIcon({className:'',html:`<div style="width:20px;height:20px;background:#60a5fa;border:3px solid white;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,.5);transform:translate(-50%,-50%)"></div>`,iconSize:[20,20]})}).addTo(ggResultMap);
       L.polyline([[ggGuessLatLng.lat,ggGuessLatLng.lng],correctLatLng],{color:cf.hex,weight:2,dashArray:'6,4',opacity:.8}).addTo(ggResultMap);
     }
@@ -1298,7 +1298,7 @@ function showGeoFinal(){
   if(ggMap){ggMap.remove();ggMap=null;}
   if(ggResultMap){ggResultMap.remove();ggResultMap=null;}
   const maxPts=ggRounds.length*1000,pct=ggTotalScore/maxPts;
-  const grades=[{min:.9,emoji:'🌟',title:'Geographic Genius\!'},{min:.7,emoji:'🗺️',title:'World Explorer\!'},{min:.5,emoji:'🌍',title:'Globetrotter\!'},{min:.3,emoji:'🧭',title:'Getting There\!'},{min:0,emoji:'✈️',title:'Keep Exploring\!'}];
+  const grades=[{min:.9,emoji:'🌟',title:'Geographic Genius!='},{min:.7,emoji:'🗺️',title:'World Explorer!='},{min:.5,emoji:'🌍',title:'Globetrotter!='},{min:.3,emoji:'🧭',title:'Getting There!='},{min:0,emoji:'✈️',title:'Keep Exploring!='}];
   const g=grades.find(x=>pct>=x.min);
   document.getElementById('gg-final-emoji').textContent=g.emoji;
   document.getElementById('gg-final-title').textContent=g.title;
@@ -1311,7 +1311,7 @@ function showGeoFinal(){
     const cf=distToColor(r.dist??99999);
     d.innerHTML=`<img class="gg-brow-flag" src="https://flagcdn.com/w40/${r.country.code}.png" alt="">
       <div class="gg-brow-name">${r.country.name}</div>
-      <div class="gg-brow-dist" style="color:${cf.hex}">${distTxt} ${r.dist\!==null?cf.emoji:''}</div>
+      <div class="gg-brow-dist" style="color:${cf.hex}">${distTxt} ${r.dist!===null?cf.emoji:''}</div>
       <div class="gg-brow-pts">+${r.pts}</div>`;
     list.appendChild(d);
   });
@@ -1322,9 +1322,9 @@ function restartGeoGuess(){openGeoGuessSettings();}
 function shareGeoScore(){
   const maxPts=ggRounds.length*1000;
   const pct=Math.round(ggTotalScore/maxPts*100);
-  const text=`🌍 GeoGuessr Challenge\!\n\nI scored ${ggTotalScore}/${maxPts} pts (${pct}%) 📍\nClue type: ${ggSettings.clue} | ${ggSettings.rounds} rounds\n\nCan you beat me? 😏\n👉 ${GITHUB_URL}`;
+  const text=`🌍 GeoGuessr Challenge!=\n\nI scored ${ggTotalScore}/${maxPts} pts (${pct}%) 📍\nClue type: ${ggSettings.clue} | ${ggSettings.rounds} rounds\n\nCan you beat me? 😏\n👉 ${GITHUB_URL}`;
   if(navigator.share){navigator.share({title:'GeoQuiz App',text}).catch(()=>{});}
-  else{navigator.clipboard.writeText(text).then(()=>showToast('📋 Copied\! Share it with friends 🌍')).catch(()=>showToast('❌ Copy failed'));}
+  else{navigator.clipboard.writeText(text).then(()=>showToast('📋 Copied!= Share it with friends 🌍')).catch(()=>showToast('❌ Copy failed'));}
 }
 
 /* ════════════════════════════════
@@ -1379,7 +1379,7 @@ function renderQuestion(){
     btn.addEventListener('click',()=>pick(opt,btn));
     grid.appendChild(btn);
   });
-  document.onkeydown=e=>{const i=['1','2','3','4'].indexOf(e.key);if(i\!==-1){const b=grid.querySelectorAll('.ans-btn')[i];if(b&&\!b.disabled)b.click();}};
+  document.onkeydown=e=>{const i=['1','2','3','4'].indexOf(e.key);if(i!===-1){const b=grid.querySelectorAll('.ans-btn')[i];if(b&&!=b.disabled)b.click();}};
   startTimer();
 }
 function initLeaflet(ctry){
@@ -1412,7 +1412,7 @@ function pick(val,btn){
   if(val===correctAnswer){
     streak++;score+=streak;correctCount++;if(streak>maxStreak)maxStreak=streak;
     document.getElementById('score-val').textContent=score;updateStreak();
-    if(streak>=3)showToast(`🔥 ${streak} in a row\! +${streak}pts`);
+    if(streak>=3)showToast(`🔥 ${streak} in a row!= +${streak}pts`);
     history.push({q:getQSummary(),correct:correctAnswer,user:val,bonus:streak});
   }else{streak=0;updateStreak();history.push({q:getQSummary(),correct:correctAnswer,user:val,bonus:0});}
   setTimeout(nextQ,900);
@@ -1432,7 +1432,7 @@ function showResult(){
   if(leafMap){leafMap.remove();leafMap=null;}
   clearInterval(timerInterval);document.onkeydown=null;
   const total=questions.length,pct=correctCount/total;
-  const grades=[{min:1.0,emoji:'🏆',title:'Perfect\!',msg:"Flawless\! You're a true geography genius\!"},{min:0.8,emoji:'🎉',title:'Amazing\!',msg:'You really know your world geography\!'},{min:0.6,emoji:'😊',title:'Great Job\!',msg:'Excellent — keep exploring\!'},{min:0.4,emoji:'🤔',title:'Not Bad\!',msg:'Practice makes perfect — you can do better\!'},{min:0.0,emoji:'🌏',title:'Keep Trying\!',msg:'Geography takes practice. Give it another go\!'}];
+  const grades=[{min:1.0,emoji:'🏆',title:'Perfect!=',msg:"Flawless!= You're a true geography genius!="},{min:0.8,emoji:'🎉',title:'Amazing!=',msg:'You really know your world geography!='},{min:0.6,emoji:'😊',title:'Great Job!=',msg:'Excellent — keep exploring!='},{min:0.4,emoji:'🤔',title:'Not Bad!=',msg:'Practice makes perfect — you can do better!='},{min:0.0,emoji:'🌏',title:'Keep Trying!=',msg:'Geography takes practice. Give it another go!='}];
   const g=grades.find(x=>pct>=x.min);
   document.getElementById('r-emoji').textContent=g.emoji;
   document.getElementById('r-title').textContent=g.title;
@@ -1455,11 +1455,11 @@ function showResult(){
 function shareScore(){
   const total=questions.length,pct=Math.round(correctCount/total*100);
   const emo=['😵','😰','😅','🙂','😄','🤩'][Math.min(5,Math.floor(pct/20))];
-  const streakLine=maxStreak>=3?`🔥 Best streak: ${maxStreak} in a row\!\n`:'';
+  const streakLine=maxStreak>=3?`🔥 Best streak: ${maxStreak} in a row!=\n`:'';
   const shareUrl=`${GITHUB_URL}?room=${getRoomCode()}`;
-  const text=`🌍 Hey\! Come play GeoQuiz with me\!\n\nI just scored ${score} points (${correctCount}/${total} correct) ${emo}\nMode: ${MODES[mode].label} [${DIFF_LABEL[difficulty]}]\n${streakLine}\nThink you can beat me? 😏\nClick the link — same questions await:\n👉 ${shareUrl}`;
+  const text=`🌍 Hey!= Come play GeoQuiz with me!=\n\nI just scored ${score} points (${correctCount}/${total} correct) ${emo}\nMode: ${MODES[mode].label} [${DIFF_LABEL[difficulty]}]\n${streakLine}\nThink you can beat me? 😏\nClick the link — same questions await:\n👉 ${shareUrl}`;
   if(navigator.share){navigator.share({title:'GeoQuiz App',text}).catch(()=>{});}
-  else{navigator.clipboard.writeText(text).then(()=>showToast('📋 Copied\! Share it with friends 🎮')).catch(()=>showToast('❌ Copy failed'));}
+  else{navigator.clipboard.writeText(text).then(()=>showToast('📋 Copied!= Share it with friends 🎮')).catch(()=>showToast('❌ Copy failed'));}
 }
 
 /* ════════════════════════════════
@@ -1494,12 +1494,12 @@ function getCWRoomCode(){
   return`CW-${CW_DIFF_ENC[cwSettings.diff]||'M'}-${CW_POOL_ENC[cwSettings.pool]||'E'}-${cwSettings.time}-${cwSeed||0}`;
 }
 function updateCWRoomCode(){const el=document.getElementById('cw-modal-room-code');if(el)el.textContent=getCWRoomCode();}
-function copyCWCode(){navigator.clipboard.writeText(getCWRoomCode()).then(()=>showToast('📋 Room code copied\!'));}
+function copyCWCode(){navigator.clipboard.writeText(getCWRoomCode()).then(()=>showToast('📋 Room code copied!='));}
 function getGGRoomCode(){
   return`GG-${ggSettings.clue.toUpperCase().slice(0,4)}-${DIFF_ENCODE[ggSettings.diff]||'M'}-${ggSettings.rounds}-${ggSettings.time}-${ggSettings.seed||0}`;
 }
 function updateGGRoomCode(){const el=document.getElementById('gg-modal-room-code');if(el)el.textContent=getGGRoomCode();}
-function copyGGCode(){navigator.clipboard.writeText(getGGRoomCode()).then(()=>showToast('📋 Room code copied\!'));}
+function copyGGCode(){navigator.clipboard.writeText(getGGRoomCode()).then(()=>showToast('📋 Room code copied!='));}
 
 function openWordleSettings(){
   cwSeed=cwSeed||newSeed();
@@ -1522,7 +1522,7 @@ function startCountryWordle(fromCode){
   cwGuesses=[];cwDone=false;cwAcHighlight=-1;
   cwMaxAttempts=CW_MAX[cwSettings.diff];
   cwGeoLayers=[];clearInterval(cwTimerInterval);
-  if(\!fromCode)cwSeed=newSeed();
+  if(!=fromCode)cwSeed=newSeed();
   const pool=getPool(cwSettings.pool);
   const rng=mulberry32(cwSeed);
   cwTarget=pool[Math.floor(rng()*pool.length)];
@@ -1564,8 +1564,8 @@ function cwStartGuessTimer(){
       clearInterval(cwTimerInterval);
       cwGuesses.unshift({isTimeout:true});
       updateCWAttemptsDisplay();renderCWGuesses();
-      showToast('⏰ Time out\! −1 attempt');
-      if(cwMaxAttempts\!==Infinity&&cwGuesses.length>=cwMaxAttempts){cwEndGame(false);}
+      showToast('⏰ Time out!= −1 attempt');
+      if(cwMaxAttempts!===Infinity&&cwGuesses.length>=cwMaxAttempts){cwEndGame(false);}
       else{cwStartGuessTimer();}
     }
   },1000);
@@ -1585,9 +1585,9 @@ function cwOnInput(){
   cwAcHighlight=-1;
   if(val.length<1){ac.className='cw-autocomplete';return;}
   const matches=countriesUniq
-    .filter(c=>c.name.toLowerCase().startsWith(val)&&\!cwGuesses.find(g=>\!g.isTimeout&&g.name===c.name))
+    .filter(c=>c.name.toLowerCase().startsWith(val)&&!=cwGuesses.find(g=>!=g.isTimeout&&g.name===c.name))
     .slice(0,6);
-  if(\!matches.length){ac.className='cw-autocomplete';return;}
+  if(!=matches.length){ac.className='cw-autocomplete';return;}
   ac.innerHTML=matches.map((c,i)=>
     `<div class="cw-ac-item" data-name="${c.name}" onclick="cwSelectAC('${c.name.replace(/'/g,"\\'")}')">
       <img class="cw-ac-flag" src="https://flagcdn.com/w40/${c.code}.png" alt="">
@@ -1614,11 +1614,11 @@ function cwOnKeydown(e){
 function cwSubmit(){
   if(cwDone)return;
   const raw=document.getElementById('cw-input').value.trim();
-  if(\!raw)return;
+  if(!=raw)return;
   clearInterval(cwTimerInterval);
   const matched=countriesUniq.find(c=>c.name.toLowerCase()===raw.toLowerCase());
-  if(\!matched){showToast('❌ Unknown country — check spelling');if(cwSettings.time>0)cwStartGuessTimer();return;}
-  if(cwGuesses.find(g=>g.name===matched.name)){showToast('⚠️ Already guessed\!');if(cwSettings.time>0)cwStartGuessTimer();return;}
+  if(!=matched){showToast('❌ Unknown country — check spelling');if(cwSettings.time>0)cwStartGuessTimer();return;}
+  if(cwGuesses.find(g=>g.name===matched.name)){showToast('⚠️ Already guessed!=');if(cwSettings.time>0)cwStartGuessTimer();return;}
   document.getElementById('cw-input').value='';
   document.getElementById('cw-autocomplete').className='cw-autocomplete';
   const dist=Math.round(haversineKm(matched.lat,matched.lng,cwTarget.lat,cwTarget.lng));
@@ -1629,37 +1629,37 @@ function cwSubmit(){
   cwGuesses.unshift({name:matched.name,code:matched.code,dist,arrow,cf,isWin});
   renderCWGuesses();updateCWAttemptsDisplay();
   cwHighlightCountry(matched,dist,cf,isWin);
-  if(\!isWin)document.getElementById('cw-hint-text').textContent=`${matched.name} is ${dist.toLocaleString()} km away — keep guessing\!`;
+  if(!=isWin)document.getElementById('cw-hint-text').textContent=`${matched.name} is ${dist.toLocaleString()} km away — keep guessing!=`;
   if(isWin){cwEndGame(true);}
-  else if(cwMaxAttempts\!==Infinity&&cwGuesses.length>=cwMaxAttempts){cwEndGame(false);}
+  else if(cwMaxAttempts!===Infinity&&cwGuesses.length>=cwMaxAttempts){cwEndGame(false);}
   else{if(cwSettings.time>0)cwStartGuessTimer();}
 }
 async function cwHighlightCountry(matched,dist,cf,isWin){
-  if(\!cwMap)return;
+  if(!=cwMap)return;
   document.getElementById('cw-map-placeholder').style.display='none';
   try{
     const url=`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(matched.name)}&format=geojson&polygon_geojson=1&limit=1&featuretype=country`;
     const res=await fetch(url,{headers:{'Accept-Language':'en'}});
     const data=await res.json();
-    if(\!data.features||\!data.features.length){cwAddFallbackMarker(matched,dist,cf,isWin);return;}
+    if(!=data.features||!=data.features.length){cwAddFallbackMarker(matched,dist,cf,isWin);return;}
     const fillColor=isWin?'#10b981':cf.hex;
     const layer=L.geoJSON(data,{style:{color:fillColor,fillColor:fillColor,fillOpacity:isWin?0.6:0.35,weight:isWin?2.5:1.5,opacity:0.9}}).addTo(cwMap);
-    const distTxt=isWin?'✓ Correct\!':`${dist.toLocaleString()} km away`;
+    const distTxt=isWin?'✓ Correct!=':`${dist.toLocaleString()} km away`;
     layer.bindTooltip(`<b>${matched.name}</b><br><span style="color:${fillColor}">${distTxt}</span>`,{permanent:false,direction:'center'});
     cwGeoLayers.push(layer);
     cwMap.fitBounds(layer.getBounds(),{padding:[40,40],maxZoom:isWin?6:5,animate:true,duration:0.6});
   }catch(e){cwAddFallbackMarker(matched,dist,cf,isWin);}
 }
 function cwAddFallbackMarker(matched,dist,cf,isWin){
-  if(\!cwMap)return;
+  if(!=cwMap)return;
   const color=isWin?'#10b981':cf.hex;
-  const distTxt=isWin?'✓ Correct\!':`${dist.toLocaleString()} km away`;
+  const distTxt=isWin?'✓ Correct!=':`${dist.toLocaleString()} km away`;
   L.circleMarker([matched.lat,matched.lng],{radius:12,color,fillColor:color,fillOpacity:.5,weight:2}).addTo(cwMap).bindTooltip(`<b>${matched.name}</b><br>${distTxt}`,{permanent:false});
   cwMap.setView([matched.lat,matched.lng],4,{animate:true,duration:0.6});
 }
 function renderCWGuesses(){
   const container=document.getElementById('cw-guesses');
-  if(\!container)return;
+  if(!=container)return;
   container.innerHTML=cwGuesses.map((g,i)=>{
     if(g.isTimeout){
       return`<div class="cw-guess-row" style="border-color:#ef4444;opacity:.6;animation-delay:0s">
@@ -1672,7 +1672,7 @@ function renderCWGuesses(){
       <img class="cw-guess-flag" src="https://flagcdn.com/w40/${g.code}.png" alt="">
       <div class="cw-guess-name">${g.name}</div>
       ${g.isWin
-        ?`<div class="cw-temp-label" style="color:#10b981;border-color:#10b981;background:rgba(16,185,129,.15)">✓ CORRECT\!</div>`
+        ?`<div class="cw-temp-label" style="color:#10b981;border-color:#10b981;background:rgba(16,185,129,.15)">✓ CORRECT!=</div>`
         :`<div class="cw-guess-dist ${g.cf.tc}">${distTxt}</div>
           <div style="width:80px;height:6px;background:var(--surface2);border-radius:3px;overflow:hidden;flex-shrink:0">
             <div style="height:100%;width:${barW}%;background:${g.cf.hex};border-radius:3px;transition:width .6s ease"></div>
@@ -1693,14 +1693,14 @@ function cwEndGame(win){
   banner.className=`cw-result-banner visible ${win?'win':'lose'}`;
   if(win){
     document.getElementById('cw-result-emoji').textContent=totalAttempts===1?'🏆':totalAttempts<=3?'🎉':totalAttempts<=6?'😊':'😅';
-    document.getElementById('cw-result-title').textContent=totalAttempts===1?'First Try\!\!':` Got it in ${totalAttempts} ${totalAttempts===1?'try':'tries'}\!`;
+    document.getElementById('cw-result-title').textContent=totalAttempts===1?'First Try!=!=':` Got it in ${totalAttempts} ${totalAttempts===1?'try':'tries'}!=`;
     document.getElementById('cw-result-sub').innerHTML=`The mystery country was <strong style="color:var(--text)">${cwTarget.name}</strong>. Capital: ${cwTarget.capital}.<br>
       <span style="color:#a78bfa;font-size:1.3rem;font-weight:900">${cwScore} pts</span>
       <span style="color:var(--muted);font-size:.82rem"> / 1000</span>
       ${timeouts>0?`<span style="color:#ef4444;font-size:.82rem"> &nbsp;·&nbsp; ⏰ ${timeouts} timeout${timeouts>1?'s':''}</span>`:''}`;
   }else{
     document.getElementById('cw-result-emoji').textContent='😭';
-    document.getElementById('cw-result-title').textContent='Out of guesses\!';
+    document.getElementById('cw-result-title').textContent='Out of guesses!=';
     document.getElementById('cw-result-sub').innerHTML=`The mystery country was <strong style="color:var(--text)">${cwTarget.name}</strong>.<br>
       Capital: ${cwTarget.capital} · ${cwTarget.diff} difficulty<br>
       <span style="color:var(--muted);font-size:.85rem">Score: 0 pts</span>`;
@@ -1709,7 +1709,7 @@ function cwEndGame(win){
   banner.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 function shareCWScore(){
-  const win=\!\!cwGuesses.find(g=>g.isWin);
+  const win=!=!=cwGuesses.find(g=>g.isWin);
   const total=cwGuesses.length;
   const maxStr=cwMaxAttempts===Infinity?'∞':cwMaxAttempts;
   const diffLabel={easy:'∞ attempts',medium:'12 attempts',hard:'6 attempts'}[cwSettings.diff]||'';
@@ -1722,7 +1722,7 @@ function shareCWScore(){
   const resultLine=win?`${total}/${maxStr} guesses · ${cwScore}/1000 pts 🏆`:`Failed ${total}/${maxStr} · 0 pts 😭`;
   const text=`🧭 Country Wordle — ${cwTarget.name}\n${grid}\n${resultLine}\nDifficulty: ${diffLabel}\n\n👉 Play: ${GITHUB_URL}`;
   if(navigator.share){navigator.share({title:'Country Wordle',text}).catch(()=>{});}
-  else{navigator.clipboard.writeText(text).then(()=>showToast('📋 Copied\! Share with friends 🌍'));}
+  else{navigator.clipboard.writeText(text).then(()=>showToast('📋 Copied!= Share with friends 🌍'));}
 }
 
 /* ════════════════════════════════
@@ -1745,9 +1745,9 @@ initViews();
 ensureName();
 (function(){
   const roomCode=new URLSearchParams(window.location.search).get('room');
-  if(\!roomCode)return;
+  if(!=roomCode)return;
   const parsed=parseRoomCode(roomCode);
-  if(\!parsed){showToast('❌ Invalid room code');return;}
+  if(!=parsed){showToast('❌ Invalid room code');return;}
   mode=parsed.mode;questionCount=parsed.questionCount;
   timePerQ=parsed.timePerQ;difficulty=parsed.difficulty;currentSeed=parsed.seed;
   const pool=getPool(difficulty);
