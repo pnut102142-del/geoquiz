@@ -133,7 +133,7 @@ body{
 .q-flag{width:min(290px,88%);aspect-ratio:3/2;object-fit:cover;border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,.55);display:block}
 .map-wrap-outer{position:relative;width:100%}
 #map-inner{width:100%;height:280px;border-radius:12px;overflow:hidden}
-.map-controls{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;gap:4px;z-index:1000}
+.map-controls{position:absolute;bottom:10px;right:10px;display:flex;flex-direction:column;gap:4px;z-index:1000}
 .zoom-btn{width:36px;height:36px;background:white;border:none;border-radius:8px;font-size:1.1rem;font-weight:800;cursor:pointer;color:#333;box-shadow:0 2px 8px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;transition:background .15s}
 .zoom-btn:hover{background:#e8e8e8}
 .q-text{font-size:clamp(1.6rem,5vw,2.5rem);font-weight:800;letter-spacing:-.02em;line-height:1.2}
@@ -259,7 +259,7 @@ body{
 .cw-input-btn{background:#a78bfa;border:none;border-radius:12px;padding:13px 22px;color:#000;font-size:.92rem;font-weight:800;cursor:pointer;white-space:nowrap;transition:opacity .15s}
 .cw-input-btn:hover{opacity:.85}
 .cw-input-btn:disabled{opacity:.4;cursor:not-allowed}
-.cw-autocomplete{position:absolute;top:calc(100% + 4px);left:0;right:68px;background:var(--surface);border:1.5px solid rgba(167,139,250,.3);border-radius:12px;z-index:50;overflow:hidden;display:none;box-shadow:0 8px 32px rgba(0,0,0,.5);max-height:220px;overflow-y:auto}
+.cw-autocomplete{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--surface);border:1.5px solid rgba(167,139,250,.3);border-radius:12px;z-index:50;overflow:hidden;display:none;box-shadow:0 8px 32px rgba(0,0,0,.5);max-height:220px;overflow-y:auto}
 .cw-autocomplete.open{display:block}
 .cw-ac-item{padding:10px 14px;cursor:pointer;font-size:.9rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;transition:background .1s}
 .cw-ac-item:last-child{border-bottom:none}
@@ -542,6 +542,14 @@ body{
       </div>
     </div>
     <div class="setting-group">
+      <div class="setting-label">Rounds</div>
+      <div class="pill-row" id="cw-rounds-pills">
+        <button class="pill" data-val="3">3 Rounds</button>
+        <button class="pill active" data-val="5">5 Rounds</button>
+        <button class="pill" data-val="10">10 Rounds</button>
+      </div>
+    </div>
+    <div class="setting-group">
       <div class="setting-label">Country Pool</div>
       <div class="pill-row" id="cw-pool-pills">
         <button class="pill active" data-val="easy">🌎 Famous (30)</button>
@@ -600,15 +608,23 @@ body{
     <button class="cw-input-btn" id="cw-submit-btn" onclick="cwSubmit()">Guess →</button>
     <div class="cw-autocomplete" id="cw-autocomplete"></div>
   </div>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+    <span class="gg-round-badge" id="cw-round-badge" style="background:linear-gradient(135deg,#a78bfa,#7c3aed)">Round 1/5</span>
+  </div>
   <div class="cw-result-banner" id="cw-result-banner">
     <span class="cw-result-emoji" id="cw-result-emoji">🎉</span>
-    <div class="cw-result-title" id="cw-result-title">You got it!</div>
+    <div class="cw-result-title" id="cw-result-title">You got it\!</div>
     <div class="cw-result-sub" id="cw-result-sub"></div>
     <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-      <button class="btn btn-primary" style="background:#a78bfa" onclick="startCountryWordle()">Play Again</button>
       <button class="btn btn-secondary" onclick="goHome()">Home</button>
       <button class="share-btn" onclick="shareCWScore()">📤 Share</button>
     </div>
+  </div>
+  <div id="cw-next-round-btn" style="display:none;margin-top:8px">
+    <button class="btn btn-primary" style="width:100%;background:#a78bfa" onclick="nextCWRound()">Next Round &#8594;</button>
+  </div>
+  <div id="cw-finish-btn" style="display:none;margin-top:8px">
+    <button class="btn btn-primary" style="width:100%;background:#10b981" onclick="showCWFinal()">&#127942; See Final Results</button>
   </div>
   <div style="display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap">
     <div style="flex:1;min-width:260px">
@@ -1130,7 +1146,7 @@ function confirmSettings(){
    GEO GUESSING — SETTINGS
 ════════════════════════════════ */
 function openGeoGuessSettings(){
-  ggSettings.seed=ggSettings.seed||newSeed();
+  ggSettings.seed=newSeed();
   document.getElementById('gg-clue-pills').querySelectorAll('.pill').forEach(p=>{
     p.classList.toggle('active',p.dataset.val===ggSettings.clue);
     p.onclick=()=>{document.getElementById('gg-clue-pills').querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));p.classList.add('active');ggSettings.clue=p.dataset.val;updateGGRoomCode();};
@@ -1324,13 +1340,33 @@ function showGeoFinal(){
   showScreen('gg-final');
   submitGGScore();
 }
+function nextCWRound(){
+  cwRoundIdx++;
+  document.getElementById('cw-result-banner').className='cw-result-banner';
+  const n=document.getElementById('cw-next-round-btn');if(n)n.style.display='none';
+  const f=document.getElementById('cw-finish-btn');if(f)f.style.display='none';
+  startCWRound();
+}
+function showCWFinal(){
+  const total=cwRoundScores.length;
+  const won=cwRoundScores.filter(r=>r.won).length;
+  const pct=Math.round(won/total*100);
+  const grades=[{min:1,e:'🏆',t:'Perfect\!'},{min:.8,e:'🎉',t:'Amazing\!'},{min:.6,e:'😊',t:'Great Job\!'},{min:.4,e:'🤔',t:'Not Bad\!'},{min:0,e:'🌏',t:'Keep Trying\!'}];
+  const g=grades.find(x=>pct/100>=x.min);
+  const banner=document.getElementById('cw-result-banner');
+  let rows=cwRoundScores.map((r,i)=>`<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)"><img src="https://flagcdn.com/w40/${r.country.code}.png" style="width:28px;height:20px;object-fit:cover;border-radius:3px"><span style="flex:1;font-size:.85rem">${r.country.name}</span><span style="color:${r.won?'#10b981':'#ef4444'};font-weight:700">${r.won?'✓':'✗'}</span></div>`).join('');
+  banner.innerHTML=`<div style="text-align:center;padding:16px 0 8px"><div style="font-size:2rem">${g.e}</div><div style="font-size:1.2rem;font-weight:800;margin:4px 0">${g.t}</div><div style="color:var(--muted);font-size:.9rem">${won}/${total} correct (${pct}%)</div></div>${rows}<div style="margin-top:12px;display:flex;gap:8px"><button class="btn btn-secondary" style="flex:1" onclick="openWordleSettings()">Play Again</button><button class="btn btn-primary" style="flex:1;background:#a78bfa" onclick="showScreen('home')">Home</button></div>`;
+  banner.className='cw-result-banner win';
+}
 function restartGeoGuess(){openGeoGuessSettings();}
 function shareGeoScore(){
   const maxPts=ggRounds.length*1000;
   const pct=Math.round(ggTotalScore/maxPts*100);
-  const text=`🌍 GeoGuessr Challenge!\n\nI scored ${ggTotalScore}/${maxPts} pts (${pct}%) 📍\nClue type: ${ggSettings.clue} | ${ggSettings.rounds} rounds\n\nCan you beat me? 😏\n👉 ${GITHUB_URL}`;
+  const ggCode=getGGRoomCode();
+  const shareUrl=`${GITHUB_URL}?room=${ggCode}`;
+  const text=`🌍 GeoGuessr Challenge\!\n\nI scored ${ggTotalScore}/${maxPts} pts (${pct}%) 📍\nClue type: ${ggSettings.clue} | ${ggSettings.rounds} rounds\n\nCan you beat me? 😏\n👉 ${shareUrl}\n\nRoom code: ${ggCode}`;
   if(navigator.share){navigator.share({title:'GeoQuiz App',text}).catch(()=>{});}
-  else{navigator.clipboard.writeText(text).then(()=>showToast('📋 Copied! Share it with friends 🌍')).catch(()=>showToast('❌ Copy failed'));}
+  else{navigator.clipboard.writeText(text).then(()=>showToast('📋 Copied\! Share it with friends 🌍')).catch(()=>showToast('❌ Copy failed'));}
 }
 
 /* ════════════════════════════════
@@ -1471,9 +1507,9 @@ function shareScore(){
 /* ════════════════════════════════
    COUNTRY WORDLE
 ════════════════════════════════ */
-let cwSettings={diff:'medium',pool:'easy',time:0};
+let cwSettings={diff:'medium',pool:'easy',time:0,rounds:5};
 let cwTarget=null,cwGuesses=[],cwMaxAttempts=12,cwDone=false;
-let cwAcHighlight=-1,cwMap=null,cwGeoLayers=[],cwSeed=null;
+let cwAcHighlight=-1,cwMap=null,cwGeoLayers=[],cwSeed=null,cwRounds=[],cwRoundIdx=0,cwRoundScores=[];
 let cwTimerInterval=null,cwScore=0,cwTimeLeft=0;
 const CW_MAX={easy:Infinity,medium:12,hard:6};
 const CW_DIFF_ENC={easy:'E',medium:'M',hard:'H'};
@@ -1497,7 +1533,7 @@ function cwDistColor(km){
   return{cls:'cw-frozen',tc:'tc-frozen',label:'🥶',hex:'#a78bfa'};
 }
 function getCWRoomCode(){
-  return`CW-${CW_DIFF_ENC[cwSettings.diff]||'M'}-${CW_POOL_ENC[cwSettings.pool]||'E'}-${cwSettings.time}-${cwSeed||0}`;
+  return`CW-${CW_DIFF_ENC[cwSettings.diff]||'M'}-${CW_POOL_ENC[cwSettings.pool]||'E'}-${cwSettings.time}-${cwSettings.rounds||5}-${cwSeed||0}`;
 }
 function updateCWRoomCode(){const el=document.getElementById('cw-modal-room-code');if(el)el.textContent=getCWRoomCode();}
 function copyCWCode(){navigator.clipboard.writeText(getCWRoomCode()).then(()=>showToast('📋 Room code copied!'));}
@@ -1528,14 +1564,14 @@ function parseGGRoomCode(raw){
 }
 
 function openWordleSettings(){
-  cwSeed=cwSeed||newSeed();
-  const groups={'cw-diff-pills':'diff','cw-pool-pills':'pool','cw-time-pills':'time'};
+  cwSeed=newSeed();
+  const groups={'cw-diff-pills':'diff','cw-pool-pills':'pool','cw-time-pills':'time','cw-rounds-pills':'rounds'};
   Object.entries(groups).forEach(([id,key])=>{
     const grp=document.getElementById(id);
     grp.querySelectorAll('.pill').forEach(p=>{
       const val=key==='time'?parseInt(p.dataset.val):p.dataset.val;
       p.classList.toggle('active',val===cwSettings[key]||String(val)===String(cwSettings[key]));
-      p.onclick=()=>{grp.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));p.classList.add('active');cwSettings[key]=key==='time'?parseInt(p.dataset.val):p.dataset.val;updateCWRoomCode();};
+      p.onclick=()=>{grp.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));p.classList.add('active');cwSettings[key]=(key==='time'||key==='rounds')?parseInt(p.dataset.val):p.dataset.val;updateCWRoomCode();};
     });
   });
   updateCWRoomCode();
@@ -1545,13 +1581,18 @@ function closeCWSettings(){document.getElementById('cw-settings-modal').classLis
 
 function startCountryWordle(fromCode){
   closeCWSettings();
+  if(!fromCode)cwSeed=newSeed();
+  const pool=getPool(cwSettings.pool);
+  const shuffled=seededShuffle(pool,cwSeed);
+  cwRounds=shuffled.slice(0,Math.min(cwSettings.rounds||5,shuffled.length));
+  cwRoundIdx=0;cwRoundScores=[];
+  startCWRound();
+}
+function startCWRound(){
   cwGuesses=[];cwDone=false;cwAcHighlight=-1;
   cwMaxAttempts=CW_MAX[cwSettings.diff];
   cwGeoLayers=[];clearInterval(cwTimerInterval);
-  if(!fromCode)cwSeed=newSeed();
-  const pool=getPool(cwSettings.pool);
-  const rng=mulberry32(cwSeed);
-  cwTarget=pool[Math.floor(rng()*pool.length)];
+  cwTarget=cwRounds[cwRoundIdx];
   document.getElementById('cw-guesses').innerHTML='';
   document.getElementById('cw-result-banner').className='cw-result-banner';
   document.getElementById('cw-input').value='';
@@ -1563,6 +1604,9 @@ function startCountryWordle(fromCode){
   document.getElementById('cw-map-placeholder').style.display='flex';
   updateCWRoomCode();
   showScreen('countrywordle');
+  const roundTot=cwRounds.length;
+  const rdEl=document.getElementById('cw-round-badge');
+  if(rdEl)rdEl.textContent=`Round ${cwRoundIdx+1}/${roundTot}`;
   const timerWrap=document.getElementById('cw-timer-wrap'),timerNum=document.getElementById('cw-timer-num');
   if(cwSettings.time>0){timerWrap.style.display='block';timerNum.style.display='block';}
   else{timerWrap.style.display='none';timerNum.style.display='none';}
@@ -1717,6 +1761,12 @@ function cwEndGame(win){
   else{cwScore=0;}
   const banner=document.getElementById('cw-result-banner');
   banner.className=`cw-result-banner visible ${win?'win':'lose'}`;
+  cwRoundScores.push({country:cwTarget,won:win,attempts:cwGuesses.filter(g=>!g.isTimeout).length});
+  const moreRounds=cwRoundIdx+1<cwRounds.length;
+  const nxtBtn=document.getElementById('cw-next-round-btn');
+  const finBtn=document.getElementById('cw-finish-btn');
+  if(nxtBtn)nxtBtn.style.display=moreRounds?'block':'none';
+  if(finBtn)finBtn.style.display=moreRounds?'none':'block';
   if(win){
     document.getElementById('cw-result-emoji').textContent=totalAttempts===1?'🏆':totalAttempts<=3?'🎉':totalAttempts<=6?'😊':'😅';
     document.getElementById('cw-result-title').textContent=totalAttempts===1?'First Try!!':` Got it in ${totalAttempts} ${totalAttempts===1?'try':'tries'}!`;
