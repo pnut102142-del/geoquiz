@@ -478,13 +478,15 @@ body{
   <div class="gg-progress" id="gg-progress"></div>
   <div class="gg-map-container">
     <div id="gg-map"></div>
-    <div class="gg-hint-overlay" id="gg-hint-overlay">
-      <div class="gg-hint-icon" id="gg-hint-icon">🚩</div>
-      <div class="gg-hint-text">
-        <div class="gg-hint-label" id="gg-hint-label">CLUE — Which country is this?</div>
-        <div class="gg-hint-value" id="gg-hint-value">Loading...</div>
-      </div>
-        <div class="gg-hint-icon" id="gg-hint-icon2"></div>
+      <div class="gg-hint-overlay" id="gg-hint-overlay">
+        <div class="gg-hint-text">
+          <div class="gg-hint-label" id="gg-hint-label">CLUE — Which country is this?</div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="gg-hint-value" id="gg-hint-value">Loading...</div>
+            <div id="gg-hint-icon" style="flex-shrink:0">🚩</div>
+          </div>
+        </div>
+      </div> 
     </div>
     <div class="gg-map-instruction" id="gg-map-instruction">📍 Click on the map to place your guess</div>
   </div>
@@ -1044,7 +1046,9 @@ function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Mat
 function setAccent(c){['quiz','result'].forEach(id=>document.getElementById(id).style.setProperty('--accent',c));}
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  const el=document.getElementById(id);el.classList.add('active');el.style.animation='none';el.offsetHeight;el.style.animation='';
+  document.getElementById(id).classList.add('active');
+  const btn=document.getElementById('theme-toggle');
+  if(btn)btn.style.display=id==='home'?'block':'none';
 }
 function getWrongs(correct,field,n=3){
   const cv=correct[field];
