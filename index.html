@@ -484,6 +484,7 @@ body{
         <div class="gg-hint-label" id="gg-hint-label">CLUE — Which country is this?</div>
         <div class="gg-hint-value" id="gg-hint-value">Loading...</div>
       </div>
+        <div class="gg-hint-icon" id="gg-hint-icon2"></div>
     </div>
     <div class="gg-map-instruction" id="gg-map-instruction">📍 Click on the map to place your guess</div>
   </div>
@@ -1193,8 +1194,11 @@ function renderGeoRound(){
   // clue
   const clueType=ggSettings.clue==='mix'?['flag','capital','greeting'][Math.floor(Math.random()*3)]:ggSettings.clue;
   if(clueType==='flag'){
-    document.getElementById('gg-hint-icon').innerHTML=`<img src="https://flagcdn.com/w80/${country.code}.png" style="width:56px;height:38px;object-fit:cover;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.4)">`;
-    document.getElementById('gg-hint-label').textContent='FLAG — Which country is this?';
+const flagImg=`<img src="https://flagcdn.com/w80/${country.code}.png" style="width:48px;height:32px;object-fit:cover;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.4)">`;
+document.getElementById('gg-hint-icon').innerHTML=flagImg;
+document.getElementById('gg-hint-icon2').innerHTML=flagImg;
+    
+  document.getElementById('gg-hint-label').textContent='FLAG — Which country is this?';
     document.getElementById('gg-hint-value').textContent='Click the map where this country is!';
   } else if(clueType==='capital'){
     document.getElementById('gg-hint-icon').textContent='🏛️';
