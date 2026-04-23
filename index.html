@@ -1029,6 +1029,35 @@ async function loadGGLeaderboard(){
     el.appendChild(d);
   });
 }
+async function submitCWScore(){
+  const name=localStorage.getItem('gq_name')||'Player';
+  const totalScore=cwRoundScores.reduce((sum,r)=>sum+(r.score||0),0);
+  const won=cwRoundScores.filter(r=>r.won).length;
+  const key=`CW_${cwSettings.diff.toUpperCase()}_${cwSettings.rounds||5}`;
+  await fbPush(`/cw_scores/${key}`,{name,score:totalScore,won,total:cwRoundScores.length,ts:Date.now()});
+  showToast('🏆 Score saved!');
+  loadCWLeaderboard();
+}
+async function loadCWLeaderboard(){
+  const el=document.getElementById('cw-lb-list');
+  if(!el)return;
+  el.innerHTML='<div class="lb-loading">Loading...</div>';
+  const key=`CW_${cwSettings.diff.toUpperCase()}_${cwSettings.rounds||5}`;
+  const data=await fbGet(`/cw_scores/${key}`);
+  if(!data){el.innerHTML='<div class="lb-empty">No scores yet!</div>';return;}
+  const entries=Object.values(data).sort((a,b)=>b.score-a.score).slice(0,5);
+  el.innerHTML='';
+  const medals=['🥇','🥈','🥉'];
+  entries.forEach((e,i)=>{
+    const d=document.createElement('div');d.className='lb-row';
+    d.innerHTML=`<div class="lb-rank${i<3?' gold':''}">${medals[i]||i+1}</div>
+      <div class="lb-name">${esc(e.name)}</div>
+      <div class="lb-detail">${e.won}/${e.total} correct</div>
+      <div class="lb-score">${e.score}pts</div>`;
+    el.appendChild(d);
+  });
+}
+  
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
 /* ════════════════════════════════
@@ -1370,8 +1399,10 @@ function showCWFinal(){
   const g=grades.find(x=>pct/100>=x.min);
   const banner=document.getElementById('cw-result-banner');
   let rows=cwRoundScores.map((r,i)=>`<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)"><img src="https://flagcdn.com/w40/${r.country.code}.png" style="width:28px;height:20px;object-fit:cover;border-radius:3px"><span style="flex:1;font-size:.85rem">${r.country.name}</span><span style="color:${r.won?'#10b981':'#ef4444'};font-weight:700">${r.won?'✓':'✗'}</span></div>`).join('');
-  banner.innerHTML=`<div style="text-align:center;padding:16px 0 8px"><div style="font-size:2rem">${g.e}</div><div style="font-size:1.2rem;font-weight:800;margin:4px 0">${g.t}</div><div style="color:var(--muted);font-size:.9rem">${won}/${total} correct (${pct}%)</div><div style="color:#a78bfa;font-size:1.5rem;font-weight:900;margin-top:4px">${totalScore} pts</div></div>${rows}<div style="margin-top:12px;display:flex;gap:8px"><button class="btn btn-secondary" style="flex:1" onclick="openWordleSettings()">Play Again</button><button class="btn btn-primary" style="flex:1;background:#a78bfa" onclick="showScreen('home')">Home</button><button class="share-btn" onclick="shareCWScore()">📤 Share</button></div>`;
+  banner.innerHTML=`<div style="text-align:center;padding:16px 0 8px"><div style="font-size:2rem">${g.e}</div><div style="font-size:1.2rem;font-weight:800;margin:4px 0">${g.t}</div><div style="color:var(--muted);font-size:.9rem">${won}/${total} correct (${pct}%)</div><div style="color:#a78bfa;font-size:1.5rem;font-weight:900;margin-top:4px">${totalScore} pts</div></div>${rows}<div style="margin-top:12px;display:flex;gap:8px"><button class="btn btn-secondary" style="flex:1" onclick="openWordleSettings()">Play Again</button><button class="btn btn-primary" style="flex:1;background:#a78bfa" onclick="showScreen('home')">Home</button><button class="share-btn" onclick="shareCWScore()">📤 Share</button></div><div class="lb-wrap"><div class="lb-header">🏆 Country Wordle Leaderboard</div><div id="cw-lb-list"><div class="lb-loading">Loading...</div></div></div>`;
+  
   banner.className='cw-result-banner visible win';
+  submitCWScore();
 }
 function restartGeoGuess(){openGeoGuessSettings();}
 function shareGeoScore(){
