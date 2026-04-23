@@ -132,8 +132,8 @@ body{
 .q-label{font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;font-weight:600}
 .q-flag{width:min(290px,88%);aspect-ratio:3/2;object-fit:cover;border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,.55);display:block}
 .map-wrap-outer{position:relative;width:100%}
-#map-inner{width:100%;height:280px;border-radius:12px;overflow:hidden}
-.map-controls{position:absolute;bottom:10px;right:10px;display:flex;flex-direction:column;gap:4px;z-index:1000}
+#map-inner{width:100%;height:280px;border-radius:12px;overflow:hidden} 
+.map-controls{position:absolute;bottom:10px;right:4px;display:flex;flex-direction:column;gap:4px;z-index:1000;opacity:0.7;}
 .zoom-btn{width:36px;height:36px;background:white;border:none;border-radius:8px;font-size:1.1rem;font-weight:800;cursor:pointer;color:#333;box-shadow:0 2px 8px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;transition:background .15s}
 .zoom-btn:hover{background:#e8e8e8}
 .q-text{font-size:clamp(1.6rem,5vw,2.5rem);font-weight:800;letter-spacing:-.02em;line-height:1.2}
@@ -553,8 +553,8 @@ body{
       <div class="setting-label">Country Pool</div>
       <div class="pill-row" id="cw-pool-pills">
         <button class="pill active" data-val="easy">🌎 Famous (30)</button>
-        <button class="pill" data-val="medium">🌍 Medium (62)</button>
-        <button class="pill" data-val="mix">🌏 All (112)</button>
+        <button class="pill" data-val="medium">🌍 Medium (64)</button>
+        <button class="pill" data-val="mix">🌏 All (196)</button>
       </div>
     </div>
     <div class="setting-group">
@@ -1796,7 +1796,8 @@ function shareCWScore(){
     if(g.dist<8000)return'🟦';return'🟪';
   }).join('');
   const resultLine=win?`${total}/${maxStr} guesses · ${cwScore}/1000 pts 🏆`:`Failed ${total}/${maxStr} · 0 pts 😭`;
-  const text=`🧭 Country Wordle — ${cwTarget.name}\n${grid}\n${resultLine}\nDifficulty: ${diffLabel}\n\n👉 Play: ${GITHUB_URL}`;
+  const cwCode=getCWRoomCode();
+  const text=`🧭 Country Wordle — ${cwTarget.name}\n${grid}\n${resultLine}\nDifficulty: ${diffLabel}\n\n👉 Play: ${GITHUB_URL}?room=${cwCode}\n\nRoom code: ${cwCode}`;
   if(navigator.share){navigator.share({title:'Country Wordle',text}).catch(()=>{});}
   else{navigator.clipboard.writeText(text).then(()=>showToast('📋 Copied! Share with friends 🌍'));}
 }
