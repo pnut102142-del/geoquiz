@@ -899,7 +899,7 @@ function toggleTheme(){
   // button text set after DOM ready
   window.addEventListener('DOMContentLoaded',()=>{
     const btn=document.getElementById('theme-toggle');
-    if(btn)btn.textContent=t==='light'?'🌙 Dark':'☀️ Light';
+    if(btn)btn.textContent=t==='light'?'\uD83C\uDF19 Dark':'\u2600 Light';
   });
 })();
 
@@ -908,7 +908,7 @@ function toggleTheme(){
 ════════════════════════════════ */
 function ensureName(){
   let name=localStorage.getItem('gq_name');
-  while(\!name||\!name.trim()){name=prompt("👋 Welcome to GeoQuiz\!\nWhat name should appear on the leaderboard?","");if(name===null){name='Rik';break;}}
+  while(\!name||\!name.trim()){name=prompt("Welcome to GeoQuiz!\nWhat's your name?","");if(name===null){name='Rik';break;}}
   name=name.trim().slice(0,16)||'Rik';
   localStorage.setItem('gq_name',name);
   const el=document.getElementById('hero-name-val');if(el)el.textContent=name;
