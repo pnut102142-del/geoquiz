@@ -492,12 +492,7 @@ body{
       </div>
     </div>
   
-    <div class="gg-map-instruction" id="gg-map-instruction">📍 Click on the map to place your guess</div>
-  </div>
-  <div class="gg-submit-area" id="gg-submit-area">
-    <button class="gg-submit-btn" id="gg-submit-btn" onclick="submitGeoGuess()">Submit Guess →</button>
-    <button class="gg-skip-btn" onclick="skipGeoGuess()">Skip ⏭</button>
-  </div>
+<div class="gg-map-instruction" id="gg-map-instruction">📍 Click on the map to place your guess</div>
   <div class="gg-result-card" id="gg-result-card">
     <div class="gg-result-top">
       <div class="gg-score-display" id="gg-score-display"><div class="gg-score-pts" id="gg-score-pts">0</div><div class="gg-score-label">pts</div></div>
@@ -1052,7 +1047,7 @@ function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   const btn=document.getElementById('theme-toggle');
-  if(btn)btn.style.display=id==='home'?'block':'none';
+if(btn)btn.style.display='block';
 }
 function getWrongs(correct,field,n=3){
   const cv=correct[field];
@@ -1203,8 +1198,7 @@ function renderGeoRound(){
   const clueType=ggSettings.clue==='mix'?['flag','capital','greeting'][Math.floor(Math.random()*3)]:ggSettings.clue;
   if(clueType==='flag'){
 const flagImg=`<img src="https://flagcdn.com/w80/${country.code}.png" style="width:48px;height:32px;object-fit:cover;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.4)">`;
-document.getElementById('gg-hint-icon').innerHTML=flagImg;
-document.getElementById('gg-hint-icon2').innerHTML=flagImg;
+document.getElementById('gg-hint-icon').innerHTML=flagImg; 
     
   document.getElementById('gg-hint-label').textContent='FLAG — Which country is this?';
     document.getElementById('gg-hint-value').textContent='Click the map where this country is!';
