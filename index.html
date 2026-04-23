@@ -1559,12 +1559,13 @@ function updateGGRoomCode(){const el=document.getElementById('gg-modal-room-code
 function copyGGCode(){navigator.clipboard.writeText(getGGRoomCode()).then(()=>showToast('📋 Room code copied!'));}
 function parseCWRoomCode(raw){
   const p=raw.trim().toUpperCase().split('-');
-  if(p.length!==5||p[0]!=='CW')return null;
-  const diff=CW_DIFF_DEC[p[1]];if(!diff)return null;
-  const pool=CW_POOL_DEC[p[2]];if(!pool)return null;
-  const time=parseInt(p[3]);if(isNaN(time))return null;
-  const seed=parseInt(p[4]);if(isNaN(seed))return null;
-  return{diff,pool,time,seed};
+if(p.length!==6||p[0]!=='CW')return null;
+const diff=CW_DIFF_DEC[p[1]];if(!diff)return null;
+const pool=CW_POOL_DEC[p[2]];if(!pool)return null;
+const time=parseInt(p[3]);if(isNaN(time))return null;
+const rounds=parseInt(p[4]);if(isNaN(rounds))return null;
+const seed=parseInt(p[5]);if(isNaN(seed))return null;
+return{diff,pool,time,rounds,seed};
 }
 function parseGGRoomCode(raw){
   const p=raw.trim().toUpperCase().split('-');
