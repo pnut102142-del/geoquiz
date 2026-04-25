@@ -961,6 +961,9 @@ async function initViews(){
   try{
     const today=new Date().toISOString().slice(0,10).replace(/-/g,'');
     let[total,td]=await Promise.all([fbGet('/views/total'),fbGet(`/views/daily/${today}`)]);
+// total이 이상하게 작으면 daily 합산으로 복구
+      total = (total||0) + 1;
+      td = (td||0) + 1;
     total=(total||0)+1;td=(td||0)+1;
     fbSet('/views/total',total);fbSet(`/views/daily/${today}`,td);
     document.getElementById('views-today').textContent=td.toLocaleString();
