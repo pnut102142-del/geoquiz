@@ -940,8 +940,8 @@ function toggleTheme(){
 ════════════════════════════════ */
 function ensureName(){
   let name=localStorage.getItem('gq_name');
-  while(!name||!name.trim()){name=prompt("👋 Welcome to GeoQuiz!\nWhat name should appear on the leaderboard?","");if(name===null){name='Rik';break;}}
-  name=name.trim().slice(0,16)||'Rik';
+  while(!name||!name.trim()){name=prompt("👋 Welcome to GeoQuiz!\nWhat name should appear on the leaderboard?","");if(name===null){name='Explorer_'+Date.now().toString().slice(-6);break;}}
+  name=name.trim().slice(0,16)||'Explorer_'+Date.now().toString().slice(-6);
   localStorage.setItem('gq_name',name);
   const el=document.getElementById('hero-name-val');if(el)el.textContent=name;
 }
