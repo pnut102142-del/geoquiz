@@ -1872,7 +1872,15 @@ function goHome(){
    INIT
 ════════════════════════════════ */
 initViews();
+  async function logVisitor(){
+  const name = localStorage.getItem('gq_name') || '(이름없음)';
+  const date = new Date().toISOString().slice(0,10);
+  try {
+   await fbPush('/visitors', { name, date, ts: Date.now() });
+  } catch {}
+}
 ensureName();
+  logVisitor(); // ← 이 줄 추가
 (function(){
   const roomCode=new URLSearchParams(window.location.search).get('room');
   if(!roomCode)return;
