@@ -1875,11 +1875,22 @@ function goHome(){
    INIT
 ════════════════════════════════ */
 initViews();
-  async function logVisitor(){
+
+async function logVisitor(){
   const name = localStorage.getItem('gq_name') || '(이름없음)';
-  const date = new Date().toISOString().slice(0,10);
+  const now = new Date();
+
+  const date = now.toISOString().slice(0,10);     // 2026-04-25
+  const time = now.toTimeString().slice(0,8);     // 14:32:10
+  const ts = now.getTime();                       // timestamp (정렬용)
+
   try {
-   await fbPush('/visitors', { name, date, ts: Date.now() });
+    await fbPush('/visitors', {
+      name,
+      date,
+      time,
+      ts
+    });
   } catch {}
 }
 ensureName();
