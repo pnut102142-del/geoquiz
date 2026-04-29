@@ -1944,7 +1944,6 @@ async function logGamePlay(gameName, source = 'new') {
     source
   });
 }
-참고로 원본의 [Date.now](http://Date.now)()는 마크다운 자동링크 때문에 깨진 형태였어서 Date.now()로 정리했습니다. 그리고 ts는 UTC epoch 그대로 두는 걸 추천 — 정렬할 때 타임존 영향 없이 항상 정확합니다. 만약 ts도 네덜란드 벽시계 기준으로 저장하고 싶으면 알려주세요.
 ensureName(); 
 (function(){
   const roomCode=new URLSearchParams(window.location.search).get('room');
