@@ -465,10 +465,11 @@ body{
       </div>
       <button class="copy-code-btn" onclick="copyResultCode()">📋 Copy</button>
     </div>
-    <div class="btn-row">
-      <button class="btn btn-primary" id="play-again-btn">Play Again</button> 
-      <button class="share-btn" onclick="shareScore()">📤 Share</button>
-    </div>
+<div class="btn-row">
+  <button class="btn btn-primary" id="play-again-btn">Play Again</button>
+  <button class="btn btn-secondary" onclick="goHome()">Choose Mode</button>
+  <button class="share-btn" onclick="shareScore()">📤 Share</button>
+</div>
     <div class="lb-wrap">
       <div class="lb-header">🏆 Leaderboard — <span id="lb-code-label" style="color:var(--accent);font-family:monospace;font-size:.82rem;font-weight:800"></span></div>
       <div id="lb-list"><div class="lb-loading">Loading...</div></div>
