@@ -1948,6 +1948,20 @@ async function logGamePlay(gameName, source = 'new') {
     game: gameName,
     source
   });
+
+  // 하루에 한 번만 정리
+  const lastClean = localStorage.getItem('gq_last_clean');
+  const today = now.toISOString().slice(0,10);
+  if(lastClean !== today){
+    localStorage.setItem('gq_last_clean', today);
+    const twoDaysAgo = Date.now() - (2 * 24 * 60 * 60 * 1000);
+    const data = await fbGet('/visitors');
+    if(data){
+      Object.entries(data).forEach(([key, val]) => {
+        if(val.ts < twoDaysAgo) fbDelete(`/visitors/${key}`);
+      });
+    }
+  }
 }
 ensureName(); 
 (function(){
