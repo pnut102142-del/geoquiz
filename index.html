@@ -1257,6 +1257,7 @@ function startGeoGuess(){
   ggCurrentRound=0;ggTotalScore=0;ggResults=[];
   showScreen('geoguess');
   renderGeoRound();
+  logGamePlay('GeoGuessr');  
 }
 function renderGeoRound(){
   const country=ggRounds[ggCurrentRound];
@@ -1464,6 +1465,7 @@ function startQuiz(){
   const db=document.getElementById('diff-badge');
   db.textContent=DIFF_LABEL[difficulty];db.className='diff-badge '+difficulty;
   showScreen('quiz');renderQuestion();
+  logGamePlay(MODES[mode].label);
 }
 function renderQuestion(){
   if(qIdx>=questions.length){showResult();return;}
@@ -1708,6 +1710,8 @@ function startCWRound(){
   },80);
   document.getElementById('cw-input').focus();
   if(cwSettings.time>0)cwStartGuessTimer();
+  logGamePlay('Country Wordle');    // 워들용
+
 }
 function updateCWAttemptsDisplay(){
   const left=cwMaxAttempts===Infinity?'∞':cwMaxAttempts-cwGuesses.length;
@@ -1910,36 +1914,19 @@ function goHome(){
    INIT
 ════════════════════════════════ */
 initViews(); 
-async function logVisitor(){
+async function logGamePlay(gameName) {
   const name = localStorage.getItem('gq_name') || '(이름없음)';
   const now = new Date();
-
-  const date = now.toISOString().slice(0,10);
-  const time = now.toTimeString().slice(0,8);
-  const ts = now.getTime();
-
-  // 👉 핵심: 오늘 방문했는지 체크
-  const visitKey = `gq_visited_${date}`;
-
-  if (localStorage.getItem(visitKey)) {
-    return; // 이미 오늘 기록했으면 종료
-  }
-
-  try {
-    await fbPush('/visitors', {
-      name,
-      date,
-      time,
-      ts
-    });
-
-    // 👉 성공해야 "오늘 방문 완료"로 저장
-    localStorage.setItem(visitKey, '1');
-
-  } catch {}
+  await fbPush('/visitors', {
+    name,
+    date: now.toISOString().slice(0,10),
+    time: now.toTimeString().slice(0,8),
+    ts: now.getTime(),
+    game: gameName  // ← 게임 이름
+  });
 }
-ensureName();
-  logVisitor(); // ← 이 줄 추가
+  
+ensureName(); 
 (function(){
   const roomCode=new URLSearchParams(window.location.search).get('room');
   if(!roomCode)return;
