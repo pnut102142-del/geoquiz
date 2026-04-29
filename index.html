@@ -984,6 +984,7 @@ async function initViews(){
   document.getElementById('views-today').textContent = v.td.toLocaleString();
   document.getElementById('views-total').textContent = v.t.toLocaleString();
 }
+  }
 async function fbDelete(p){try{await fetch(`${FB_URL}${p}.json`,{method:'DELETE'});}catch{}}
 /* ════════════════════════════════
    LEADERBOARD
