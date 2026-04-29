@@ -1686,6 +1686,8 @@ function startCWRound(){
   updateCWAttemptsDisplay();
   document.getElementById('cw-hint-text').textContent='Enter the name of any country to make your first guess.';
   document.getElementById('cw-map-placeholder').style.display='flex';
+  document.getElementById('cw-next-round-btn').style.display='none'; // 👈 추가
+  document.getElementById('cw-finish-btn').style.display='none';   
   updateCWRoomCode();
   showScreen('countrywordle');
   const roundTot=cwRounds.length;
