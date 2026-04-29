@@ -1934,7 +1934,7 @@ function goHome(){
 ════════════════════════════════ */
 initViews(); 
 async function logGamePlay(gameName, source = 'new') {
-  const name = localStorage.getItem('gq_name') || '(이름없음)';
+  const name = localStorage.getItem('gq_name') ||  'Explorer_' + Date.now().toString().slice(-6)';
   const now = new Date();
   await fbPush('/visitors', {
     name,
