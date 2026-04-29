@@ -1679,6 +1679,11 @@ function startCWRound(){
   cwTarget=cwRounds[cwRoundIdx];
   document.getElementById('cw-guesses').innerHTML='';
   document.getElementById('cw-result-banner').className='cw-result-banner';
+  document.getElementById('cw-result-banner').innerHTML=`
+  <span class="cw-result-emoji" id="cw-result-emoji">🎉</span>
+  <div class="cw-result-title" id="cw-result-title">You got it!</div>
+  <div class="cw-result-sub" id="cw-result-sub"></div>
+  <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"></div>`;
   document.getElementById('cw-input').value='';
   document.getElementById('cw-input').disabled=false;
   document.getElementById('cw-submit-btn').disabled=false;
