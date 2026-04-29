@@ -1823,16 +1823,20 @@ const fillColor=isWin?'#10b981':cf.hex;
     const distTxt=isWin?'✓ Correct!':`${dist.toLocaleString()} km (from capital)`;
     layer.bindTooltip(`<b>${matched.name}</b><br><span style="color:${fillColor}">${distTxt}</span>`,{permanent:false,direction:'center'});
     cwGeoLayers.push(layer);
-    cwMap.fitBounds(layer.getBounds(),{padding:[40,40],maxZoom:isWin?6:5,animate:true,duration:0.6});
-    L.circleMarker([matched.lat, matched.lng], {
-      radius: 6,
-      color: '#fff',
-      fillColor: fillColor,
-      fillOpacity: 1,
-      weight: 2
-    }).addTo(cwMap).bindTooltip(`🏛️ ${matched.capital}`, {permanent: true, direction: 'top', offset: [0, -8]});
+    
+cwMap.fitBounds(layer.getBounds(),{padding:[40,40],maxZoom:isWin?6:5,animate:true,duration:0.6});
+    setTimeout(()=>{
+      L.circleMarker([matched.lat, matched.lng], {
+        radius: 6,
+        color: '#fff',
+        fillColor: fillColor,
+        fillOpacity: 1,
+        weight: 2
+      }).addTo(cwMap).bindTooltip(`🏛️ ${matched.capital}`, {permanent: true, direction: 'top', offset: [0, -8]});
+    }, 700);
   }catch(e){cwAddFallbackMarker(matched,dist,cf,isWin);}
 }
+  
 function cwAddFallbackMarker(matched,dist,cf,isWin){
   if(!cwMap)return;
   const color=isWin?'#10b981':cf.hex;
