@@ -972,32 +972,17 @@ async function initViews(){
     document.getElementById('views-today').textContent = td.toLocaleString();
     document.getElementById('views-total').textContent = total.toLocaleString();
   } catch {
-    document.getElementById('views-today').textContent = '—';
-    document.getElementById('views-total').textContent = '—';
+  const dt = new Date().toDateString();
+  let v = JSON.parse(localStorage.getItem('gq_v') || '{"t":0,"d":"","td":0}');
+  if (v.d !== dt) {
+    v.d = dt;
+    v.td = 0;
   }
-}
-
-    document.getElementById('views-today').textContent = td.toLocaleString();
-    document.getElementById('views-total').textContent = total.toLocaleString();
-
-  } catch {
-    const dt = new Date().toDateString();
-
-    let v = JSON.parse(localStorage.getItem('gq_v') || '{"t":0,"d":"","td":0}');
-
-    if(v.d !== dt){
-      v.d = dt;
-      v.td = 0;
-    }
-
-    v.t += 1;
-    v.td += 1;
-
-    localStorage.setItem('gq_v', JSON.stringify(v));
-
-    document.getElementById('views-today').textContent = v.td.toLocaleString();
-    document.getElementById('views-total').textContent = v.t.toLocaleString();
-  }
+  v.t += 1;
+  v.td += 1;
+  localStorage.setItem('gq_v', JSON.stringify(v));
+  document.getElementById('views-today').textContent = v.td.toLocaleString();
+  document.getElementById('views-total').textContent = v.t.toLocaleString();
 }
 async function fbDelete(p){try{await fetch(`${FB_URL}${p}.json`,{method:'DELETE'});}catch{}}
 /* ════════════════════════════════
