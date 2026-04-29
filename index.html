@@ -1157,10 +1157,9 @@ function copyResultCode(){navigator.clipboard.writeText(getRoomCode()).then(()=>
 function joinRoom(){
   const raw=document.getElementById('room-input').value.trim();
   const cwP=parseCWRoomCode(raw);
-  if(cwP){cwSettings={diff:cwP.diff,pool:cwP.pool,time:cwP.time};cwSeed=cwP.seed;document.getElementById('room-input').value='';startCountryWordle(true);return;}
+  if(cwP){cwSettings={diff:cwP.diff,pool:cwP.pool,time:cwP.time};cwSeed=cwP.seed;document.getElementById('room-input').value='';startCountryWordle(true);logGamePlay('Country Wordle','room_code');return;}
   const ggP=parseGGRoomCode(raw);
-  if(ggP){ggSettings={clue:ggP.clue,diff:ggP.diff,rounds:ggP.rounds,time:ggP.time,seed:ggP.seed};document.getElementById('room-input').value='';startGeoGuess();return;}
-  // legacy quiz code:
+  if(ggP){ggSettings={clue:ggP.clue,diff:ggP.diff,rounds:ggP.rounds,time:ggP.time,seed:ggP.seed};document.getElementById('room-input').value='';startGeoGuess();logGamePlay('GeoGuessr','room_code');return;}
   const parsed=parseRoomCode(document.getElementById('room-input').value);
   if(!parsed){showToast('❌ Invalid room code');return;}
   mode=parsed.mode;questionCount=parsed.questionCount;
@@ -1168,9 +1167,9 @@ function joinRoom(){
   const pool=getPool(difficulty);
   questions=seededShuffle(pool,currentSeed).slice(0,Math.min(questionCount,pool.length));
   document.getElementById('room-input').value='';
+  logGamePlay(MODES[mode].label,'room_code');
   startQuiz();
 }
-
 /* ════════════════════════════════
    SETTINGS (기존 퀴즈)
 ════════════════════════════════ */
@@ -1915,7 +1914,7 @@ function goHome(){
    INIT
 ════════════════════════════════ */
 initViews(); 
-async function logGamePlay(gameName) {
+async function logGamePlay(gameName, source = 'new') {
   const name = localStorage.getItem('gq_name') || '(이름없음)';
   const now = new Date();
   await fbPush('/visitors', {
@@ -1923,25 +1922,26 @@ async function logGamePlay(gameName) {
     date: now.toISOString().slice(0,10),
     time: now.toTimeString().slice(0,8),
     ts: now.getTime(),
-    game: gameName  // ← 게임 이름
+    game: gameName,
+    source
   });
 }
-  
 ensureName(); 
 (function(){
   const roomCode=new URLSearchParams(window.location.search).get('room');
   if(!roomCode)return;
   window.history.replaceState({},'',window.location.pathname);
   const cwP=parseCWRoomCode(roomCode);
-  if(cwP){cwSettings={diff:cwP.diff,pool:cwP.pool,time:cwP.time};cwSeed=cwP.seed;startCountryWordle(true);return;}
+  if(cwP){cwSettings={diff:cwP.diff,pool:cwP.pool,time:cwP.time};cwSeed=cwP.seed;logGamePlay('Country Wordle','shared_link');startCountryWordle(true);return;}
   const ggP=parseGGRoomCode(roomCode);
-  if(ggP){ggSettings={clue:ggP.clue,diff:ggP.diff,rounds:ggP.rounds,time:ggP.time,seed:ggP.seed};startGeoGuess();return;}
+  if(ggP){ggSettings={clue:ggP.clue,diff:ggP.diff,rounds:ggP.rounds,time:ggP.time,seed:ggP.seed};logGamePlay('GeoGuessr','shared_link');startGeoGuess();return;}
   const parsed=parseRoomCode(roomCode);
   if(!parsed){showToast('❌ Invalid room code');return;}
   mode=parsed.mode;questionCount=parsed.questionCount;
   timePerQ=parsed.timePerQ;difficulty=parsed.difficulty;currentSeed=parsed.seed;
   const pool=getPool(difficulty);
   questions=seededShuffle(pool,currentSeed).slice(0,Math.min(questionCount,pool.length));
+  logGamePlay(MODES[mode].label,'shared_link');
   startQuiz();
 })();
 
