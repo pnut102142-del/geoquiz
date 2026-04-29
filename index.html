@@ -1926,29 +1926,25 @@ initViews();
 async function logGamePlay(gameName, source = 'new') {
   const name = localStorage.getItem('gq_name') || 'Explorer_' + Date.now().toString().slice(-6);
   const now = new Date();
+
+  // 네덜란드(Europe/Amsterdam) 시간 — 서머타임 자동 반영
+  const [date, time] = new Intl.DateTimeFormat('sv-SE', {
+    timeZone: 'Europe/Amsterdam',
+    year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', second: '2-digit',
+    hour12: false,
+  }).format(now).split(' ');
+
   await fbPush('/visitors', {
     name,
-    date: now.toISOString().slice(0,10),
-    time: now.toTimeString().slice(0,8),
-    ts: now.getTime(),
+    date,            // "YYYY-MM-DD" (네덜란드 기준)
+    time,            // "HH:MM:SS"   (네덜란드 기준)
+    ts: now.getTime(), // epoch ms (UTC) — 정렬/비교용으로 그대로 두는 게 안전
     game: gameName,
     source
   });
-
-  // 하루에 한 번만 정리
-  const lastClean = localStorage.getItem('gq_last_clean');
-  const today = now.toISOString().slice(0,10);
-  if(lastClean !== today){
-    localStorage.setItem('gq_last_clean', today);
-    const twoDaysAgo = Date.now() - (2 * 24 * 60 * 60 * 1000);
-    const data = await fbGet('/visitors');
-    if(data){
-      Object.entries(data).forEach(([key, val]) => {
-        if(val.ts < twoDaysAgo) fbDelete(`/visitors/${key}`);
-      });
-    }
-  }
 }
+참고로 원본의 [Date.now](http://Date.now)()는 마크다운 자동링크 때문에 깨진 형태였어서 Date.now()로 정리했습니다. 그리고 ts는 UTC epoch 그대로 두는 걸 추천 — 정렬할 때 타임존 영향 없이 항상 정확합니다. 만약 ts도 네덜란드 벽시계 기준으로 저장하고 싶으면 알려주세요.
 ensureName(); 
 (function(){
   const roomCode=new URLSearchParams(window.location.search).get('room');
