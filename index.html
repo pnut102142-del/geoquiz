@@ -498,15 +498,14 @@ body{
     </div>
   </div>
 </div>
+  
 <div class="gg-map-container">
-   <div id="gg-map"></div>
-
-    
-      <div class="gg-submit-area" id="gg-submit-area" style="position:absolute;bottom:10px;left:10px;right:10px;z-index:500">
-        <button class="gg-submit-btn" id="gg-submit-btn" onclick="submitGeoGuess()">Submit Guess →</button>
-        <button class="gg-skip-btn" onclick="skipGeoGuess()">Skip ⏭</button>
-      </div>
-    </div>
+  <div id="gg-map"></div>
+  <button class="gg-skip-btn" onclick="skipGeoGuess()" id="gg-skip-btn-top" style="position:absolute;top:10px;right:10px;z-index:500">Skip ⏭</button>
+  <div class="gg-submit-area" id="gg-submit-area" style="position:absolute;bottom:10px;left:10px;right:10px;z-index:500">
+    <button class="gg-submit-btn" id="gg-submit-btn" onclick="submitGeoGuess()">Submit Guess →</button>
+  </div>
+</div>
   
 <div class="gg-map-instruction" id="gg-map-instruction">📍 Click on the map to place your guess</div>
   <div class="gg-result-card" id="gg-result-card">
@@ -1353,9 +1352,11 @@ function showGeoRoundResult(country,dist,pts,cf){
   document.getElementById('gg-result-country-name').textContent=country.name;
   const distBadge=document.getElementById('gg-dist-badge');
   if(dist!==null){
+   if(dist!==null){
     const distText=dist<1?'< 1 km':dist<1000?`${Math.round(dist)} km`:`${(dist/1000).toFixed(1)}k km`;
-    distBadge.textContent=`📍 ${distText} away`;
+    distBadge.textContent=`📍 ${distText} away (from capital)`;
     distBadge.style.color=cf.hex;distBadge.style.borderColor=cf.hex;distBadge.style.background=cf.hex+'22';
+}
   } else {
     distBadge.textContent='⏭ Skipped';
     distBadge.style.color='var(--muted)';distBadge.style.borderColor='var(--border)';distBadge.style.background='transparent';
@@ -1802,13 +1803,24 @@ async function cwHighlightCountry(matched,dist,cf,isWin){
   if(!cwMap)return;
   document.getElementById('cw-map-placeholder').style.display='none';
   try{
-    const url=`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(matched.name)}&format=geojson&polygon_geojson=1&limit=1&featuretype=country`;
+    const url=`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(matched.name)}&format=geojson&polygon_geojson=1&limit=5&featuretype=country`;
     const res=await fetch(url,{headers:{'Accept-Language':'en'}});
     const data=await res.json();
     if(!data.features||!data.features.length){cwAddFallbackMarker(matched,dist,cf,isWin);return;}
+    // bbox 중심이 알려진 좌표에 가장 가까운 결과 선택 (Georgia 국가 vs 미국 조지아 주 구분)
+    let best=data.features[0];
+    let bestD=Infinity;
+    data.features.forEach(f=>{
+      if(f.bbox){
+        const clat=(f.bbox[1]+f.bbox[3])/2;
+        const clng=(f.bbox[0]+f.bbox[2])/2;
+        const d=haversineKm(clat,clng,matched.lat,matched.lng);
+        if(d<bestD){bestD=d;best=f;}
+      }
+    });
     const fillColor=isWin?'#10b981':cf.hex;
-    const layer=L.geoJSON(data,{style:{color:fillColor,fillColor:fillColor,fillOpacity:isWin?0.6:0.35,weight:isWin?2.5:1.5,opacity:0.9}}).addTo(cwMap);
-    const distTxt=isWin?'✓ Correct!':`${dist.toLocaleString()} km away`;
+    const layer=L.geoJSON({type:'FeatureCollection',features:[best]},{style:{color:fillColor,fillColor:fillColor,fillOpacity:isWin?0.6:0.35,weight:isWin?2.5:1.5,opacity:0.9}}).addTo(cwMap);
+    const distTxt=isWin?'✓ Correct!':`${dist.toLocaleString()} km (from capital)`;
     layer.bindTooltip(`<b>${matched.name}</b><br><span style="color:${fillColor}">${distTxt}</span>`,{permanent:false,direction:'center'});
     cwGeoLayers.push(layer);
     cwMap.fitBounds(layer.getBounds(),{padding:[40,40],maxZoom:isWin?6:5,animate:true,duration:0.6});
@@ -1837,7 +1849,7 @@ function renderCWGuesses(){
       <div class="cw-guess-name">${g.name}</div>
       ${g.isWin
         ?`<div class="cw-temp-label" style="color:#10b981;border-color:#10b981;background:rgba(16,185,129,.15)">✓ CORRECT!</div>`
-        :`<div class="cw-guess-dist ${g.cf.tc}">${distTxt}</div>
+        :`<div class="cw-guess-dist ${g.cf.tc}">${distTxt}<br><span style="font-size:.68rem;opacity:.6">from capital</span></div>
           <div style="font-size:1.2rem">${g.arrow}</div>   
           <div style="width:80px;height:6px;background:var(--surface2);border-radius:3px;overflow:hidden;flex-shrink:0">
             <div style="height:100%;width:${barW}%;background:${g.cf.hex};border-radius:3px;transition:width .6s ease"></div>
