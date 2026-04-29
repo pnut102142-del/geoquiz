@@ -1853,7 +1853,6 @@ function renderCWGuesses(){
         <div style="flex:1;color:#ef4444;font-size:.85rem">⏰ Time's up — turn skipped</div></div>`;
     }
     const distTxt=g.dist===0?'0 km':`${g.dist.toLocaleString()} km`;
-    const barW=g.isWin?100:Math.max(3,Math.round((1-g.dist/20037)*100));
     const delay=i===0?0.1:0;
     return`<div class="cw-guess-row ${g.isWin?'cw-blazing':g.cf.cls}" style="animation-delay:${delay}s">
       <img class="cw-guess-flag" src="https://flagcdn.com/w40/${g.code}.png" alt="">
@@ -1861,11 +1860,8 @@ function renderCWGuesses(){
       ${g.isWin
         ?`<div class="cw-temp-label" style="color:#10b981;border-color:#10b981;background:rgba(16,185,129,.15)">✓ CORRECT!</div>`
         :`<div class="cw-guess-dist ${g.cf.tc}">${distTxt}<br><span style="font-size:.68rem;opacity:.6">from capital</span></div>
-          <div style="font-size:1.2rem">${g.arrow}</div>   
-          <div style="width:50px;height:6px;background:var(--surface2);border-radius:3px;overflow:hidden;flex-shrink:0">
-            <div style="height:100%;width:${barW}%;background:${g.cf.hex};border-radius:3px;transition:width .6s ease"></div>
-          </div>
-          <div class="cw-temp-label ${g.cf.tc}" style="border-color:${g.cf.hex}">${g.cf.label}</div>`
+          <div style="font-size:1.2rem">${g.arrow}</div>
+          <div class="cw-temp-label ${g.cf.tc}" style="border-color:${g.cf.hex};flex-shrink:0">${g.cf.label}</div>`
       }</div>`;
   }).join('');
 }
