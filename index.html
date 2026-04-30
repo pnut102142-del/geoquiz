@@ -1029,60 +1029,96 @@ async function loadLeaderboard(){
     el.appendChild(d);
   });
 }
-async function submitGGScore(){
-  const name=localStorage.getItem('gq_name')||'Rik';
-  const key=`GG_${ggSettings.clue.toUpperCase()}_${ggSettings.rounds}_${ggSettings.seed}`;
-  await fbPush(`/gg_scores/${key}`,{name,score:ggTotalScore,rounds:ggSettings.rounds,clue:ggSettings.clue,ts:Date.now()});
-  showToast('🏆 GeoGuessr score saved!');
-  loadGGLeaderboard();
+
+  
+async function submitGGScore() {
+const name = localStorage.getItem('gq_name') || 'Player';
+const key = `GG_${ggSettings.clue.toUpperCase()}_${ggSettings.diff.toUpperCase()}_${ggSettings.rounds}`;
+await fbPush(`/gg_scores2/${key}`, {
+name, score: ggTotalScore, rounds: ggSettings.rounds,
+clue: ggSettings.clue, diff: ggSettings.diff, ts: Date.now()
+});
+showToast('🏆 GeoGuessr score saved!');
+loadGGLeaderboard();
 }
-async function loadGGLeaderboard(){
-  const el=document.getElementById('gg-lb-list');
-  el.innerHTML='<div class="lb-loading">Loading...</div>';
-  const key=`GG_${ggSettings.clue.toUpperCase()}_${ggSettings.rounds}_${ggSettings.seed}`;
-  const data=await fbGet(`/gg_scores/${key}`);
-  if(!data){el.innerHTML='<div class="lb-empty">No scores yet!</div>';return;}
-  const entries=Object.values(data).sort((a,b)=>b.score-a.score).slice(0,5);
-  el.innerHTML='';
-  const medals=['🥇','🥈','🥉'];
-  entries.forEach((e,i)=>{
-    const d=document.createElement('div');d.className='lb-row';
-    const maxPts=ggSettings.rounds*1000;
-    d.innerHTML=`<div class="lb-rank${i<3?' gold':''}">${medals[i]||i+1}</div>
-      <div class="lb-name">${esc(e.name)}</div>
-      <div class="lb-detail">${e.rounds} rounds</div>
-      <div class="lb-score">${e.score}/${maxPts}</div>`;
-    el.appendChild(d);
-  });
+
+async function loadGGLeaderboard() {
+const el = document.getElementById('gg-lb-list');
+el.innerHTML = '<div class="lb-loading">Loading...</div>';
+const key = `GG_${ggSettings.clue.toUpperCase()}_${ggSettings.diff.toUpperCase()}_${ggSettings.rounds}`;
+document.querySelector('#gg-final .lb-header').innerHTML =
+`🏆 GeoGuessr Leaderboard — <span style="color:var(--accent);font-family:monospace;font-size:.82rem">${ggSettings.clue} · ${ggSettings.diff} · ${ggSettings.rounds} rounds</span>`;
+const data = await fbGet(`/gg_scores2/${key}`);
+if (!data) { el.innerHTML = '<div class="lb-empty">No scores yet — be the first! 🌍</div>'; return; }
+
+// 중복 제거 — 이름별 최고점수만
+const best = {};
+Object.values(data).forEach(e => {
+if (!best[e.name] || e.score > best[e.name].score) best[e.name] = e;
+});
+
+const entries = Object.values(best).sort((a, b) => b.score - a.score).slice(0, 10);
+el.innerHTML = '';
+const medals = ['🥇', '🥈', '🥉'];
+const maxPts = ggSettings.rounds * 1000;
+entries.forEach((e, i) => {
+const d = document.createElement('div');
+d.className = 'lb-row';
+d.innerHTML = `<div class="lb-rank${i < 3 ? ' gold' : ''}">${medals[i] || i + 1}</div>
+<div class="lb-name">${esc(e.name)}</div>
+<div class="lb-detail">${e.rounds} rounds · ${e.clue}</div>
+<div class="lb-score">${e.score}/${maxPts}</div>`;
+el.appendChild(d);
+});
 }
-async function submitCWScore(){
-  const name=localStorage.getItem('gq_name')||'Player';
-  const totalScore=cwRoundScores.reduce((sum,r)=>sum+(r.score||0),0);
-  const won=cwRoundScores.filter(r=>r.won).length;
-  const key=`CW_${cwSettings.diff.toUpperCase()}_${cwSettings.rounds||5}`;
-  await fbPush(`/cw_scores/${key}`,{name,score:totalScore,won,total:cwRoundScores.length,ts:Date.now()});
-  showToast('🏆 Score saved!');
-  loadCWLeaderboard();
+
+async function submitCWScore() {
+const name = localStorage.getItem('gq_name') || 'Player';
+const totalScore = cwRoundScores.reduce((sum, r) => sum + (r.score || 0), 0);
+const won = cwRoundScores.filter(r => r.won).length;
+const key = `CW_${cwSettings.diff.toUpperCase()}_${cwSettings.pool.toUpperCase()}_${cwSettings.rounds || 5}`;
+await fbPush(`/cw_scores2/${key}`, {
+name, score: totalScore, won, total: cwRoundScores.length,
+diff: cwSettings.diff, pool: cwSettings.pool, ts: Date.now()
+});
+showToast('🏆 Score saved!');
+loadCWLeaderboard();
 }
-async function loadCWLeaderboard(){
-  const el=document.getElementById('cw-lb-list');
-  if(!el)return;
-  el.innerHTML='<div class="lb-loading">Loading...</div>';
-  const key=`CW_${cwSettings.diff.toUpperCase()}_${cwSettings.rounds||5}`;
-  const data=await fbGet(`/cw_scores/${key}`);
-  if(!data){el.innerHTML='<div class="lb-empty">No scores yet!</div>';return;}
-  const entries=Object.values(data).sort((a,b)=>b.score-a.score).slice(0,5);
-  el.innerHTML='';
-  const medals=['🥇','🥈','🥉'];
-  entries.forEach((e,i)=>{
-    const d=document.createElement('div');d.className='lb-row';
-    d.innerHTML=`<div class="lb-rank${i<3?' gold':''}">${medals[i]||i+1}</div>
-      <div class="lb-name">${esc(e.name)}</div>
-      <div class="lb-detail">${e.won}/${e.total} correct</div>
-      <div class="lb-score">${e.score}pts</div>`;
-    el.appendChild(d);
-  });
+
+async function loadCWLeaderboard() {
+const el = document.getElementById('cw-lb-list');
+if (!el) return;
+el.innerHTML = '<div class="lb-loading">Loading...</div>';
+const key = `CW_${cwSettings.diff.toUpperCase()}_${cwSettings.pool.toUpperCase()}_${cwSettings.rounds || 5}`;
+
+// 헤더 업데이트
+const header = document.querySelector('#countrywordle .lb-header, .cw-result-banner .lb-header');
+if (header) header.innerHTML = `🏆 Country Wordle Leaderboard — <span style="color:#a78bfa;font-family:monospace;font-size:.82rem">${cwSettings.diff} · ${cwSettings.pool} pool · ${cwSettings.rounds || 5} rounds</span>`;
+
+const data = await fbGet(`/cw_scores2/${key}`);
+if (!data) { el.innerHTML = '<div class="lb-empty">No scores yet!</div>'; return; }
+
+// 중복 제거 — 이름별 최고점수만
+const best = {};
+Object.values(data).forEach(e => {
+if (!best[e.name] || e.score > best[e.name].score) best[e.name] = e;
+});
+
+const entries = Object.values(best).sort((a, b) => b.score - a.score).slice(0, 10);
+el.innerHTML = '';
+const medals = ['🥇', '🥈', '🥉'];
+entries.forEach((e, i) => {
+const d = document.createElement('div');
+d.className = 'lb-row';
+d.innerHTML = `<div class="lb-rank${i < 3 ? ' gold' : ''}">${medals[i] || i + 1}</div>
+<div class="lb-name">${esc(e.name)}</div>
+<div class="lb-detail">${e.won}/${e.total} correct</div>
+<div class="lb-score">${e.score}pts</div>`;
+el.appendChild(d);
+});
 }
+
+  
   
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
