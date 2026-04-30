@@ -1146,8 +1146,10 @@ function setAccent(c){['quiz','result'].forEach(id=>document.getElementById(id).
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  const btn=document.getElementById('theme-toggle');
-if(btn)btn.style.display=id==='home'?'block':'none';
+  const themBtn=document.getElementById('theme-toggle');
+  const sndBtn=document.getElementById('sound-toggle');
+  if(themBtn)themBtn.style.display=id==='home'?'block':'none';
+  if(sndBtn)sndBtn.style.display=id==='home'?'block':'none';
 }
 function getWrongs(correct,field,n=3){
   const cv=correct[field];
