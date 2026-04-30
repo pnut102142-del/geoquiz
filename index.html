@@ -1993,6 +1993,7 @@ function cwEndGame(win){
   const banner=document.getElementById('cw-result-banner');
   banner.className=`cw-result-banner visible ${win?'win':'lose'}`;
   cwRoundScores.push({country:cwTarget,won:win,attempts:cwGuesses.filter(g=>!g.isTimeout).length,score:cwScore});
+  if(cwRoundIdx+1>=cwRounds.length) submitCWScore();
   const moreRounds=cwRoundIdx+1<cwRounds.length;
   const nxtBtn=document.getElementById('cw-next-round-btn');
   const finBtn=document.getElementById('cw-finish-btn');
