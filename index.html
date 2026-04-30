@@ -1466,6 +1466,7 @@ function showCWFinal(){
   banner.innerHTML=`<div style="text-align:center;padding:16px 0 8px"><div style="font-size:2rem">${g.e}</div><div style="font-size:1.2rem;font-weight:800;margin:4px 0">${g.t}</div><div style="color:var(--muted);font-size:.9rem">${won}/${total} correct (${pct}%)</div><div style="color:#a78bfa;font-size:1.5rem;font-weight:900;margin-top:4px">${totalScore} pts</div></div>${rows}<div style="margin-top:12px;display:flex;gap:8px"><button class="btn btn-secondary" style="flex:1" onclick="openWordleSettings()">Play Again</button><button class="btn btn-primary" style="flex:1;background:#a78bfa" onclick="showScreen('home')">Home</button><button class="share-btn" onclick="shareCWScore()">😏 Challenge a Friend</button></div><div class="lb-wrap"><div class="lb-header">🏆 Country Wordle Leaderboard</div><div id="cw-lb-list"><div class="lb-loading">Loading...</div></div></div>`;
   
   banner.className='cw-result-banner visible win'; 
+  loadCWLeaderboard();
 }
 function restartGeoGuess(){openGeoGuessSettings();}
 function shareGeoScore(){
