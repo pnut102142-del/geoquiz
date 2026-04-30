@@ -318,6 +318,7 @@ body{
 </style>
 </head>
 <body>
+<button class="theme-toggle" id="sound-toggle" onclick="toggleSound()" style="right:110px">🔊 Sound</button>
 <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()">☀ Light</button>
 <!-- HOME -->
 <div id="home" class="screen active">
@@ -1551,7 +1552,9 @@ function updateTimer(){
   bar.style.width=`${(timeLeft/timePerQ)*100}%`;num.textContent=timeLeft;
   const urg=timeLeft<=Math.min(8,Math.ceil(timePerQ*.25));
   bar.classList.toggle('urgent',urg);num.classList.toggle('urgent',urg);
+  if(timeLeft>0) playTick(urg);
 }
+  
 function lockButtons(clicked){
   document.querySelectorAll('.ans-btn').forEach(b=>{
     b.disabled=true;b.blur();
@@ -1563,13 +1566,17 @@ function timeOut(){if(answered)return;answered=true;streak=0;updateStreak();lock
 function pick(val,btn){
   if(answered)return;answered=true;clearInterval(timerInterval);lockButtons(btn);
   if(val===correctAnswer){
+    playCorrect();
     streak++;score+=streak;correctCount++;if(streak>maxStreak)maxStreak=streak;
     document.getElementById('score-val').textContent=score;updateStreak();
     if(streak>=3)showToast(`🔥 ${streak} in a row! +${streak}pts`);
     history.push({q:getQSummary(),correct:correctAnswer,user:val,bonus:streak});
-  }else{streak=0;updateStreak();history.push({q:getQSummary(),correct:correctAnswer,user:val,bonus:0});}
+  }else{
+    playWrong();
+    streak=0;updateStreak();history.push({q:getQSummary(),correct:correctAnswer,user:val,bonus:0});}
   setTimeout(nextQ,900);
 }
+  
 function nextQ(){qIdx++;renderQuestion();}
 function getQSummary(){
   const c=questions[qIdx];
@@ -2096,6 +2103,75 @@ ensureName();
   questions=seededShuffle(pool,currentSeed).slice(0,Math.min(questionCount,pool.length));
   logGamePlay(MODES[mode].label,'shared_link');
   startQuiz();
+})();
+
+  /* ════════════════════════════════
+   SOUND SYSTEM
+════════════════════════════════ */
+let soundOn = localStorage.getItem('gq_sound') !== 'off';
+let audioCtx = null;
+
+function getAudioCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+
+function playTick(urgent = false) {
+  if (!soundOn) return;
+  const ctx = getAudioCtx();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.connect(gain); gain.connect(ctx.destination);
+  osc.frequency.value = urgent ? 880 : 600;
+  osc.type = 'sine';
+  gain.gain.setValueAtTime(0.15, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+  osc.start(ctx.currentTime);
+  osc.stop(ctx.currentTime + 0.08);
+}
+
+function playCorrect() {
+  if (!soundOn) return;
+  const ctx = getAudioCtx();
+  [523, 659, 784].forEach((freq, i) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.frequency.value = freq;
+    osc.type = 'sine';
+    const t = ctx.currentTime + i * 0.1;
+    gain.gain.setValueAtTime(0.2, t);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
+    osc.start(t); osc.stop(t + 0.3);
+  });
+}
+
+function playWrong() {
+  if (!soundOn) return;
+  const ctx = getAudioCtx();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.connect(gain); gain.connect(ctx.destination);
+  osc.type = 'sawtooth';
+  osc.frequency.setValueAtTime(300, ctx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.3);
+  gain.gain.setValueAtTime(0.2, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+  osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.3);
+}
+
+function toggleSound() {
+  soundOn = !soundOn;
+  localStorage.setItem('gq_sound', soundOn ? 'on' : 'off');
+  document.getElementById('sound-toggle').textContent = soundOn ? '🔊 Sound' : '🔇 Sound';
+  if (soundOn) playCorrect();
+}
+
+(function initSound() {
+  window.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('sound-toggle');
+    if (btn) btn.textContent = soundOn ? '🔊 Sound' : '🔇 Sound';
+  });
 })();
 </script>
  
