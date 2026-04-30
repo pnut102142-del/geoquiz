@@ -2119,17 +2119,29 @@ function getAudioCtx() {
 function playTick(urgent = false) {
   if (!soundOn) return;
   const ctx = getAudioCtx();
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc.connect(gain); gain.connect(ctx.destination);
-  osc.frequency.value = urgent ? 880 : 600;
-  osc.type = 'sine';
-  gain.gain.setValueAtTime(0.15, ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
-  osc.start(ctx.currentTime);
-  osc.stop(ctx.currentTime + 0.08);
-}
+  
+  // 째깍 (high click)
+  const osc1 = ctx.createOscillator();
+  const gain1 = ctx.createGain();
+  osc1.connect(gain1); gain1.connect(ctx.destination);
+  osc1.frequency.value = urgent ? 1200 : 800;
+  osc1.type = 'square';
+  gain1.gain.setValueAtTime(0.3, ctx.currentTime);
+  gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
+  osc1.start(ctx.currentTime);
+  osc1.stop(ctx.currentTime + 0.04);
 
+  // 깎 (low click, 살짝 딜레이)
+  const osc2 = ctx.createOscillator();
+  const gain2 = ctx.createGain();
+  osc2.connect(gain2); gain2.connect(ctx.destination);
+  osc2.frequency.value = urgent ? 900 : 500;
+  osc2.type = 'square';
+  gain2.gain.setValueAtTime(0.2, ctx.currentTime + 0.05);
+  gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+  osc2.start(ctx.currentTime + 0.05);
+  osc2.stop(ctx.currentTime + 0.1);
+}
 function playCorrect() {
   if (!soundOn) return;
   const ctx = getAudioCtx();
