@@ -2018,7 +2018,7 @@ async function logGamePlay(gameName, source = 'new') {
   const name = localStorage.getItem('gq_name') || 'Explorer_' + Date.now().toString().slice(-6);
   const now = new Date();
 
-  // 네덜란드(Europe/Amsterdam) 시간 — 서머타임 자동 반영
+  // (Europe/Amsterdam) 시간 — 서머타임 자동 반영
   const [date, time] = new Intl.DateTimeFormat('sv-SE', {
     timeZone: 'Europe/Amsterdam',
     year: 'numeric', month: '2-digit', day: '2-digit',
@@ -2028,8 +2028,8 @@ async function logGamePlay(gameName, source = 'new') {
 
   await fbPush('/visitors', {
     name,
-    date,            // "YYYY-MM-DD" (네덜란드 기준)
-    time,            // "HH:MM:SS"   (네덜란드 기준)
+    date,            // "YYYY-MM-DD" ( 기준)
+    time,            // "HH:MM:SS"   ( 기준)
     ts: now.getTime(), // epoch ms (UTC) — 정렬/비교용으로 그대로 두는 게 안전
     game: gameName,
     source
