@@ -2052,26 +2052,33 @@ function goHome(){
 ════════════════════════════════ */
 initViews(); 
 async function logGamePlay(gameName, source = 'new') {
-  const name = localStorage.getItem('gq_name') || 'Explorer_' + Date.now().toString().slice(-6);
-  const now = new Date();
+const name = localStorage.getItem('gq_name') || 'Explorer_' + Date.now().toString().slice(-6);
+const now = new Date();
 
-  // (Europe/Amsterdam) 시간 — 서머타임 자동 반영
-  const [date, time] = new Intl.DateTimeFormat('sv-SE', {
-    timeZone: 'Europe/Amsterdam',
-    year: 'numeric', month: '2-digit', day: '2-digit',
-    hour: '2-digit', minute: '2-digit', second: '2-digit',
-    hour12: false,
-  }).format(now).split(' ');
-
-  await fbPush('/visitors', {
-    name,
-    date,            // "YYYY-MM-DD" ( 기준)
-    time,            // "HH:MM:SS"   ( 기준)
-    ts: now.getTime(), // epoch ms (UTC) — 정렬/비교용으로 그대로 두는 게 안전
-    game: gameName,
-    source
-  });
+// 첫 방문 여부 체크
+const isNewVisitor = !localStorage.getItem('gq_visited');
+if (!localStorage.getItem('gq_visited')) {
+localStorage.setItem('gq_visited', Date.now().toString());
 }
+
+const [date, time] = new Intl.DateTimeFormat('sv-SE', {
+timeZone: 'Europe/Amsterdam',
+year: 'numeric', month: '2-digit', day: '2-digit',
+hour: '2-digit', minute: '2-digit', second: '2-digit',
+hour12: false,
+}).format(now).split(' ');
+
+await fbPush('/visitors', {
+name,
+date,
+time,
+ts: now.getTime(),
+game: gameName,
+source,
+isNew: isNewVisitor // ← 추가
+});
+}
+  
 ensureName(); 
 (function(){
   const roomCode=new URLSearchParams(window.location.search).get('room');
