@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-  <script>
-  (function(){
-    const t = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', t);
-  })();
+<script>
+(function(){
+  const t = localStorage.getItem('gq_theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-WCX5KZNYS5"></script>
@@ -13,7 +14,6 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-WCX5KZNYS5');
 </script>
 
