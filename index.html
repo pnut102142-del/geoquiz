@@ -1318,17 +1318,16 @@ function renderGeoRound(){
   for(let i=0;i<total;i++){const dot=document.createElement('div');dot.className='gg-prog-dot'+(i<ggCurrentRound?' done':i===ggCurrentRound?' current':'');prog.appendChild(dot);}
   // clue
   const clueType=ggSettings.clue==='mix'?['flag','capital','greeting'][Math.floor(Math.random()*3)]:ggSettings.clue;
-  if(clueType==='flag'){
-
-    const flagImg=`<img 
-  src="https://flagcdn.com/w160/${country.code}.png"
-  onerror="this.src='https://flagpedia.net/data/flags/w160/${country.code}.png'"
-  style="width:90px;height:auto;object-fit:contain;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.4);display:block;max-width:100%"
-  alt="${country.name} flag">`;
-document.getElementById('gg-hint-icon').innerHTML=flagImg;
-    
+const flagImg=`<img 
+    src="https://flagcdn.com/w80/${country.code}.png"
+    onerror="this.src='https://flagpedia.net/data/flags/w80/${country.code}.png'"
+    style="width:48px;height:32px;object-fit:cover;border-radius:5px;box-shadow:0 2px 8px rgba(0,0,0,.4);flex-shrink:0"
+    alt="${country.name} flag">`;
+  document.getElementById('gg-hint-icon').innerHTML=flagImg;
   document.getElementById('gg-hint-label').textContent='FLAG — Which country is this?';
-    document.getElementById('gg-hint-value').textContent='Click the map where this country is!';
+  document.getElementById('gg-hint-value').textContent='Click the map where this country is!';
+}
+  
   } else if(clueType==='capital'){
     document.getElementById('gg-hint-icon').textContent='🏛️';
     document.getElementById('gg-hint-label').textContent='CAPITAL — Where is the country with this capital?';
